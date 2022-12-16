@@ -65,9 +65,7 @@ $menuCustType=end($menuCustData);
 <!-- 
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 -->
-<style>
-  .text-right input[type=checkbox]{position: absolute;z-index: -1;}
-</style>
+
 
 <script type="text/javascript">
 var $joomla = jQuery.noConflict(); 

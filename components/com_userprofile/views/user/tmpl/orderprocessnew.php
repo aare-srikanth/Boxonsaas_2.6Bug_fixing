@@ -50,7 +50,7 @@ $lang=$session->get('lang_sel');
   display: table;
   clear: both;
 }
-.text-right input[type=checkbox]{position: absolute;z-index: -1;}
+
 
 
 /* Expanding image text */

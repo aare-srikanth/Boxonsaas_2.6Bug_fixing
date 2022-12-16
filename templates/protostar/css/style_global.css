@@ -735,3 +735,5 @@ header .theme_nav .navbar-header img {height: 45px !important;position:relative;
 }
 
 /* Responsive End */
+/*Expand button style */
+.text-right input[type=checkbox]{position: absolute;z-index: -1;}
