@@ -50,7 +50,7 @@ $lang=$session->get('lang_sel');
   display: table;
   clear: both;
 }
-
+.text-right input[type=checkbox]{position: absolute;z-index: -1;}
 
 
 /* Expanding image text */
@@ -1312,10 +1312,46 @@ $joomla(document).ready(function() {
             $joomla(this).val('-');
         }     
     });
+
+     // expand all
+    
+     $joomla('.expand_all_btn').on('click',function(e){
+        $joomla('#expandAll').trigger("click");
+        if($joomla('#expandAll').prop("checked") == true){
+            $joomla(this).html("Collapse All");
+        }else{
+            $joomla(this).html("Expand All");
+        }
+    });
+    
+    $joomla('#expandAll').on('click',function(e){
+        if($joomla(this).prop("checked") == true){
+            $joomla(".expand_items").each(function(){
+                var expCont = $joomla(this).html();
+                if(expCont == "+"){
+                    $joomla(this).trigger("click");
+                }
+            });
+        }else{
+            $joomla(".expand_items").each(function(){
+                var expCont = $joomla(this).html();
+                if(expCont == "-"){
+                $joomla(this).trigger("click");
+                    
+                }
+            });
+        } 
+    });
     
       // expand
    
    $joomla(document).on('click','.expand_items',function(e){
+    var btnCount=$joomla(".expand_items").length;
+
+          if($joomla(this).html() == "-"){
+           $joomla("#expandAll").prop("checked",false);
+           $joomla(".expand_all_btn").html("Expand All");
+            }
         wrhsno = $joomla(this).attr("data-id");
         
          $joomla('.txtId').each(function(){
@@ -1333,9 +1369,23 @@ $joomla(document).ready(function() {
              $joomla(this).html('+');
              $joomla(this).parent().parent().next().hide();
          }
+         var count=0;
+         $joomla(".expand_items").each(function(){
+         if($joomla(this).html() == "-"){
+         count++;
+         }
+      });
+      
+      
+
+      if(count == btnCount){
+         $joomla('.expand_all_btn').trigger("click");
+         }
     });
 
 });
+
+
 
 function loadadditionalusersData(){
     $joomla(document).ready(function() {    
@@ -1390,6 +1440,7 @@ function isNumber(evt) {
                     <h3 class=""><strong><?php echo Jtext::_('COM_USERPROFILE_INVENTORY_SUB_TITLE');?></strong></h3>
                  </div>
                 <div class="col-sm-6 form-group text-right">
+                <input type="checkbox" name="expandAll" id="expandAll"><button class="btn btn-primary expand_all_btn">Expand All</button>
                     <a style="color:white;" href="<?php echo JURI::base(); ?>/csvdata/pending_list.csv" class="btn btn-primary csvDownload export-csv">Export CSV</a>
                 </div>
             </div>

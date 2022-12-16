@@ -65,6 +65,9 @@ $menuCustType=end($menuCustData);
 <!-- 
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 -->
+<style>
+  .text-right input[type=checkbox]{position: absolute;z-index: -1;}
+</style>
 
 <script type="text/javascript">
 var $joomla = jQuery.noConflict(); 
@@ -180,6 +183,38 @@ $joomla(document).ready(function() {
     //         $joomla(this).val('-');
     //     }     
     // });
+
+     // expand all
+    
+     $joomla('.expand_all_btn').on('click',function(e){
+        $joomla('#expandAll').trigger("click");
+        if($joomla('#expandAll').prop("checked") == true){
+            $joomla(this).html("Collapse All");
+        }else{
+            $joomla(this).html("Expand All");
+        }
+    });
+    
+    $joomla('#expandAll').on('click',function(e){
+        if($joomla(this).prop("checked") == true){
+            $joomla(".wrchild").each(function(){
+                var expCont = $joomla(this).val();
+                if(expCont == "+"){
+                    $joomla(this).trigger("click");
+                }
+            });
+        }else{
+            $joomla(".wrchild").each(function(){
+                var expCont = $joomla(this).val();
+                if(expCont == "-"){
+                $joomla(this).trigger("click");
+                    
+                }
+            });
+        } 
+    });
+       
+    //////////////////////////////////////
     
     $joomla(document).on('change','select[name=txtHistoryStatus]',function(){
           var status=$joomla(this).val();
@@ -187,6 +222,13 @@ $joomla(document).ready(function() {
       });
     
     $joomla(document).on('click','.wrchild',function(){
+
+      var btnCount=$joomla(".wrchild").length;
+
+     if($joomla(this).val() == "-"){
+       $joomla("#expandAll").prop("checked",false);
+       $joomla(".expand_all_btn").html("Expand All");
+      }
        var htmse='';
        var rs=$joomla(this).attr("data-id");
        rs = rs.replace(/\s/g,'');
@@ -204,8 +246,24 @@ $joomla(document).ready(function() {
          }else{
              $joomla(this).closest('tr').after(htmse); 
              $joomla(this).val('-');
-         }    
+         } 
+
+         var count=0;
+         $joomla(".wrchild").each(function(){
+         if($joomla(this).val() == "-"){
+         count++;
+         }
+      });
+
+      
+      if(count == btnCount){
+         $joomla('.expand_all_btn').trigger("click");
+         }
+
      });
+
+
+    
 
 ////****
 
@@ -320,6 +378,7 @@ $joomla(document).on('change','select[name=M_table_length]',function(){
              </div>
         </div>
         <div class="col-sm-9 form-group text-right">
+        <input type="checkbox" name="expandAll" id="expandAll"><button class="btn btn-primary expand_all_btn">Expand All</button>
                 <a style="color:white;" href="<?php echo JURI::base(); ?>/csvdata/history_list.csv" class="btn btn-primary csvDownload export-csv"><?php echo $assArr['eXPORT_CSV'];?></a>
         </div>
     </div>

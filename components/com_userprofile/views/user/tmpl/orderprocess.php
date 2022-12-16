@@ -147,7 +147,7 @@
   font-size: 20px;
 }
 
-
+.text-right input[type=checkbox]{position: absolute;z-index: -1;}
 </style>
 <!-- 
    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -3306,10 +3306,47 @@
          
      });
        
+     // expand all
+    
+    $joomla('.expand_all_btn').on('click',function(e){
+        $joomla('#expandAll').trigger("click");
+        if($joomla('#expandAll').prop("checked") == true){
+            $joomla(this).html("Collapse All");
+        }else{
+            $joomla(this).html("Expand All");
+        }
+    });
+    
+    $joomla('#expandAll').on('click',function(e){
+        if($joomla(this).prop("checked") == true){
+            $joomla(".expand_items").each(function(){
+                var expCont = $joomla(this).html();
+                if(expCont == "+"){
+                    $joomla(this).trigger("click");
+                }
+            });
+        }else{
+            $joomla(".expand_items").each(function(){
+                var expCont = $joomla(this).html();
+                if(expCont == "-"){
+                $joomla(this).trigger("click");
+                    
+                }
+            });
+        } 
+    });
        
        // expand
    
+   
    $joomla(document).on('click','.expand_items',function(e){
+
+      var btnCount=$joomla(".expand_items").length;
+
+      if($joomla(this).html() == "-"){
+      $joomla("#expandAll").prop("checked",false);
+      $joomla(".expand_all_btn").html("Expand All");
+      }
         wrhsno = $joomla(this).attr("data-id");
         repackno = $joomla(this).attr("data-repack");
         
@@ -3332,10 +3369,25 @@
              $joomla(this).html('+');
              $joomla(this).parent().parent().next().hide();
          }
+
+         var count=0;
+         $joomla(".expand_items").each(function(){
+         if($joomla(this).html() == "-"){
+         count++;
+         }
+      });
+      
+      
+
+      if(count == btnCount){
+         $joomla('.expand_all_btn').trigger("click");
+         }
     });
    
        
    });
+
+
    
    function loadadditionalusersData(){
        $joomla(document).ready(function() {    
@@ -3473,8 +3525,10 @@
                         <h3 class=""><strong><?php echo Jtext::_('COM_USERPROFILE_SHIP_SUB_TITLE');?></strong></h3>
                      </div>
                     <div class="col-sm-6 form-group text-right">
-                        <?php if($elem['EXPORTCSV'][1] == "ACT"){ ?>
-                        <a style="color:white;" href="<?php echo JURI::base(); ?>/csvdata/hold_list.csv" class="btn btn-primary csvDownload export-csv"><?php echo $assArr['eXPORT_CSV'];?></a>
+                     <input type="checkbox" name="expandAll" id="expandAll"><button class="btn btn-primary expand_all_btn">Expand All</button>
+                     <a style="color:white;text-align:center;" target="_blank" href="<?php echo $backend_url; ?>/ASPX/Tx_inventoryReceipt.aspx?bid=<?php echo $user; ?>&companyid=<?php echo $CompanyId; ?>"  class="btn btn-primary csvDownload">Inventory Reports</a>  
+                     <?php if($elem['EXPORTCSV'][1] == "ACT"){ ?>
+                        <a style="color:white;text-align:center" href="<?php echo JURI::base(); ?>/csvdata/hold_list.csv" class="btn btn-primary csvDownload export-csv"><?php echo $assArr['eXPORT_CSV'];?></a>
                         <?php } ?>
                     </div>
                 </div>
@@ -3489,8 +3543,8 @@
                          <thead>
                            <tr> 
                              <th class="action_btns text-center"><input type="checkbox" name="selectAll" id="selectAll"> <?php echo $assArr['select_All'];?></th>
-                              <th><?php echo $assArr['warehouse_Receipt#'];?></th>
-                              <th><?php echo $assArr['tracking_ID'];?></th>
+                             <th><?php echo $assArr['warehouse_Receipt'];?>#</th>
+                              <th><?php echo $assArr['item_Description'];?></th>
                               <th><?php echo $assArr['merchants_Name'];?></th>
                               <th><?php echo $assArr['type_of_shipment'];?></th>
                                <th><?php echo $assArr['source_Hub'];?></th>
@@ -3631,9 +3685,10 @@
                         <h3 class=""><strong><?php echo Jtext::_('COM_USERPROFILE_SHIP_SUB_TITLE');?></strong></h3>
                      </div>
                     <div class="col-sm-6 form-group text-right">
-                        <a style="color:white;" target="_blank" href="<?php echo $backend_url; ?>/ASPX/Tx_inventoryReceipt.aspx?bid=<?php echo $user; ?>&companyid=<?php echo $CompanyId; ?>"  class="btn btn-primary csvDownload">Inventory Reports</a>
+                    <input type="checkbox" name="expandAll" id="expandAll"><button class="btn btn-primary expand_all_btn">Expand All</button> 
+                        <a style="color:white;text-align:center;" target="_blank" href="<?php echo $backend_url; ?>/ASPX/Tx_inventoryReceipt.aspx?bid=<?php echo $user; ?>&companyid=<?php echo $CompanyId; ?>"  class="btn btn-primary csvDownload">Inventory Reports</a>
                         <?php if($elem['EXPORTCSV'][1] == "ACT"){ ?>
-                        <a style="color:white;" href="<?php echo JURI::base(); ?>/csvdata/pending_list.csv" class="btn btn-primary csvDownload export-csv"><?php echo $assArr['eXPORT_CSV'];?></a>
+                        <a style="color:white;text-align:center" href="<?php echo JURI::base(); ?>/csvdata/pending_list.csv" class="btn btn-primary csvDownload export-csv"><?php echo $assArr['eXPORT_CSV'];?></a>
                         <?php }  ?>
                     </div>
                 </div>
