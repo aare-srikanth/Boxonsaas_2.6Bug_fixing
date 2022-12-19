@@ -155,19 +155,24 @@ if($session->get('user_casillero_id')){
               <?php 
               if(strtolower($access->RepackAccess) == "true" || strtolower($access->ConsolidationAccess) == "true") { 
               // $menuconent = '<a target="_blank" class="helpLink" href="https://lms.iblesoft.com/" title="Help"><i class="fa fa-play-circle-o" aria-hidden="true"></i></a>';
+              $link='<a>Inprogress <span class="badge badge-warning">'.$alerts->RepackInprogressCount.'</span></a>';
+              
+            //   var_dump(JUri::base());
+            //   exit;
+             
               $menuconent = '<div class="dropdown alert-drpdwn">'.
               '<button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'.
               '<i class="fa fa-bell" aria-hidden="true"></i>Alerts<span class="caret"></span>'.
               '</button>'.           
-              '<ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenu1">';
+              '<ul class="alerts_dropdown dropdown-menu pull-right" aria-labelledby="dropdownMenu1">';
                   if(strtolower($access->RepackAccess) == "true") {
                     $menuconent .= '<li class="rnotify_sm_list"><a href="#">Repack<span class="badge badge-warning"></a></li>'.
-                      '<li class="alert-status"><a href="#">Inprogress <span class="badge badge-warning">'.$alerts->RepackInprogressCount.'</span></a></li>'.
-                      '<li class="alert-status"><a href="#">Completed <span class="badge badge-success">'.$alerts->RepackCompletedCount.'</span></a></li>';
+                      '<li class="alert-status"><a href="">Inprogress <span class="badge badge-warning">'.$alerts->RepackInprogressCount.'</span></a></li>'.
+                      '<li class="alert-status"><a href="">Completed <span class="badge badge-success">'.$alerts->RepackCompletedCount.'</span></a></li>';
                    } if(strtolower($access->ConsolidationAccess) == "true") { 
                     $menuconent .= '<li class="cnotify_sm_list"><a href="#">Consolidation </a></li>'.
-                      '<li class="alert-status"><a href="#">Inprogress <span class="badge badge-warning">'.$alerts->ConsolidationInprogressCount.'</span></a></li>'.
-                      '<li class="alert-status"><a href="#">Completed <span class="badge badge-success">'.$alerts->ConsolidationCompletedCount.'</span></a></li>';
+                      '<li class="alert-status"><a href="">Inprogress <span class="badge badge-warning">'.$alerts->ConsolidationInprogressCount.'</span></a></li>'.
+                      '<li class="alert-status"><a href="">Completed <span class="badge badge-success">'.$alerts->ConsolidationCompletedCount.'</span></a></li>';
                    } 
                   $menuconent .= '</ul></div>';
               }
@@ -243,6 +248,11 @@ if($session->get('user_casillero_id')){
          var resurl = reqUrl.replace('/'+language,'/'+jQuery(this).attr("data-id"));
          window.location.href= resurl;
     });
+
+    jQuery(document).on('click','.alerts_dropdown li a',function(e){
+		e.preventDefault();
+		window.location = "index.php?option=com_userprofile&view=user&layout=orderprocess";
+	});
     
     
   });  
