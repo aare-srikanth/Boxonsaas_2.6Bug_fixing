@@ -2313,7 +2313,7 @@ function PPHttpPost($methodName, $nvpStr) {
             exit;
         }
         $uploadflag = JRequest::getVar('uploadflag', '', 'get');
-        //var_dump($_FILES['file']);
+
         $imginv = $_FILES['file']['name'];
         if($uploadflag!="" && $imginv!=""){
             jimport('joomla.filesystem.file');
@@ -2738,11 +2738,16 @@ function PPHttpPost($methodName, $nvpStr) {
             $result=Controlbox::getWrhsDetails($wrhs,$user);
             echo $result;
             exit;
-
         }
         
-        
-
+        $updateinvoiceflag = JRequest::getVar('updateinvoiceflag', '', 'get');
+        if($updateinvoiceflag!=""){
+            $invData = JRequest::getVar('invData', '', 'get');
+            $itemIdk = JRequest::getVar('itemIdk', '', 'get');
+            $result=Controlbox::updateInvoiceDetails($invData,$itemIdk);
+            echo $result;
+            exit;
+        }
 
 	} // get ajax data end	
 

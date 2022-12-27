@@ -2432,6 +2432,7 @@
        
        
         $joomla('#tabs2').on('click','.ship_img',function(){
+        $joomla('#update_invoice_submit').attr('data-idk',$joomla(this).attr("data-idk"));
         $joomla('#viewImage #multimages').html('');
         var expandImg = document.getElementById("expandedImg");
         expandImg.parentElement.style.display = "none";
@@ -3765,7 +3766,7 @@
                                             $sim1=str_replace(":","#",$rg->ItemImage2);
                                             $sim2=str_replace(":","#",$rg->ItemImage3);
                                             $sim3=str_replace(":","#",$rg->ItemImage4);
-                                            $mgtd='<td class="action_btns"><a class="ship_img" data-toggle="modal" data-backdrop="static" data-keyboard="false" href="#" data-id="'.$rg->ItemImage1.'##'.$rg->ItemImage2.'##'.$rg->ItemImage3.'##'.$rg->ItemImage4.'" data-target="#view_image" ><i class="fa fa-eye"></i></a></td>';
+                                            $mgtd='<td class="action_btns"><a class="ship_img" data-idk="'.$rg->ItemIdk.'" data-toggle="modal" data-backdrop="static" data-keyboard="false" href="#" data-id="'.$rg->ItemImage1.'##'.$rg->ItemImage2.'##'.$rg->ItemImage3.'##'.$rg->ItemImage4.'" data-target="#view_image" ><i class="fa fa-eye"></i></a></td>';
                                       }
                                     $grosswtTd = NULL;
                                  if($Gross_weight_display){
@@ -4491,7 +4492,8 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            
+            <input type="file" name="update_invoice[]" multiple id="update_invoice">
+            <button id="update_invoice_submit">Submit</button>
           <div class="col-md-12">
             <div id="viewImage">
                 <div class="row" id="multimages">
@@ -5386,7 +5388,7 @@ $joomla(document).keyup('#cvv,#cardNumber',function() {
                                 },
                                 success: function(data){
                                  var res = data.split(":");
-                        
+                                 
                                  if(parseFloat(res[0]) !=0){
                                     localStorage.setItem("repackConsolidStatus",res[1]);
                                     window.location.reload();
