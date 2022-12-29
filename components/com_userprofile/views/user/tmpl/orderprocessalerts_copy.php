@@ -241,7 +241,18 @@ $joomla(document).ready(function() {
       "totalpriceTxt[]": {
      },
       "itemstatusTxt[]": {
+     },
+
+     "lengthTxt[]":{
+
+     },
+     "heightTxt[]":{
+
+     },
+     "widthTxt[]":{
+
      }
+
     },
     // Specify validation error messages
     messages: {
@@ -257,7 +268,10 @@ $joomla(document).ready(function() {
       "totalpriceTxt[]": "<?php echo $assArr['declared_Value_(USD)_error'];?>",
       "itemstatusTxt[]":{
     	required: "<?php echo $assArr['item_status_error'];?>",
-    	selectBox: "Please select status"
+    	selectBox: "Please select status",
+      "lengthTxt[]":"Please select length",
+      "heightTxt[]":"please select height",
+      "widthTxt[]":"please select width",
       }
     
     },
@@ -382,6 +396,9 @@ $joomla(document).ready(function() {
               $joomla('radia[name=txtStatus]').val(cospor[9]);
               $joomla('input[name=txtOrderId]').val(cospor[19]); 
               $joomla('input[name=txtRmaValue]').val(cospor[20]);
+              $joomla('input[name=txtLength]').val(cospor[21]);
+              $joomla('input[name=txtHeigth]').val(cospor[22]);
+              $joomla('input[name=txtWidth]').val(cospor[23]);
              
               
                 if(cospor[3]){
@@ -556,6 +573,15 @@ $joomla(document).ready(function() {
             alphanumeric:true
           },
           txtCarrierName: {
+            required: function(element) {
+            
+            if($joomla("#carrierVis").val() == 1){
+            return true;
+            }else{
+            return false;
+            }
+                     
+                    },
             alphanumeric:true
           },
           txtOrderDate: {
@@ -581,6 +607,15 @@ $joomla(document).ready(function() {
                       }
                   }    
               }
+          },
+          txtLength:{
+            required: true
+          },
+          txtHeight:{
+            required: true
+          },
+          txtWidth:{
+            required: true
           }
         },
         // Specify validation error messages
@@ -640,12 +675,12 @@ $joomla(document).ready(function() {
     }
         
     });
-   $joomla("input[name='txtQuantity']").live('keyup',function(e){
+   $joomla("input[name='txtQuantity'],input[name='txtLength'],input[name='txtHeight'],input[name='txtwidth']").live('keyup',function(e){
     this.value = this.value.replace(/[^0-9]/g, '');
     //if (/\D/g.test(this.value))
     //this.value.replace(/[0-9]*\.?[0-9]+/g, '');  for name
     });
-   $joomla(document).on("keyup","input[name='quantityTxt[]']",function(e){
+   $joomla(document).on("keyup","input[name='quantityTxt[]'],input[name='lengthTxt[]'],input[name='heightTxt[]'],input[name='widthTxt[]']",function(e){
     this.value = this.value.replace(/[^0-9]/g, '');
    });
    
@@ -673,7 +708,7 @@ $joomla(document).ready(function() {
    
 
 
-   $joomla('#tabs1').on('click','input[name="addrow"]',function(e){
+    $joomla('#tabs1').on('click','input[name="addrow"]',function(e){
         
         var i=0;
         $joomla('input[name="addrow"]').each(function(){
@@ -897,7 +932,9 @@ $joomla(document).ready(function() {
             <?php } ?>
             <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=orderprocess"><?php echo $assArr['ready_to_ship'];?></a> </li>
            <!--  <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=cod">COD</a> </li>-->
+            <?php if($dynpage["COD"][1]=="ACT"){ ?>
            <li> <a class=""  href="index.php?option=com_userprofile&view=user&layout=cod"> <?php echo $assArr['cOD'];?> </a> </li>
+           <?php } ?>
             <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=shiphistory"><?php echo $assArr['shipment_History'];?></a> </li>
           </ul>
         </div>
@@ -961,7 +998,7 @@ $joomla(document).ready(function() {
              <?php } if($elem['AddInvoice'][1] == "INACT"){ ?>
             <div class="col-sm-12 col-md-4">
               <div class="form-group">
-                <label><?php echo $assArr['add_Invoice ']; ?><?php if($elem['AddInvoice'][2]){ ?><span class="error">*</span><?php } ?></label>
+                <label><?php echo $assArr['add_invoice']; ?><?php if($elem['AddInvoice'][2]){ ?><span class="error">*</span><?php } ?></label>
                 <input type="file" class="form-control" name="addinvoiceTxt"  id="addinvoiceTxt" <?php if($elem['AddInvoice'][2]){ echo "required"; } ?> >
                 <label><?php echo Jtext::_('COM_USERPROFILE_ALERTS_INVOICE_VALID');?></label>
                 <!-- -->
@@ -1017,7 +1054,7 @@ $joomla(document).ready(function() {
               </div>
             </div>
              <?php } if($elem['ItemPrice'][1] == "ACT"){  ?>
-            <div class="col-sm-12 col-md-2">
+            <div class="col-sm-12 col-md-2">      
               <div class="form-group">
                 <label><?php echo $assArr['item_Price_(USD)']; ?><?php if($elem['ItemPrice'][2]){ ?><span class="error">*</span><?php } ?></label>
                 <input class="form-control" name="declaredvalueTxt[]" maxlength="7" id="3" <?php if($elem['ItemPrice'][2]){ echo "required"; } ?> >
@@ -1086,15 +1123,36 @@ $joomla(document).ready(function() {
               <?php if($elem['AddInvoice'][1] == "ACT"){ ?>
              <div class="col-sm-12 col-md-5">
               <div class="form-group">
-                <label><?php echo $assArr['add_Invoice '];?> <?php if($elem['AddInvoice'][2]){ ?><span class="error">*</span><?php } ?></label>
+                <label><?php echo $assArr['add_invoice'];?> <?php if($elem['AddInvoice'][2]){ ?><span class="error">*</span><?php } ?></label>
                 
                 <input type="file"  class="form-control" name="addinvoiceTxtMul_1[]" id="addinvoiceTxtMul_1" multiple <?php if($elem['AddInvoice'][2]){ echo "required"; } ?> >
-                <!--<label><?#php echo $assArr['add_Invoice'];?></label>-->
+                <label><?php echo Jtext::_('COM_USERPROFILE_ALERTS_INVOICE_VALID');?></label>
                
               </div>
             </div>
             
             <?php } ?>
+           
+            <div class="row rows row-mob">
+            <div class="col-sm-12 col-md-4">
+              <div class="form-group">
+                <label>Length<span class="error">*</span></label>
+                <input type="text" class="form-control" name="lengthTxt[]"  maxlength="25" required>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="form-group">
+                <label>Heigth<span class="error">*</span></label>
+                <input type="text" class="form-control"  name="heightTxt[]"  maxlength="25" required>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="form-group">
+                <label>Width<span class="error">*</span></label>
+                <input type="text" class="form-control"  name="widthTxt[]"  maxlength="25"  required>
+              </div>
+            </div>
+          </div>
            
             <!-- End -->
             
@@ -1153,19 +1211,20 @@ $joomla(document).ready(function() {
               <thead>
                 <tr>
                   <th><?php echo $assArr['sNo'];?></th>
-                  <th><?php echo $assArr['merchants_Name']; ?></th>
+                  <th><?php echo $assArr['merchant']; ?></th>
                   <th><?php echo $assArr['article_name']; ?></th>
                   <th><?php echo $assArr['order_date']; ?></th>
                   <th><?php echo $assArr['quantity']; ?></th>
-                  <th><?php echo $assArr['tracking_ID_of_the_operator']; ?> #</th>
+                  <th><?php echo $assArr['tracking']; ?> #</th>
                   <th><?php echo $assArr['Declared Value (USD)']; ?></th>
                   <?php if($elem['OrderID'][1] == "ACT"){ ?>
                   <th><?php echo $assArr['order_ID']; ?></th>
                   <?php }if($elem['RMAValue'][1] == "ACT"){ ?>
                   <th><?php echo $assArr['rMA_Value']; ?></th>
                   <?php } ?>
-                  <th><?php echo $assArr['item_status'];?></th>
+                  <th><?php echo $assArr['status'];?></th>
                   <th><?php echo $assArr['action'];?></th>
+                  
                 </tr>
               </thead>
               <tbody>
@@ -1266,7 +1325,7 @@ $joomla(document).ready(function() {
             
             <div class="col-sm-12 col-md-6">
               <div class="form-group">
-                <label><?php echo $assArr['add_Invoice ']; ?><span class="error">*</span></label>
+                <label><?php echo $assArr['add_invoice']; ?><span class="error">*</span></label>
                 
                 <input type="hidden" class="form-control"  name="multxtFileId1">
                 <input type="hidden" class="form-control"  name="multxtFileId2">
@@ -1333,6 +1392,26 @@ $joomla(document).ready(function() {
               <div class="form-group">
                 <label><?php echo $assArr['rMA_Value']; ?></label>
                  <input type="text" class="form-control" name="txtRmaValue" maxlength="100">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-4">
+              <div class="form-group">
+                  <label>Length</label>
+                  <input type="text" class="form-control" name="txtLength" maxlength="100">
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="form-group">
+                <label>Heigth</label>
+                 <input type="text" class="form-control" name="txtHeigth" maxlength="100">
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="form-group">
+                <label>width</label>
+                 <input type="text" class="form-control" name="txtWidth" maxlength="100">
               </div>
             </div>
           </div>

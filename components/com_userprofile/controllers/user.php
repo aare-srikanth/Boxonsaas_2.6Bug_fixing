@@ -471,6 +471,9 @@ class UserprofileControllerUser extends JControllerLegacy
         $inventoryTxt = JRequest::getVar('InventoryTxt', '', 'post');
         $txtOrderId = JRequest::getVar('txtOrderId', '', 'post');
         $txtRmaValue = JRequest::getVar('txtRmaValue', '', 'post');
+        $txtLength = JRequest::getVar('txtLength', '', 'post');
+        $txtHeigth = JRequest::getVar('txtHeigth', '', 'post');
+        $txtWidth = JRequest::getVar('txtWidth', '', 'post');
         
         // mltiple upload start
         
@@ -577,7 +580,7 @@ class UserprofileControllerUser extends JControllerLegacy
         
         //Redirect to a page of your choice
         if($customerid!=""){
-           $status=Controlbox::updatePurchaseOrder($itemid,$customerid,$supplierid,$carrierid,$trackingid,$orderdate,$profilepicname,$imageByteStream,$itemname,$itemquantity,$price,$cost,'In Progress',$countryTxt,$stateTxt,$mulfilename[0],$mulfilename[1],$mulfilename[2],$mulfilename[3],$mulimageByteStream[0],$mulimageByteStream[1],$mulimageByteStream[2],$mulimageByteStream[3],$txtOrderId,$txtRmaValue,$inventoryTxt);
+           $status=Controlbox::updatePurchaseOrder($itemid,$customerid,$supplierid,$carrierid,$trackingid,$orderdate,$profilepicname,$imageByteStream,$itemname,$itemquantity,$price,$cost,'In Progress',$countryTxt,$stateTxt,$mulfilename[0],$mulfilename[1],$mulfilename[2],$mulfilename[3],$mulimageByteStream[0],$mulimageByteStream[1],$mulimageByteStream[2],$mulimageByteStream[3],$txtOrderId,$txtRmaValue,$txtLength,$txtHeigth,$txtWidth,$inventoryTxt);
         }
         
        
@@ -1502,6 +1505,9 @@ function PPHttpPost($methodName, $nvpStr) {
        
     }
     
+    $lengthTxt = JRequest::getVar('lengthTxt', '', 'post');
+    $heightTxt = JRequest::getVar('heightTxt', '', 'post');
+    $widthTxt = JRequest::getVar('widthTxt', '', 'post');
     //   echo '<pre>';
     //   //var_dump($mulfilename);
    
@@ -1585,6 +1591,10 @@ function PPHttpPost($methodName, $nvpStr) {
                                 unset($totalpriceTxt);
                                 unset($orderidTxt);
                                 unset($rmavalue);
+                                // unset($lengthTxt);
+                                // unset($heightTxt);
+                                // unset($widthTxt);
+
                                 
                                 $anameTxt = array();
                                 $quantityTxt = array();
@@ -1592,6 +1602,9 @@ function PPHttpPost($methodName, $nvpStr) {
                                 $totalpriceTxt = array();
                                 $orderidTxt = array();
                                 $rmavalue = array();
+                                // $lengthTxt = array();
+                                // $heightTxt = array();
+                                // $widthTxt = array();
                             }else
                             $status=1;
                         }else{
@@ -1636,7 +1649,7 @@ function PPHttpPost($methodName, $nvpStr) {
             // exit;
 
                    
-                    $status=Controlbox::getaddshippment($CustId,$mnameTxt,$carrierTxt,$carriertrackingTxt,$orderdateTxt,$anameTxt,$quantityTxt,$declaredvalueTxt,$totalpriceTxt,$itemstatusTxt,$countryTxt,'',$rmavalue,$orderidTxt,$business_type,$mulfilename,$mulimageByteStream);
+                    $status=Controlbox::getaddshippment($CustId,$mnameTxt,$carrierTxt,$carriertrackingTxt,$orderdateTxt,$anameTxt,$quantityTxt,$declaredvalueTxt,$totalpriceTxt,$itemstatusTxt,$countryTxt,'',$rmavalue,$orderidTxt,$business_type,$mulfilename,$mulimageByteStream,$lengthTxt,$heightTxt,$widthTxt);
                    
                     if($status==""){
                         $app->enqueueMessage(JText::_('WEBSERVICE_ISSUE'), 'error');

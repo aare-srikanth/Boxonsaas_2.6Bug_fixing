@@ -950,15 +950,15 @@ class Controlbox{
 		$result=curl_exec($ch);
 		
 		/** Debug **/
-// 		echo $url;
-// 		echo '{"CompanyID":"'.$CompanyId.'","ItemId":"'.$itd.'"}';
-// 	    var_dump($result);exit;
+		// echo $url;
+		// echo '{"CompanyID":"'.$CompanyId.'","ItemId":"'.$itd.'"}';
+	    // var_dump($result);exit;
 		
 		$msg=json_decode($result);
         $msg2=$msg->Data;
-        return $msg2->ItemId.':'.$msg2->SupplierId.':'.$msg2->CarrierId.':'.$msg2->OrderDate.':'.$msg2->TrackingId.':'.$msg2->ItemName.':'.$msg2->ItemQuantity.':'.$msg2->ItemPrice.':'.$msg2->cost.':'.$msg2->itemstatus.':'.$msg2->fnsku.':'.$msg2->sku.':'.str_replace(":","##",$msg2->ItemImage).':'.$msg2->Dest_Cntry.':'.$msg2->Dest_Hub.':'.str_replace(":","##",$msg2->ItemImage1).':'.str_replace(":","##",$msg2->ItemImage2).':'.str_replace(":","##",$msg2->ItemImage3).':'.str_replace(":","##",$msg2->ItemImage4).':'.$msg2->OrderIdNew.':'.$msg2->RMAValue.':'.$msg2->type_busines;
+        return $msg2->ItemId.':'.$msg2->SupplierId.':'.$msg2->CarrierId.':'.$msg2->OrderDate.':'.$msg2->TrackingId.':'.$msg2->ItemName.':'.$msg2->ItemQuantity.':'.$msg2->ItemPrice.':'.$msg2->cost.':'.$msg2->itemstatus.':'.$msg2->fnsku.':'.$msg2->sku.':'.str_replace(":","##",$msg2->ItemImage).':'.$msg2->Dest_Cntry.':'.$msg2->Dest_Hub.':'.str_replace(":","##",$msg2->ItemImage1).':'.str_replace(":","##",$msg2->ItemImage2).':'.str_replace(":","##",$msg2->ItemImage3).':'.str_replace(":","##",$msg2->ItemImage4).':'.$msg2->OrderIdNew.':'.$msg2->RMAValue.':'.$msg2->length.':'.$msg2->height.':'.$msg2->width.':'.$msg2->type_busines;
         
-    }
+    }                                                                                                                                                                                                                                        
 
 
 
@@ -2050,7 +2050,7 @@ if($priceStr != ""){
      *
      * @return  bool
      */
-    public static function updatePurchaseOrder($itemid,$customerid,$supplierid,$carrierid,$trackingid,$orderdate,$file,$imageByteStreamsingle,$itemname,$itemquantity,$price,$cost,$status,$countryTxt,$stateTxt,$filename,$filename1,$filename2,$filename3,$imageByteStream,$imageByteStream1,$imageByteStream2,$imageByteStream3,$txtOrderId,$txtRmaValue,$inventoryTxt)
+    public static function updatePurchaseOrder($itemid,$customerid,$supplierid,$carrierid,$trackingid,$orderdate,$file,$imageByteStreamsingle,$itemname,$itemquantity,$price,$cost,$status,$countryTxt,$stateTxt,$filename,$filename1,$filename2,$filename3,$imageByteStream,$imageByteStream1,$imageByteStream2,$imageByteStream3,$txtOrderId,$txtRmaValue,$txtLength,$txtHeigth,$txtWidth,$inventoryTxt)
     {
         mb_internal_encoding('UTF-8');
         $itemimage = array();
@@ -2123,14 +2123,14 @@ if($priceStr != ""){
         if($stateTxt==0){
             $stateTxt="";
         }
-        curl_setopt($ch, CURLOPT_POSTFIELDS,'{"ImageByteStream":"'.$imageByteStream.'","CompanyID":"'.$CompanyId.'","ItemId":"'.$itemid.'","CustomerId":"'.$customerid.'","SupplierId":"'.$supplierid.'","CarrierId":"'.$carrierid.'","TrackingId":"'.$trackingid.'","OrderDate":"'.$orderdate.'","ItemImage":"'.$itemimage.'","ItemImage1":"'.$itemimage1.'","ItemImage2":"'.$itemimage2.'","ItemImage3":"'.$itemimage3.'","ItemImage4":"'.$itemimage4.'","fileName":"'.$filename.'","fileExtension":"'.$filext.'","Dest_Cntry":"'.$countryTxt.'","Dest_Hub":"'.$stateTxt.'","ItemName":"'.$itemname.'","ItemQuantity":"'.$itemquantity.'","ItemPrice":"'.$price.'","Cost":"'.$cost.'","ItemStatus":"'.$status.'","ItemUrl":"Joomla","ActivationKey":"123456789","ImageByteStream1":"'.$imageByteStream1.'","ImageByteStream2":"'.$imageByteStream2.'","ImageByteStream3":"'.$imageByteStream3.'","ImageByteStream4":"'.$imageByteStream4.'","fileName1":"'.$filename1.'","fileName2":"'.$filename2.'","fileName3":"'.$filename3.'","fileName4":"'.$filename4.'","fileExtension1":"'.$filext1.'","fileExtension2":"'.$filext2.'","fileExtension3":"'.$filext3.'","fileExtension4":"'.$filext4.'","OrderIdNew":"'.$txtOrderId.'","RMAValue":"'.$txtRmaValue.'","type_busines": "'.$inventoryTxt.'"}');
+        curl_setopt($ch, CURLOPT_POSTFIELDS,'{"ImageByteStream":"'.$imageByteStream.'","CompanyID":"'.$CompanyId.'","ItemId":"'.$itemid.'","CustomerId":"'.$customerid.'","SupplierId":"'.$supplierid.'","CarrierId":"'.$carrierid.'","TrackingId":"'.$trackingid.'","OrderDate":"'.$orderdate.'","ItemImage":"'.$itemimage.'","ItemImage1":"'.$itemimage1.'","ItemImage2":"'.$itemimage2.'","ItemImage3":"'.$itemimage3.'","ItemImage4":"'.$itemimage4.'","fileName":"'.$filename.'","fileExtension":"'.$filext.'","Dest_Cntry":"'.$countryTxt.'","Dest_Hub":"'.$stateTxt.'","ItemName":"'.$itemname.'","ItemQuantity":"'.$itemquantity.'","ItemPrice":"'.$price.'","Cost":"'.$cost.'","ItemStatus":"'.$status.'","ItemUrl":"Joomla","ActivationKey":"123456789","ImageByteStream1":"'.$imageByteStream1.'","ImageByteStream2":"'.$imageByteStream2.'","ImageByteStream3":"'.$imageByteStream3.'","ImageByteStream4":"'.$imageByteStream4.'","fileName1":"'.$filename1.'","fileName2":"'.$filename2.'","fileName3":"'.$filename3.'","fileName4":"'.$filename4.'","fileExtension1":"'.$filext1.'","fileExtension2":"'.$filext2.'","fileExtension3":"'.$filext3.'","fileExtension4":"'.$filext4.'","OrderIdNew":"'.$txtOrderId.'","RMAValue":"'.$txtRmaValue.'","length":"'.$txtLength.'","height":"'.$txtHeigth.'","width":"'.$txtWidth.'","type_busines": "'.$inventoryTxt.'"}');
         curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
 		$result=curl_exec($ch);
 		
 		 /** Debug **/
-// 		echo $url;
-// 		echo '{"ImageByteStream":"'.$imageByteStream.'","CompanyID":"'.$CompanyId.'","ItemId":"'.$itemid.'","CustomerId":"'.$customerid.'","SupplierId":"'.$supplierid.'","CarrierId":"'.$carrierid.'","TrackingId":"'.$trackingid.'","OrderDate":"'.$orderdate.'","ItemImage":"'.$itemimage.'","ItemImage1":"'.$itemimage1.'","ItemImage2":"'.$itemimage2.'","ItemImage3":"'.$itemimage3.'","ItemImage4":"'.$itemimage4.'","fileName":"'.$filename.'","fileExtension":"'.$filext.'","Dest_Cntry":"'.$countryTxt.'","Dest_Hub":"'.$stateTxt.'","ItemName":"'.$itemname.'","ItemQuantity":"'.$itemquantity.'","ItemPrice":"'.$price.'","Cost":"'.$cost.'","ItemStatus":"'.$status.'","ItemUrl":"Joomla","ActivationKey":"123456789","ImageByteStream1":"'.$imageByteStream1.'","ImageByteStream2":"'.$imageByteStream2.'","ImageByteStream3":"'.$imageByteStream3.'","ImageByteStream4":"'.$imageByteStream4.'","fileName1":"'.$filename1.'","fileName2":"'.$filename2.'","fileName3":"'.$filename3.'","fileName4":"'.$filename4.'","fileExtension1":"'.$filext1.'","fileExtension2":"'.$filext2.'","fileExtension3":"'.$filext3.'","fileExtension4":"'.$filext4.'","OrderIdNew":"'.$txtOrderId.'","RMAValue":"'.$txtRmaValue.'","type_busines": "'.$inventoryTxt.'"}';
-// 		var_dump($result);exit;
+		// echo $url;
+		// echo '{"ImageByteStream":"'.$imageByteStream.'","CompanyID":"'.$CompanyId.'","ItemId":"'.$itemid.'","CustomerId":"'.$customerid.'","SupplierId":"'.$supplierid.'","CarrierId":"'.$carrierid.'","TrackingId":"'.$trackingid.'","OrderDate":"'.$orderdate.'","ItemImage":"'.$itemimage.'","ItemImage1":"'.$itemimage1.'","ItemImage2":"'.$itemimage2.'","ItemImage3":"'.$itemimage3.'","ItemImage4":"'.$itemimage4.'","fileName":"'.$filename.'","fileExtension":"'.$filext.'","Dest_Cntry":"'.$countryTxt.'","Dest_Hub":"'.$stateTxt.'","ItemName":"'.$itemname.'","ItemQuantity":"'.$itemquantity.'","ItemPrice":"'.$price.'","Cost":"'.$cost.'","ItemStatus":"'.$status.'","ItemUrl":"Joomla","ActivationKey":"123456789","ImageByteStream1":"'.$imageByteStream1.'","ImageByteStream2":"'.$imageByteStream2.'","ImageByteStream3":"'.$imageByteStream3.'","ImageByteStream4":"'.$imageByteStream4.'","fileName1":"'.$filename1.'","fileName2":"'.$filename2.'","fileName3":"'.$filename3.'","fileName4":"'.$filename4.'","fileExtension1":"'.$filext1.'","fileExtension2":"'.$filext2.'","fileExtension3":"'.$filext3.'","fileExtension4":"'.$filext4.'","OrderIdNew":"'.$txtOrderId.'","RMAValue":"'.$txtRmaValue.'","length":"'.$txtLength.'","height":"'.$txtHeigth.'","width":"'.$txtWidth.'","type_busines": "'.$inventoryTxt.'"}';
+		// var_dump($result);exit;
 		
         $msg=json_decode($result);
         return $msg->Description;
@@ -2770,7 +2770,7 @@ if($priceStr != ""){
      *
      * @return  bool
      */
-    public static function getaddshippment($CustId, $mnameTxt, $carrierTxt,$carriertrackingTxt,$orderdateTxt,$anameTxt,$quantityTxt,$declaredvalueTxt,$totalpriceTxt,$itemstatusTxt,$countryTxt,$stateTxt,$rmavalue,$orderidTxt,$business_type,$mulfilename,$mulimageByteStream)
+    public static function getaddshippment($CustId, $mnameTxt, $carrierTxt,$carriertrackingTxt,$orderdateTxt,$anameTxt,$quantityTxt,$declaredvalueTxt,$totalpriceTxt,$itemstatusTxt,$countryTxt,$stateTxt,$rmavalue,$orderidTxt,$business_type,$mulfilename,$mulimageByteStream,$lengthTxt,$heightTxt,$widthTxt)
     {
         $hostnameStr = $_SERVER['HTTP_HOST'];
         $hostnameStr = str_replace("www.","",$hostnameStr);
@@ -2797,9 +2797,9 @@ if($priceStr != ""){
                 }
                 
             }
+           
             
-            
-            $loop.='{"ItemName":"'.$anameTxt[$i].'","ItemQuantity":"'.$quantityTxt[$i].'","ItemPrice":"'.$declaredvalueTxt[$i].'","TotalPrice":"'.$totalpriceTxt[$i].'","ItemStatus":"In Progress","OrderIdNew":"'.$orderidTxt[$i].'","RMAValue":"'.$rmavalue[$i].'","fileName":"'.$filename[0].'","fileExtension":"'.$filext[0].'","fileName1":"'.$filename[1].'","fileExtension1":"'.$filext[1].'","fileName2":"'.$filename[2].'","fileExtension2":"'.$filext[2].'","fileName3":"'.$filename[3].'","fileExtension3":"'.$filext[3].'","ImageByteStream":"'.$imagebytestream[0].'","ImageByteStream1":"'.$imagebytestream[1].'","ImageByteStream2":"'.$imagebytestream[2].'","ImageByteStream3":"'.$imagebytestream[3].'","ItemImage":"'.$itemimage[0].'","ItemImage1":"'.$itemimage[1].'","ItemImage2":"'.$itemimage[2].'","ItemImage3":"'.$itemimage[3].'"},';    
+            $loop.='{"ItemName":"'.$anameTxt[$i].'","ItemQuantity":"'.$quantityTxt[$i].'","ItemPrice":"'.$declaredvalueTxt[$i].'","TotalPrice":"'.$totalpriceTxt[$i].'","ItemStatus":"In Progress","OrderIdNew":"'.$orderidTxt[$i].'","RMAValue":"'.$rmavalue[$i].'","fileName":"'.$filename[0].'","fileExtension":"'.$filext[0].'","fileName1":"'.$filename[1].'","fileExtension1":"'.$filext[1].'","fileName2":"'.$filename[2].'","fileExtension2":"'.$filext[2].'","fileName3":"'.$filename[3].'","fileExtension3":"'.$filext[3].'","ImageByteStream":"'.$imagebytestream[0].'","ImageByteStream1":"'.$imagebytestream[1].'","ImageByteStream2":"'.$imagebytestream[2].'","ImageByteStream3":"'.$imagebytestream[3].'","ItemImage":"'.$itemimage[0].'","ItemImage1":"'.$itemimage[1].'","ItemImage2":"'.$itemimage[2].'","ItemImage3":"'.$itemimage[3].'","length":"'.$lengthTxt[$i].'","height":"'.$heightTxt[$i].'","width":"'.$widthTxt[$i].'"},';    
         }
         
         
@@ -3455,9 +3455,9 @@ if($priceStr != ""){
 		$result=curl_exec($ch);
 		
 		/** Debug **/
-    // 		echo $url;
-    // 		echo '{"CompanyID":"'.$CompanyId.'","CustomerId":"'.$user.'","ActivationKey":"123456789"}';
-    //         var_dump($result);exit;
+    		// echo $url;
+    		// echo '{"CompanyID":"'.$CompanyId.'","CustomerId":"'.$user.'","ActivationKey":"123456789"}';
+            // var_dump($result);exit;
         
         $msg=json_decode($result);
         return $msg->Data->liInventoryPurchasesVM;
