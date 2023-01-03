@@ -348,8 +348,8 @@ table#kk_table{margin-bottom: 0;}
 .theme_table tbody tr td.action_btns input.discardc { background: url(/images/del.png); background-size: 25px; }
 /* 26-11-2018 */
 
-.btn.btn-add { min-width: 40px; font-size: 30px; border-radius: 50%; line-height: 26px; }
-.btn.btn-rem { min-width: 40px; font-size: 20px; border-radius: 50%; line-height: 26px; }
+.btn.btn-add { min-width: 40px; font-size: 34px; border-radius: 50%;}
+.btn.btn-rem { min-width: 40px; font-size: 18px; border-radius: 50%;}
 .shpprice label { min-width: 120px; }
 .shpprice span { font-weight: bold; /*color: #23bbed;*/ color:#000; letter-spacing: 2px; }
 .shp-blk1 { margin-top: 30px; }
@@ -572,10 +572,16 @@ table.shipping-costtbl{margin-bottom:30px;}
 .warehude-detail_popup td{white-space: normal !important;}
 .warehude-detail_popup .modal-lg{width:640px;}
 .warehude-detail_popup .theme_table {margin: 0px 0 0;}
-.ntifiction-info {
-    border-bottom: 1px solid #cccc;
-    padding: 14px;
-}
+.ntifiction-info {border-bottom: 1px solid #cccc;padding: 14px;}
+
+/*ui enhancement 2.7 css start*/
+.exp_item.btn.btn-success {width: 26px;min-width: auto;height: 26px;margin: 0px 0 0 0;padding: 0 0 5px 0px;font-size: 30px;line-height: 0;vertical-align: middle;background: #5cb85c;border: 1px solid #5cb85c;}
+.exp_item.btn.btn-success:focus, .expand_items.btn.btn-success:active {outline: 0;outline-offset: 0;}
+.child_row.even .table.table-bordered{border:1px solid #919293;}
+	.child_row.even table td {border:1px solid #919293;}
+/*ui enhancement 2.7 css start*/
+
+
 @media (max-width:1024px) {
 	.address_section {border-top: 2px solid #ccc;}
 	.navbar-collapse.navbar-right.custommenu {display: block !important;}	

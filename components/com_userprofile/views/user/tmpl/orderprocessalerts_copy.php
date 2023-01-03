@@ -1121,7 +1121,7 @@ $joomla(document).ready(function() {
            <?php } ?>
            
               <?php if($elem['AddInvoice'][1] == "ACT"){ ?>
-             <div class="col-sm-12 col-md-5">
+             <div class="col-sm-12 col-md-7">
               <div class="form-group">
                 <label><?php echo $assArr['add_invoice'];?> <?php if($elem['AddInvoice'][2]){ ?><span class="error">*</span><?php } ?></label>
                 
@@ -1133,25 +1133,25 @@ $joomla(document).ready(function() {
             
             <?php } ?>
            
-            <div class="row rows row-mob">
-            <div class="col-sm-12 col-md-4">
+            <div class="">
+            <div class="col-sm-12 col-md-3">
               <div class="form-group">
                 <label>Length<span class="error">*</span></label>
                 <input type="text" class="form-control" name="lengthTxt[]"  maxlength="25" required>
               </div>
             </div>
-            <div class="col-sm-12 col-md-4">
-              <div class="form-group">
-                <label>Heigth<span class="error">*</span></label>
-                <input type="text" class="form-control"  name="heightTxt[]"  maxlength="25" required>
-              </div>
-            </div>
-            <div class="col-sm-12 col-md-4">
+            <div class="col-sm-12 col-md-3">
               <div class="form-group">
                 <label>Width<span class="error">*</span></label>
                 <input type="text" class="form-control"  name="widthTxt[]"  maxlength="25"  required>
               </div>
             </div>
+            <div class="col-sm-12 col-md-3">
+              <div class="form-group">
+                <label>Heigth<span class="error">*</span></label>
+                <input type="text" class="form-control"  name="heightTxt[]"  maxlength="25" required>
+              </div>
+            </div>            
           </div>
            
             <!-- End -->

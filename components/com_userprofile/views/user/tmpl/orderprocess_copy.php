@@ -3624,7 +3624,7 @@ if($joomla(this).html() == '+'){
                                 
                                        echo'<tr class="child_row"><td colspan="12">
                                        <table class="table table-bordered"> 
-                                       <tr>
+                                       <tr class="wrhuse-grid">
                                        <th colspan="2">'.$assArr['action'].'</th>
                                         <th>'.$assArr['item_Description'].'</th>
                                         <th>'.$assArr['quantity'].'</th>
@@ -3838,7 +3838,7 @@ if($joomla(this).html() == '+'){
 
                              echo'<tr class="child_row"><td colspan="12">
                              <table class="table table-bordered"> 
-                        	  <tr>
+                        	  <tr class="wrhuse-grid">
                              <th colspan="2">'.$assArr['action'].'</th>
                               <th>'.$assArr['item_Description'].'</th>
                               <th>'.$assArr['quantity'].'</th>
@@ -4016,7 +4016,7 @@ if($joomla(this).html() == '+'){
 
                              echo'<tr class="child_row"><td colspan="12">
                              <table class="table table-bordered"> 
-                        	  <tr>
+                        	  <tr class="wrhuse-grid">
                              <th colspan="2">'.$assArr['action'].'</th>
                               <th>'.$assArr['item_Description'].'</th>
                               <th>'.$assArr['quantity'].'</th>
