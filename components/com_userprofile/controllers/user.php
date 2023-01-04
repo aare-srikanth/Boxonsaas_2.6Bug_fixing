@@ -490,7 +490,7 @@ class UserprofileControllerUser extends JControllerLegacy
             $mulfilename[$i] = $mulfiles['name'][$i];
             
             
-            jimport('joomla.filesystem.file');
+       jimport('joomla.filesystem.file');
         $filename = JFile::makeSafe($mulfiles['name'][$i]);
         $src = $mulfiles['tmp_name'][$i];
         $TARGET=$this->GUIDv4();
@@ -1004,6 +1004,7 @@ class UserprofileControllerUser extends JControllerLegacy
             if($profilepicname){
             $invf .= $TARGET.'/'.$profilepicname.',';
             }else{
+
                 $invf .= '0,';
             }    
             if($_FILES['invFile']["tmp_name"][$key]){
@@ -1378,6 +1379,7 @@ function PPHttpPost($methodName, $nvpStr) {
         $invfArr=array();
         $filenameArr=array();
         jimport('joomla.filesystem.file');
+
         
         foreach($_FILES['invFile']['name'] as $key=>$image){
             
@@ -2330,6 +2332,7 @@ function PPHttpPost($methodName, $nvpStr) {
         $imginv = $_FILES['file']['name'];
         if($uploadflag!="" && $imginv!=""){
             jimport('joomla.filesystem.file');
+            
             $TARGET=$this->GUIDv4();
             $invf='';
             $profilepicname =JFile::makeSafe($imginv);
@@ -3219,6 +3222,62 @@ function PPHttpPost($methodName, $nvpStr) {
         }
 	    
 	}
+
+    //userprofile update
+
+    public function userprofileupdate(){
+
+    $app = JFactory::getApplication();
+    $image1 = file_get_contents($_FILES['file']["tmp_name"]);
+    $imageByteStream = base64_encode($image1);
+    $filename = JFile::makeSafe($_FILES['file']["name"]);
+    $profilepicname=JFile::makeSafe($_FILES['file']["name"]);
+    $nameExtAry=explode(".",$profilepicname);
+    $fileName = $nameExtAry[0];
+    $fileExt = ".".$nameExtAry[1];
+    $itemimage=JFile::makeSafe($_FILES['file']["name"]);
+    $CustId = JRequest::getVar('user', '', 'post');
+    $companyId =130;
+
+     $statusStr=Controlbox::updateprofilepic($CustId,$fileName,$fileExt,$imageByteStream,$companyId,$itemimage);
+     $statusArr = explode(":",$statusStr);
+     $status = $statusArr[0];
+     $statusDesc = $statusArr[1];
+        
+    if($CustId!=""){
+        $status=Controlbox::updateprofilepic($CustId,$fileName,$fileExt,$imageByteStream,$companyId,$itemimage);
+     }
+     if($status==""){
+         $app->enqueueMessage($statusStr, 'notice');
+         $this->setRedirect(JRoute::_('index.php?option=com_userprofile&view=user&layout=personalinformation', false));
+     }else{
+         
+         if($status == "Successfully updated"){
+             $app->enqueueMessage(Jtext::_('COM_USERPROFILE_PI_UPDATED_SUCCESSFULLY'), 'notice');
+         }else{
+             $app->enqueueMessage($statusStr, 'notice');
+         }
+         
+         $this->setRedirect(JRoute::_('index.php?option=com_userprofile&view=user&layout=personalinformation', false));
+     }    
+
+    // if($status==""){
+        
+    //     $app->enqueueMessage($statusDesc, 'notice');
+    //     $this->setRedirect(JRoute::_('index.php?option=com_userprofile&view=user&layout=personalinformation', false));
+    // }else{
+        
+    //     if($status == "Successfully updated"){
+    //         $app->enqueueMessage(Jtext::_('COM_USERPROFILE_PI_UPDATED_SUCCESSFULLY'), 'notice');
+    //     }else{
+    //         $app->enqueueMessage($statusDesc, 'notice');
+    //     }
+        
+    //     $this->setRedirect(JRoute::_('index.php?option=com_userprofile&view=user&layout=personalinformation', false));
+    // }   
+   
+    
+    }
     
   
 }

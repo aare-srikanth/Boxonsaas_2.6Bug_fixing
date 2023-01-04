@@ -6199,6 +6199,31 @@ if($priceStr != ""){
     }
    
     
+    public static function updateprofilepic($CustId,$fileName,$fileExt,$imageByteStream,$companyId,$itemimage)
+    {
+        mb_internal_encoding('UTF-8');
+       
+        $CompanyId = Controlbox::getCompanyId();
+        $content_params =JComponentHelper::getParams( 'com_userprofile' );
+        $url=$content_params->get( 'webservice' ).'/api/DashboardAPI/UpdateCustomerProfilePic';
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS,'{"CustomerId":"'.$CustId.'","CompanyID":"130","fileName":"'.$fileName.'","fileExtension":"'.$fileExt.'","ImageByteStream":"'.$imageByteStream.'","ActivationKey":"123456789","CustImgUrl":"Joomla","ItemImage":"'.$itemimage.'"}');
+        curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+		$result=curl_exec($ch);
+		
+		 /** Debug **/
+		// echo $url;
+		// echo '{"CustomerId":"'.$CustId.'","CompanyID":"130","fileName":"'.$fileName.'","fileExtension":"'.$fileExt.'","ImageByteStream":"'.$imageByteStream.'","ActivationKey":"123456789","CustImgUrl":"Joomla","ItemImage":"'.$itemimage.'"}';
+		// var_dump($result);exit;
+		
+        $msg=json_decode($result);
+        // return $msg->Description;
+
+        return $msg->Response.":".$msg->Description;
+    }
     
     
 } 
