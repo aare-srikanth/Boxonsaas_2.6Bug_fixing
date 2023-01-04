@@ -54,6 +54,7 @@ if($count == '2'){
 $domainDetails = ModProjectrequestformHelper::getDomainDetails();
 $UserView= UserprofileHelpersUserprofile::getUserprofileDetails($user);
 $UserViews=UserprofileHelpersUserprofile::getUserpersonalDetails($user);
+
 //$ordersViewCount= UserprofileHelpersUserprofile::getUsersorderscount($user);
 $dynamicpages= UserprofileHelpersUserprofile::dynamicpages();
 $menuAccessStr=Controlbox::getMenuAccess($user,$pass);
@@ -147,6 +148,16 @@ $joomla(function() {
         }
         
     });
+
+    //profile
+   
+    $joomla(document).on('click','.editpro',function(){
+        
+    $joomla('#myModal').modal('show');
+      
+       
+    });
+   
     
     // Change Default Address
     
@@ -217,6 +228,8 @@ $joomla(function() {
      });
      
      // end
+
+    
      
     
     
@@ -298,11 +311,16 @@ $joomla(function() {
                            }
                         ?>
                         <h3><?php echo $UserView->UserName;?>!</h3>
-						<!-- <div class="edit-ico">
-                    <label class="labelFile">
-                      <input type="file" required="">
-                      <span class="btn"><i class="fa fa-pencil" aria-hidden="true"></i></span> </label>
-                  </div> -->
+						<div class="edit-ico">
+                    <!-- <label class="labelFile">
+                      <input type="file" required=""> -->
+                      <!-- <span class="btn"> -->
+                        <i class="fa fa-pencil editpro" aria-hidden="true"></i>
+                      <!-- </span> -->
+                     </label>
+                  </div>
+                  
+                  
             </div>
 			</div>
 			<!--Profilepic end-->
@@ -677,3 +695,56 @@ $joomla(function() {
   </div>
   </div>
   <!--</div>-->
+  <!-- Modal -->
+
+  <form name="userprofilepic" id="userprofilepic" method="post" action="" enctype="multipart/form-data">
+   <!-- Modal -->
+   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        </div>
+        <div class="modal-body">
+        <div class="statusMsg"></div>
+        <div class="form-group">
+            <label for="file">File:</label>
+            <input type="file" class="form-control" id="file" name="file" required />
+          <!-- <div class="submit-btn"> -->
+        <input type="submit" name="submit" class="btn btn-primary submitBtn" value="submit">
+
+    <!-- </div> -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <input type="hidden" name="task" value="user.userprofileupdate">
+  <input type="hidden" name="id"/>
+  <!-- <input type="hidden" name="txtItemId"/> -->
+  <input type="hidden" name="user" value="<?php echo $user;?>" />
+</form>
+
+<script>-->
+ $joomla(document).ready(function(e){
+$joomla("#file").change(function(e) {
+      
+ var file = this.files[0];
+var fileType = file.type;
+
+    
+  var match = ['application/pdf', 'application/msword', 'application/vnd.ms-office', 'image/jpeg', 'image/png', 'image/jpg'];-->  if(!((fileType == match[0]) || (fileType == match[1]) || (fileType == match[2]) || (fileType == match[3]) || (fileType == match[4]) || (fileType == match[5]))){
+    alert('Sorry, only PDF, DOC, JPG, JPEG, & PNG files are allowed to upload.');
+    $joomla("#file").val('');
+    
+     return false;
+ }
+});
+
+});
+
+</script>
