@@ -240,30 +240,7 @@ $joomla(function() {
 
 <style>
 .branch_section {margin-top: 20px;}
-/*ui enhancement 2.6 css start*/
-	.prof-pic-blk1{text-align: center; padding:0;}
-  .profile_sectn{padding: 0;}
-	.prof-pic-blk1 img {width: 180px;height: 180px;border-radius: 50%;border: 1px solid #f2f2f2;background: #f2f2f2;}
-.profilepic_address{min-height: 800px;}
-.dash_panel .user_info .panel h4 {margin: 5px 0 10px;}
-.dash_panel .user_info .panel address {line-height: 34px;}
-.dash_option_blck h5 {font-size: 16px;}
-.dash_option_blck img {width: 50px;}
-.prof-pic-blk1 {text-align: left;}
-.prof-pic-blk1 img {margin: 10px auto;display: block;}
-.edit-ico {display: none;}
-.prof-pic-blk1 .labelFile {border-radius: 4px;text-align: center;padding: 2px 46px;margin: 2px;background: transparent;display: inline-block;}
-.labelFile input[type=file] {display: none;}
-.labelFile .btn {border:0;color: #fff;}
-.prof-pic-blk1:hover .edit-ico i {text-align: center;font-size: 30px;padding-top: 100px;color: #fff;display: block;cursor: pointer;padding-left:0px;}
-.prof-pic-blk1:hover .edit-ico {width: 180px;height: 180px;border-radius: 50%;border: 1px solid #f2f2f2;margin: 10px auto;display: block;display: block;background: rgba(0,0,0,0.5) !important;z-index: 999999;position: absolute;top: 0;left: 70px;z-index: 0;}
-.address_section{padding: 28px 0px;}
-.dash_panel h3.dash_head {font-size: 20px !important;}
-.dash_panel h3.dash_head {margin: 18px 0 0;padding: 12px;}
-..page_content .main_panel .main_heading{padding: 15px 0 15px !important;}
-.prof-pic-blk1 h3{font-size:20px;text-align:center;margin-bottom: 12px;}
-/* .labelFile input[type=file]:hover {display: block;} */
-/*ui enhancement 2.6 css end*/
+
 </style>
 
 <div class="container">
@@ -704,22 +681,31 @@ $joomla(function() {
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+          <h4 class="modal-title text-center" id="myModalLabel">Update Invoice</h4>
         </div>
         <div class="modal-body">
         <div class="statusMsg"></div>
-        <div class="form-group">
-            <label for="file">File:</label>
-            <input type="file" class="form-control" id="file" name="file" required />
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 file-upload form-group">
+           
+            <div class="">
+            <!-- <label for="file" class="row col-lg-12 col-md-12 col-sm-12 col-xs-12">Upload Image:</label> -->
+  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 image-upload-wrap">
+    <input type="file" class="form-control file-upload-input" id="file" name="file" required />
+    <div class="drag-text">
+      <h3>+ Drag and drop a files Here</h3>
+    </div>    
+  </div> 
+  <input type="submit" name="submit" class="btn btn-primary submitBtn" value="submit">
+        
           <!-- <div class="submit-btn"> -->
-        <input type="submit" name="submit" class="btn btn-primary submitBtn" value="submit">
+       
 
     <!-- </div> -->
         </div>
-        <div class="modal-footer">
+        <!-- <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
