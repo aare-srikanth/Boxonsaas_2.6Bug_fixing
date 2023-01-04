@@ -4492,11 +4492,22 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            <input type="file" name="update_invoice[]" multiple id="update_invoice">
-            <button id="update_invoice_submit">Submit</button>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 file-upload">
+  <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 image-upload-wrap">
+    <input class="file-upload-input" type='file' name="update_invoice[]" multiple id="update_invoice">
+    <div class="drag-text">
+      <h3>+ Drag and drop a files Here</h3>
+    </div>
+  </div> 
+     <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 upld-btn">
+            <button id="update_invoice_submit" class="btn btn-primary">Submit</button>
+                        </div> 
+</div>
+            <!--<input type="file" name="update_invoice[]" multiple id="update_invoice">-->
+         
           <div class="col-md-12">
             <div id="viewImage">
-                <div class="row" id="multimages">
+                <div class="" id="multimages">
                     
                 </div>
                 <div class="mult-img-container">
