@@ -389,7 +389,16 @@ $joomla(document).ready(function() {
         required: true
      }, 
      "addinvoiceTxtMul_1[]": {
-     }
+     },
+     "lengthTxt[]":{
+
+},
+"heightTxt[]":{
+
+},
+"widthTxt[]":{
+
+}
      
     },
     // Specify validation error messages
@@ -407,7 +416,10 @@ $joomla(document).ready(function() {
     	required: "Please select status",
     	selectBox: "Please select status"
       },
-      "addinvoiceTxtMul_1[]": "Please add invoice"
+      "addinvoiceTxtMul_1[]": "Please add invoice",
+      "lengthTxt[]":"Please select length",
+      "heightTxt[]":"please select height",
+      "widthTxt[]":"please select width",
     
     },
     // Make sure the form is submitted to the destination defined
@@ -558,7 +570,7 @@ $joomla(document).ready(function() {
 
 
 
-   $joomla("input[name='quantityTxt[]']").live('keyup',function(e){
+   $joomla("input[name='quantityTxt[]'],input[name='lengthTxt[]'],input[name='heightTxt[]'],input[name='widthTxt[]']").live('keyup',function(e){
     this.value = this.value.replace(/[^0-9]/g, '');
    });
 
@@ -669,6 +681,9 @@ $joomla(document).ready(function() {
               $joomla('input[name=txtSKUName]').val(cospor[11]);
               $joomla('input[name=txtOrderId]').val(cospor[19]); 
               $joomla('input[name=txtRmaValue]').val(cospor[20]);
+              $joomla('input[name=txtLength]').val(cospor[21]);
+              $joomla('input[name=txtHeigth]').val(cospor[22]);
+              $joomla('input[name=txtWidth]').val(cospor[23]);
               
               if(cospor[12]){
               var fileName = cospor[12];
@@ -957,6 +972,15 @@ $joomla(document).ready(function() {
           },
           txtQuantity: {
             required: true
+          },
+          txtLength:{
+            required: true
+          },
+          txtHeight:{
+            required: true
+          },
+          txtWidth:{
+            required: true
           }
         },
         // Specify validation error messages
@@ -967,7 +991,10 @@ $joomla(document).ready(function() {
           txtDvalue: "Please enter Delcared Value",
           txtCarrierName: "Please enter Carrier Name",
           txtTracking: "Please enter Tracking Number",
-          txtQuantity: "Please Enter Item Quantity"
+          txtQuantity: "Please Enter Item Quantity",
+          txtLength:"please select length",
+          txtHeight:"please select height",
+          txtWidth:"please select width"
         },
         // Make sure the form is submitted to the destination defined
         // in the "action" attribute of the form when valid
@@ -978,7 +1005,7 @@ $joomla(document).ready(function() {
         });    
     });
     
-   $joomla("input[name='txtQuantity']").live('keyup',function(e){
+   $joomla("input[name='txtQuantity'],input[name='txtLength'],input[name='txtHeight'],input[name='txtwidth']").live('keyup',function(e){
     this.value = this.value.replace(/[^0-9]/g, '');
     //if (/\D/g.test(this.value))
     //this.value.replace(/[0-9]*\.?[0-9]+/g, '');  for name
@@ -1395,6 +1422,27 @@ $joomla(document).ready(function() {
                 <label>Upload extension type png,jpg,gif and pdf Below 2Mb file</label>
               </div>
             </div>
+            <!-----length,width,height--->
+            <div class="row rows row-mob">
+            <div class="col-sm-12 col-md-4">
+              <div class="form-group">
+                <label>Length<span class="error">*</span></label>
+                <input type="text" class="form-control" name="lengthTxt[]"  maxlength="25" required>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="form-group">
+                <label>Heigth<span class="error">*</span></label>
+                <input type="text" class="form-control"  name="heightTxt[]"  maxlength="25" required>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="form-group">
+                <label>Width<span class="error">*</span></label>
+                <input type="text" class="form-control"  name="widthTxt[]"  maxlength="25"  required>
+              </div>
+            </div>
+          </div>
             <!-- End -->
             <div class="col-sm-12 col-md-2">
               <div class="form-group btn-grp1">
@@ -1709,6 +1757,8 @@ $joomla(document).ready(function() {
               </div>
             </div>
           </div>
+          <!----height and weight and length-->
+          
           
           <!-- End -->
           
@@ -1846,6 +1896,26 @@ $joomla(document).ready(function() {
               <div class="form-group">
                 <label>RMA Value </label>
                  <input type="text" class="form-control" name="txtRmaValue" maxlength="100">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-4">
+              <div class="form-group">
+                  <label>Length</label>
+                  <input type="text" class="form-control" name="txtLength" maxlength="100">
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="form-group">
+                <label>Heigth</label>
+                 <input type="text" class="form-control" name="txtHeigth" maxlength="100">
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="form-group">
+                <label>width</label>
+                 <input type="text" class="form-control" name="txtWidth" maxlength="100">
               </div>
             </div>
           </div>
