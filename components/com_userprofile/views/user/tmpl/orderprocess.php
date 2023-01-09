@@ -98,12 +98,15 @@
       $elem[$element->ElementId]=array($element->ElementDescription,$element->ElementStatus,$element->is_mandatory,$element->is_default,$element->ElementValue);
    }
    
-   
-   
    // end
+
+   // enable / hide shipping info
+
+   $shippingInfoStat = $elem['ShippingInfo'][1];
    
 // echo '<pre>';   
-// var_dump($elem);exit;
+// var_dump($elem['ShippingInfo'][1]);
+// exit;
 
 // get labels
     $lang=$session->get('lang_sel');
@@ -155,8 +158,7 @@
 <script type="text/javascript">
    var $joomla = jQuery.noConflict(); 
    $joomla(document).ready(function() {
-       
-       $joomla('#dvPaymentInformation input[type=text]').on('keyup',function(){
+    $joomla('#dvPaymentInformation input[type=text]').on('keyup',function(){
         cardFormValidate();
     });
     
@@ -1216,7 +1218,8 @@
            
            }else{
                alert("Please select at least one item");
-           }    
+           }  
+           
    
        });
        
@@ -1580,7 +1583,13 @@
        });
        
         $joomla(document).on('click','input[name=shipmentStr],#shipmentNewStr',function(){
-            
+
+         //hide / show shipping info
+
+         var shippingInfoStatus = "<?php echo  $shippingInfoStat; ?>";
+
+         //end
+         
            shippingCost = 0;
             var rateType = $joomla("input[name=shipmentNewStr]:checked").val();
             if(rateType != undefined){
@@ -1650,8 +1659,18 @@
                   //$joomla("#divShipCOstOne").html('');
                   $joomla('.page_loader').hide();
                   //$joomla('#divShipCOstTwo').html('');
+
+                 
+            
                   $joomla('#divShipCOstOne').html(data+'<div class="clearfix"></div>');
-                                 
+                    
+                  var hide_shoew_text = "";
+                  if(shippingInfoStatus=="ACT"){
+                     $joomla(".shipping_info_ed,#divShipCOstTwo").show();
+                  }else{
+                     $joomla(".shipping_info_ed,#divShipCOstTwo").hide();
+                  }
+                  
                   if(data==""){
                      $joomla('input[name=shipmentStr]').filter(':radio').prop('checked',false);
                      $joomla('#divShipCOstOne').removeClass("rdo_cust shp-addnew1");
@@ -1663,7 +1682,7 @@
    		});
    		
    		
-   		 $joomla('#divShipCOstTwo').show();
+   		 //$joomla('#divShipCOstTwo').show();
          $joomla('#divShipCOstTwo').addClass("rst_text shp-addnew1");
            
            var scosship=$joomla('input[name=shipmentNewStr]:checked').val();

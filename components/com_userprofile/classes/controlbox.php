@@ -2250,7 +2250,7 @@ if($priceStr != ""){
                         // var_dump($result);exit;
                         
                         $res.='<div class="clearfix"></div><br>';
-                             $res.='<div class="row">
+                             $res.='<div class="row shipping_info_ed">
                                     <div class="col-md-12">
                                     <div class="form-group servc-chk">
                                     <div id="getservices">
