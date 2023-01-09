@@ -1666,9 +1666,10 @@
                     
                   var hide_shoew_text = "";
                   if(shippingInfoStatus=="ACT"){
-                     $joomla(".shipping_info_ed,#divShipCOstTwo").show();
+                     $joomla("#divShipCOstTwo,.coupons_section,.shipping-costtbl,.finalShippingCostInfo").show();
+
                   }else{
-                     $joomla(".shipping_info_ed,#divShipCOstTwo").hide();
+                     $joomla("#divShipCOstTwo,.coupons_section,.shipping-costtbl,.finalShippingCostInfo").hide();
                   }
                   
                   if(data==""){
@@ -4726,12 +4727,15 @@
                   <div class="row">
                      <div class="col-md-12">
                         <div class="finish-shipping">
+                           <div class="finalShippingCostInfo">      
                            <label><?php echo Jtext::_('COM_USERPROFILE_SHIP_POPUP_FINISH_SHIPPING');?> : </label>
                            <div id="shipmethodStrValuetwo" style="float:right"></div>
                            <p> <?php echo Jtext::_('COM_USERPROFILE_SHIP_POPUP_MY_SUMMARY');?></p>
                            <p> <?php echo Jtext::_('COM_USERPROFILE_SHIP_POPUP_INCLUDES');?>:</p>
+                           </div>
                            <br/>
-                           <?php if($promocodes){  ?>  
+                           <?php if($promocodes){  ?> 
+                           <div class="coupons_section"> 
                            <div class="cupn-serch" style="display:block;">
                               <h4 class="modal-title"><strong>Apply Coupon</strong></h4>
                              
@@ -4752,7 +4756,7 @@
                            <div class="cupn-cdes">
                                        <!--DYNAMIC CONTENT-->
                            </div>
-                           
+                           </div>
                            <?php } ?>
                            
                            </div>
