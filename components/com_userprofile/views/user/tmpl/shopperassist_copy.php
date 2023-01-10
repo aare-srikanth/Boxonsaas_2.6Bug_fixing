@@ -56,56 +56,29 @@ if($_GET['r']==1){
    //var_dump($elem['MerchantName'][0]);exit;
    
    // end
-
-?>
-<?php
-$ch = curl_init();
-$url="http://boxonsaasdev.inviewpro.com//api/ImgUpldFTP/ConvertResxXmlToJson?companyId=130&language=es";
-
-
-curl_setopt($ch, CURLOPT_URL,$url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-$resp = curl_exec($ch);
-
-if($e= curl_error($ch)){
-    echo $e;
-}
-else{
-    $decoded = json_decode($resp,true);
-    
-    $res = json_decode($decoded['Data']);
-    
-    //echo '<pre>';
-    //var_dump($res->data);
-$assArr = [];
-
-//$assArr[$res->data[0]->id] = $res->data[0]->text;
-
-foreach($res->data as $response){
-
-   $assArr[$response->id]  = $response->text;
-   //echo $response->id;
-  
-}
-
-//echo '<pre>';
-//var_dump($assArr);
    
-}  
-
-curl_close($ch);
+   // get labels
+    $lang=$session->get('lang_sel');
+    $res=Controlbox::getlabels($lang);
+    $assArr = [];
+    
+    foreach($res->data as $response){
+    $assArr[$response->id]  = $response->text;
+    }
 
 ?>
+
 <?php include 'dasboard_navigation.php' ?>
 <script type="text/javascript" src="<?php echo JUri::base(true); ?>/components/com_userprofile/js/jquery.validate.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="<?php echo JUri::base(true); ?>/components/com_userprofile/assets/css/styles.css">
 <link rel="stylesheet" href="<?php echo JUri::base(true); ?>/components/com_userprofile/assets/css/demo.css">
 <!-- 
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 --> 
+
 <script type="text/javascript">
 var $joomla = jQuery.noConflict(); 
 $joomla(document).ready(function() {
@@ -224,6 +197,43 @@ function createCookie(name, value, days) {
                    $joomla('#userprofileFormTwo').attr('action','https://www.sandbox.paypal.com/cgi-bin/webscr');
                }
                 if($joomla(this).val() == 'Stripe'){
+                    var feitem=[];
+                    $joomla("input[name='invFile[]']").each( function () {
+                   var tem=$joomla(this).attr('id');
+                   for (var i = 0; i < $joomla(this).get(0).files.length; i++) {
+                       //var file_data = $joomla(this).prop('files')[0];
+                       var file_data = $joomla(this).get(0).files[i];
+                       var form_data = new FormData();                  
+                       form_data.append('file', file_data);
+                       $joomla.ajax({
+                       	url: "<?php echo JURI::base(); ?>index.php?option=com_userprofile&task=user.get_ajax_data&uploadflag=1&jpath=<?php echo urlencode  (JPATH_SITE); ?>&pseudoParam="+new Date().getTime(),
+                   	    dataType: 'text',  // what to expect back from the PHP script, if anything
+                           cache: false,
+                           contentType: false,
+                           processData: false,
+                           data: form_data,                         
+                           type: 'post',
+                       	beforeSend: function() {
+                             $joomla(".pagshipup").show();
+                             $joomla('.pagshipdown').hide();
+                             $joomla('#ord_ship #step3 .btn-primary').attr("type", "button");
+                             $joomla('#ord_ship #step3 .btn-primary').attr("disabled", true);
+                           },success: function(data){
+                             $joomla('#ord_ship #step3 .btn-primary').attr("type", "submit");
+                             $joomla('#ord_ship #step3 .btn-primary').attr("disabled", false);
+                             $joomla(".pagshipup").hide();
+                             $joomla('.pagshipdown').show();
+                             feitem.push(tem+"-"+data);
+                             
+                             /** Debug **/
+                             console.log(feitem);
+                             
+                             $joomla('input[name=paypalinvoice]').val(feitem); 
+                           }
+                       });
+                   }
+               }); 
+                    
                     $joomla(".dvPaymentInformation input").val("");
                     $joomla(".dvPaymentInformation select").val("");
                   $joomla('#userprofileFormTwo').attr('action','');
@@ -263,42 +273,42 @@ function createCookie(name, value, days) {
           txtMerchantWebsite: {
            
          },
-          txtItemName: {
+          "txtItemName[]": {
             alphanumeric:true
          },
-          txtItemRefference: {
+          "txtItemRefference[]": {
             alphanumeric3:true
          },
-          txtQuantity: {
+          "txtQuantity[]": {
          },
-          txtDvalue: {
+          "txtDvalue[]": {
          },
-          txtTprice: {
+          "txtTprice[]": {
          },
-          txtItemurl: {
+          "txtItemurl[]": {
          },
-          txtItemModel: {
+          "txtItemModel[]": {
          },
-          txtColor: {
+          "txtColor[]": {
          },
-          txtSize: {
+          "txtSize[]": {
          }
          
         },
         // Specify validation error messages
         messages: {
-          txtMerchantName:{ required:"<?php echo Jtext::_('COM_USERPROFILE_SHOPPER_ASSIST_MERCHANT_NAME_ERROR');  ?>",alphanumeric:"Enter alphabet characters"},
-          txtMerchantWebsite:{ required:"<?php echo Jtext::_('COM_USERPROFILE_SHOPPER_ASSIST_MERCHANT_WEBSITE_ERROR');  ?>",alphanumeric2:"Please enter alphanumeric characters"},
-          txtItemName:{ required:"<?php echo Jtext::_('COM_USERPROFILE_SHOPPER_ASSIST_ITEM_NAME_ERROR');  ?>",alphanumeric:"Please enter alphabet characters"},
-          txtItemRefference:{ required:"<?php echo Jtext::_('COM_USERPROFILE_SHOPPER_ASSIST_REF_ERROR');  ?>",alphanumeric3:"Please enter alphanumeric characters"},
-          txtQuantity: "<?php echo Jtext::_('COM_USERPROFILE_SHOPPER_ASSIST_QUANTITY_ERROR');  ?>",
-          txtDvalue: "<?php echo Jtext::_('COM_USERPROFILE_SHOPPER_ASSIST_ITEM_PRICE_ERROR');  ?>",
-          txtTprice: "<?php echo Jtext::_('COM_USERPROFILE_SHOPPER_ASSIST_DECLARED_VALUE_ERROR');  ?>",
-          txtItemurl:{ required:"<?php echo Jtext::_('COM_USERPROFILE_SHOPPER_ASSIST_ITEM_URL_ERROR');  ?>",alphanumeric2:"Please enter alphanumeric characters"},
-          txtItemdescription: "<?php echo Jtext::_('COM_USERPROFILE_SHOPPER_ASSIST_ITEM_DESC_ERROR');  ?>",
-          txtItemModel: "<?php echo Jtext::_('Please enter Item Model');  ?>",
-          txtColor: "<?php echo Jtext::_('Please enter Item Color');  ?>",
-          txtSize: "<?php echo Jtext::_('Please enter Item Size');  ?>"
+          txtMerchantName:{ required:"<?php echo $assArr['merchants_Name_error'];  ?>",alphanumeric:"Enter alphabet characters"},
+          txtMerchantWebsite:{ required:"<?php echo $assArr["merchants_website_error"];  ?>",alphanumeric2:"Please enter alphanumeric characters"},
+          "txtItemName[]":{ required:"<?php echo $assArr['item_name_error'];  ?>",alphanumeric:"Please enter alphabet characters"},
+          "txtItemRefference[]":{ required:"<?php echo $assArr['item_Reference (SKU)_error'];  ?>",alphanumeric3:"Please enter alphanumeric characters"},
+          "txtQuantity[]": "<?php echo $assArr['quAntity_error'];  ?>",
+          "txtDvalue[]": "<?php echo $assArr['item_Price_(USD)_error']; ?>",
+          "txtTprice[]": "<?php echo $assArr['item_Price_(USD)_error'];  ?>",
+          "txtItemurl[]":{ required:"<?php echo $assArr['article_URL_error'];  ?>",alphanumeric2:"Please enter alphanumeric characters"},
+          "txtItemdescription[]": "<?php echo $assArr['item_Description_error'];  ?>",
+          "txtItemModel[]": "<?php echo $assArr['item_Model_error'];  ?>",
+          "txtColor[]": "<?php echo $assArr['color_error']; ?>",
+          "txtSize[]": "<?php echo $assArr['size_error'];  ?>"
     
         },
         // Make sure the form is submitted to the destination defined
@@ -417,10 +427,51 @@ function createCookie(name, value, days) {
          var qyt='';
          var spi='';
          $joomla('#k_table').find("tr:gt(0)").remove();
-
+        //   console.log(tablevalues);
          for(i=0;i<tablevalues.length;i++){
-             var dtvalues=tablevalues[i].split(":");
-             $joomla('#k_table').append('<tr><td>'+dtvalues[1]+'</td><td>'+dtvalues[2]+'</td><td>'+dtvalues[3]+'</td><td>'+dtvalues[4]+'</td></tr>')
+          var dtvalues=tablevalues[i].split(":");
+          var datvalues1=dtvalues[5].split("/");
+          var datvalues2=dtvalues[6].split("/");
+          var datvalues3=dtvalues[7].split("/");
+          var datvalues4=dtvalues[8].split("/");
+        //console.log(datvalues);
+          
+            
+             
+             var img1=""; 
+             var img2=""; 
+             var img3=""; 
+             var img4=""; 
+             
+          
+            var length1 =datvalues1.length;
+             var length2 =datvalues2.length;
+              var length3 =datvalues3.length;
+               var length4 =datvalues4.length;
+            
+            // console.log(length);
+             
+             if(length1>6){
+                 image1=dtvalues[5];
+                 img1 = '<a href="'+image1.replace("#",":")+'" target="_blank">View Invoice</a>';
+                 
+                
+             }
+             if(length2>6){
+                 image2=dtvalues[6];
+                 img2 = '<a href="'+image2.replace("#",":")+'" target="_blank">View Invoice</a>';
+             }
+            
+             if(length3>6){
+                 image3=dtvalues[7];
+                 img3 = '<a href="'+image3.replace("#",":")+'" target="_blank">View Invoice</a>';
+             }
+             if(length4>6){
+                 image4=dtvalues[8];
+                 img4 = '<a href="'+image4.replace("#",":")+'" target="_blank">View Invoice</a>';
+             }
+             
+             $joomla('#k_table').append('<tr><td>'+dtvalues[1]+'</td><td>'+dtvalues[2]+'</td><td>'+dtvalues[3]+'</td><td>'+dtvalues[4]+'</td><td><input type="file" multiple id="'+dtvalues[0]+'" name="invFile[]" >'+img1+img2+img3+img4+'</td></tr>');
              cal+=parseFloat(dtvalues[4]);
              ids+=dtvalues[0]+",";
              qyt+=dtvalues[2]+",";
@@ -500,37 +551,37 @@ function createCookie(name, value, days) {
         return false;
 
     });
-    $joomla('input[name="txtQuantity"]').live('blur',function(){
-        $joomla('input[name="txtTprice"]').val('');
+    $joomla('input[name="txtQuantity[]"]').live('blur',function(){
+        $joomla(this).closest('.rows').find('input[name="txtTprice[]"]').val('');
         var total=0;
-        total=(parseFloat($joomla(this).val())*parseFloat($joomla('input[name="txtDvalue"]').val()));
+        total=(parseFloat($joomla(this).val())*parseFloat($joomla(this).closest('.rows').find('input[name="txtDvalue[]"]').val()));
         var final = total.toFixed(2);
         if(final>0){
-            $joomla('input[name="txtTprice"]').val(final);
+            $joomla(this).closest('.rows').find('input[name="txtTprice[]"]').val(final);
             
-            $joomla.ajax({
-    			url: 'http://api.exchangeratesapi.io/v1/latest?access_key=a946255bf6564aa07b1de9e97e6fe519&base=USD&symbols=EUR',
-                crossDomain: true,
-                dataType: "json",
-    			type: "get",
-    			beforeSend: function() {
-                  $joomla(".page_loader").show();
-               },success: function(data){
-                   $joomla(".page_loader").hide();
-                    var currentRate = data.rates.EUR;
-                    alert(data);
-               }
-            });
+    //         $joomla.ajax({
+    // 			url: 'http://api.exchangeratesapi.io/v1/latest?access_key=a946255bf6564aa07b1de9e97e6fe519&base=USD&symbols=EUR',
+    //             crossDomain: true,
+    //             dataType: "json",
+    // 			type: "get",
+    // 			beforeSend: function() {
+    //               $joomla(".page_loader").show();
+    //           },success: function(data){
+    //               $joomla(".page_loader").hide();
+    //                 var currentRate = data.rates.EUR;
+    //                 alert(data);
+    //           }
+    //         });
         }
     });    
-    $joomla('input[name="txtDvalue"]').live('blur',function(){
-        $joomla('input[name="txtTprice"]').val('');
+    $joomla('input[name="txtDvalue[]"]').live('blur',function(){
+        $joomla(this).closest('.rows').find('input[name="txtTprice[]"]').val('');
         var total=0;
-        total=(parseFloat($joomla(this).val())*parseFloat($joomla('input[name="txtQuantity"]').val()));
+        total=(parseFloat($joomla(this).val())*parseFloat($joomla(this).closest('.rows').find('input[name="txtQuantity[]"]').val()));
           var final = total.toFixed(2);
           
         if(final>0){
-            var finalPrice = $joomla('input[name="txtTprice"]').val(final);
+            var finalPrice = $joomla(this).closest('.rows').find('input[name="txtTprice[]"]').val(final);
         }
     });
 
@@ -540,6 +591,8 @@ function createCookie(name, value, days) {
        if(alt==true)    
        $joomla("#userprofileFormOne").trigger("reset");    
     }); 
+    
+    
    
     $joomla("input[name='cardnumberStr']").keyup(function(e){
         this.value = this.value.replace(/[^0-9]/g, '');
@@ -548,6 +601,87 @@ function createCookie(name, value, days) {
         this.value = this.value.replace(/[^0-9]/g, '');
     });
     
+    
+    // multiple rows
+    
+    $joomla("#tabs1").on('click','input[name="addrow"]',function(){
+        
+        var i=0;
+        $joomla('input[name="addrow"]').each(function(){
+                i++;
+        });
+        
+        if($joomla("form[name='userprofileFormOne']").valid() == true){
+            cnt = i+1;
+        }
+       
+    if($joomla("#userprofileFormOne").valid()){
+        
+      var itemNameId=$joomla(this).closest('.rows').find('input[name="txtItemName[]"]').attr('id');
+      var newItemNameId=itemNameId+1;
+      
+      var itemModalId=$joomla(this).closest('.rows').find('input[name="txtItemModel[]"]').attr('id');
+      var newItemModalId=itemModalId+1; 
+      
+      var itemRefId=$joomla(this).closest('.rows').find('input[name="txtItemRefference[]"]').attr('id');
+      var newItemRefId=itemRefId+1;
+      
+      var itemColorId=$joomla(this).closest('.rows').find('input[name="txtColor[]"]').attr('id');
+      var newItemColorId=itemColorId+1;
+      
+      var itemSizeId=$joomla(this).closest('.rows').find('input[name="txtSize[]"]').attr('id');
+      var newItemSizeId=itemSizeId+1;
+      
+      var itemUrlId=$joomla(this).closest('.rows').find('input[name="txtItemurl[]"]').attr('id');
+      var newItemUrlId=itemUrlId+1;
+      
+      var itemDesId=$joomla(this).closest('.rows').find('input[name="txtItemdescription[]"]').attr('id');
+      var newItemDesId=itemDesId+1;
+      
+      var itemQntId=$joomla(this).closest('.rows').find('input[name="txtQuantity[]"]').attr('id');
+      var newItemQntId=itemQntId+1;
+      
+      var itemPriceId=$joomla(this).closest('.rows').find('input[name="txtDvalue[]"]').attr('id');
+      var newItemPriceId=itemPriceId+1;
+      
+      var itemInvoiceName=$joomla(this).closest('.rows').find('input[type="file"]').attr('name');
+      var newItemInvoiceName=itemInvoiceName.replace('_'+i,'_'+(i+1));
+      
+      var itemInvoiceId=$joomla(this).closest('.rows').find('input[type="file"]').attr('id');
+      var newItemInvoiceId=itemInvoiceId.replace('_'+i,'_'+(i+1));
+      
+      
+       var rowData = $joomla(this).closest('.rows').html().replace('id="'+itemNameId+'"','id="'+newItemNameId+'"').replace('id="'+itemModalId+'"','id="'+newItemModalId+'"').replace('id="'+itemRefId+'"','id="'+newItemRefId+'"').replace('id="'+itemColorId+'"','id="'+newItemColorId+'"').replace('id="'+itemSizeId+'"','id="'+newItemSizeId+'"').replace('id="'+itemUrlId+'"','id="'+newItemUrlId+'"').replace('id="'+itemDesId+'"','id="'+newItemDesId+'"').replace('id="'+itemQntId+'"','id="'+newItemQntId+'"').replace('id="'+itemPriceId+'"','id="'+newItemPriceId+'"').replace('name="'+itemInvoiceName+'"','name="'+newItemInvoiceName+'"').replace('id="'+itemInvoiceId+'"','id="'+newItemInvoiceId+'"');
+       $joomla('<div class="row rows row-mob">'+rowData+'</div>').insertAfter( $joomla(this).closest('.row') );
+    }
+      
+    });
+    
+    $joomla('#tabs1').on('click','input[name="deleterow"]',function(e){
+        var lastone=$joomla('#tabs1 .rows').html();
+      if($joomla('#tabs1 .rows').length==1){
+        alert('Minimum One Row Required');
+        return false;
+      }else
+        $joomla(this).closest('.rows').remove();
+        var i=0;
+        $joomla('input[name="addrow"]').each(function(){
+            i++;
+        });
+    });
+    
+});
+
+//*** MulInvoices alert
+
+$joomla(document).on('change','.mulinvoices', function(){
+ //alert(this.files.length);
+ if(this.files.length > 4){
+alert('max files exceeded');
+$joomla(this).val('');
+return false;
+}
+
 });
 </script>
 
@@ -567,97 +701,105 @@ function createCookie(name, value, days) {
             <div class="col-sm-12 col-md-4">
               <div class="form-group">
                 <!--<label><?php //echo Jtext::_('COM_USERPROFILE_SHOPPER_ASSIST_MERCHANT_NAME');?> <span class="error">*</span> </label>-->
-                <label><?php echo $assArr['merchant_name'];?><?php if($elem['MerchantName'][2]){ ?><span class="error">*</span><?php } ?></label>
+                <label><?php echo $assArr['merchants_Name'];?><?php if($elem['MerchantName'][2]){ ?><span class="error">*</span><?php } ?></label>
                 <input type="text" class="form-control"  name="txtMerchantName" value="<?php if($elem['MerchantName'][3]){  echo $elem['MerchantName'][4];  } ?>"    maxlength="32" <?php if($elem['MerchantName'][2]){ echo "required"; }  ?> >
               </div>
             </div>
              <?php }if($elem['MerchantWebsite'][1] == "ACT"){  ?>  
             <div class="col-sm-12 col-md-4">
               <div class="form-group">
-                <label><?php echo $assArr["merchant's_website"];?><?php if($elem['MerchantWebsite'][2]){ ?><span class="error">*</span><?php } ?></label>
+                <label><?php echo $assArr["merchants_website"];?><?php if($elem['MerchantWebsite'][2]){ ?><span class="error">*</span><?php } ?></label>
                 <input type="text" class="form-control" name="txtMerchantWebsite" value="<?php if($elem['MerchantWebsite'][3]){  echo $elem['MerchantWebsite'][4];  } ?>" maxlength="250" <?php if($elem['MerchantWebsite'][2]){ echo "required"; }  ?> >
               </div>
             </div>
-            <?php }if($elem['ArticleName'][1] == "ACT"){  ?>  
+            <?php } ?>
+          </div>
+          <div class="row rows">
+            <?php  if($elem['ArticleName'][1] == "ACT"){  ?>  
             <div class="col-sm-12 col-md-4">
               <div class="form-group">
                 <label><?php echo $assArr['article_name'];?><?php if($elem['ArticleName'][2]){ ?><span class="error">*</span><?php } ?></label>
-                <input type="text" class="form-control"  name="txtItemName" value="<?php if($elem['ArticleName'][3]){  echo $elem['ArticleName'][4];  } ?>" maxlength="32"  <?php if($elem['ArticleName'][2]){ echo "required"; }  ?> >
+                <input type="text" class="form-control"  name="txtItemName[]" id="1" value="<?php if($elem['ArticleName'][3]){  echo $elem['ArticleName'][4];  } ?>" maxlength="32"  <?php if($elem['ArticleName'][2]){ echo "required"; }  ?> >
               </div>
             </div>
-            <?php } ?>  
-          </div>
-          <div class="row">
-             <?php if($elem['ItemModel'][1] == "ACT"){  ?> 
+            <?php   } if($elem['ItemModel'][1] == "ACT"){  ?> 
             <div class="col-sm-12 col-md-4">
               <div class="form-group">
                 <label><?php echo $assArr['item_Model'];?><?php if($elem['ItemModel'][2]){ ?><span class="error">*</span><?php } ?></label>
-                <input type="text" class="form-control"  name="txtItemModel" maxlength="32" value="<?php if($elem['ItemModel'][3]){  echo $elem['ItemModel'][4];  } ?>" <?php if($elem['ItemModel'][2]){ echo "required"; }  ?> >
+                <input type="text" class="form-control"  name="txtItemModel[]" id="2" maxlength="32" value="<?php if($elem['ItemModel'][3]){  echo $elem['ItemModel'][4];  } ?>" <?php if($elem['ItemModel'][2]){ echo "required"; }  ?> >
               </div>
             </div>
             <?php }if($elem['ItemReference'][1] == "ACT"){  ?>  
             <div class="col-sm-12 col-md-4">
               <div class="form-group">
                 <label><?php echo $assArr['item_Reference (SKU)'];?><?php if($elem['ItemReference'][2]){ ?><span class="error">*</span><?php } ?></label>
-                <input type="text" class="form-control" name="txtItemRefference" value="<?php if($elem['ItemReference'][3]){  echo $elem['ItemReference'][4];  } ?>" maxlength="32" <?php if($elem['ItemReference'][2]){ echo "required"; }  ?> >
+                <input type="text" class="form-control" id="3" name="txtItemRefference[]" value="<?php if($elem['ItemReference'][3]){  echo $elem['ItemReference'][4];  } ?>" maxlength="32" <?php if($elem['ItemReference'][2]){ echo "required"; }  ?> >
               </div>
             </div>
-             <?php } ?>  
-          </div>
-          <div class="row">
+            <?php } ?>
+          <div class="clearfix"></div>
+         
             <?php if($elem['Color'][1] == "ACT"){  ?>   
             <div class="col-sm-12 col-md-3">
               <div class="form-group">
                 <label><?php echo $assArr['color'];?><?php if($elem['Color'][2]){ ?><span class="error">*</span><?php } ?></label>
-                <input type="text" class="form-control" name="txtColor" value="<?php if($elem['Color'][3]){  echo $elem['Color'][4];  } ?>"  <?php if($elem['Color'][2]){ echo "required"; }  ?>  maxlength="20">
+                <input type="text" class="form-control" id="4" name="txtColor[]" value="<?php if($elem['Color'][3]){  echo $elem['Color'][4];  } ?>"  <?php if($elem['Color'][2]){ echo "required"; }  ?>  maxlength="20">
               </div>
             </div>
             <?php }if($elem['Size'][1] == "ACT"){  ?>  
             <div class="col-sm-12 col-md-3">
               <div class="form-group">
                 <label><?php echo $assArr['size'];?><?php if($elem['Size'][2]){ ?><span class="error">*</span><?php } ?></label>
-                <input type="text" class="form-control" name="txtSize" maxlength="20" value="<?php if($elem['Size'][3]){  echo $elem['Size'][4];  } ?>"  <?php if($elem['Size'][2]){ echo "required"; }  ?> >
+                <input type="text" class="form-control" id="5" name="txtSize[]" maxlength="20" value="<?php if($elem['Size'][3]){  echo $elem['Size'][4];  } ?>"  <?php if($elem['Size'][2]){ echo "required"; }  ?> >
               </div>
             </div>
             <?php }if($elem['ArticleURL'][1] == "ACT"){  ?>  
              <div class="col-sm-12 col-md-3">
               <div class="form-group">
                 <label><?php echo $assArr['article_URL'];?><?php if($elem['ArticleURL'][2]){ ?><span class="error">*</span><?php } ?></label>
-                <input type="text" class="form-control" name="txtItemurl" value="<?php if($elem['ArticleURL'][3]){  echo $elem['ArticleURL'][4];  } ?>" maxlength="250" <?php if($elem['ArticleURL'][2]){ echo "required"; }  ?>>
+                <input type="text" class="form-control" id="6" name="txtItemurl[]" value="<?php if($elem['ArticleURL'][3]){  echo $elem['ArticleURL'][4];  } ?>" maxlength="250" <?php if($elem['ArticleURL'][2]){ echo "required"; }  ?>>
               </div>
             </div>
             <?php }if($elem['ItemDescription'][1] == "ACT"){  ?>  
             <div class="col-sm-12 col-md-3">
               <div class="form-group">
                 <label><?php echo $assArr['item_Description'];?><?php if($elem['ItemDescription'][2]){ ?><span class="error">*</span><?php } ?></label>
-                <input type="text" class="form-control" name="txtItemdescription" value="<?php if($elem['ItemDescription'][3]){  echo $elem['ItemDescription'][4];  } ?>" maxlength="250" <?php if($elem['ItemDescription'][2]){ echo "required"; }  ?> >
+                <input type="text" class="form-control" id="7" name="txtItemdescription[]" value="<?php if($elem['ItemDescription'][3]){  echo $elem['ItemDescription'][4];  } ?>" maxlength="250" <?php if($elem['ItemDescription'][2]){ echo "required"; }  ?> >
               </div>
             </div>
            <?php } ?> 
-          </div>
-          <div class="row">
+          <div class="clearfix"></div>
+          
             <?php if($elem['Quantity'][1] == "ACT"){  ?>  
             <div class="col-sm-12 col-md-3">
               <div class="form-group">
                 <label><?php echo $assArr['quantity'];?><?php if($elem['Quantity'][2]){ ?><span class="error">*</span><?php } ?></label>
-                <input type="text" class="form-control" name="txtQuantity" value="<?php if($elem['Quantity'][3]){  echo $elem['Quantity'][4];  } ?>" maxlength="3" <?php if($elem['Quantity'][2]){ echo "required"; }  ?> >
+                <input type="text" class="form-control" id="8" name="txtQuantity[]" value="<?php if($elem['Quantity'][3]){  echo $elem['Quantity'][4];  } ?>" maxlength="3" <?php if($elem['Quantity'][2]){ echo "required"; }  ?> >
               </div>
             </div>
             <?php }if($elem['ItemPrice'][1] == "ACT"){  ?>
             <div class="col-sm-12 col-md-3">
               <div class="form-group">
                 <label> <?php echo $assArr['item_Price_(USD)'];?><?php if($elem['item_Price_(USD)'][2]){ ?><span class="error">*</span><?php } ?></label>
-                <input type="text" class="form-control" name="txtDvalue" value="<?php if($elem['ItemPrice'][3]){  echo $elem['ItemPrice'][4];  } ?>" maxlength="7" <?php if($elem['ItemPrice'][2]){ echo "required"; }  ?> >
+                <input type="text" class="form-control" id="9" name="txtDvalue[]" value="<?php if($elem['ItemPrice'][3]){  echo $elem['ItemPrice'][4];  } ?>" maxlength="7" <?php if($elem['ItemPrice'][2]){ echo "required"; }  ?> >
               </div>
             </div>
             <?php }if($elem['DeclaredValue'][1] == "ACT"){  ?>
             <div class="col-sm-12 col-md-3">
               <div class="form-group">
                 <label> <?php echo $assArr['Declared Value (USD)'];?><?php if($elem['DeclaredValue'][2]){ ?><span class="error">*</span><?php } ?></label>
-                <input type="text" class="form-control"  name="txtTprice" value="<?php if($elem['DeclaredValue'][3]){  echo $elem['DeclaredValue'][4];  } ?>" <?php if($elem['DeclaredValue'][2]){ echo "required"; }  ?> readonly>
+                <input type="text" class="form-control" id="10"  name="txtTprice[]" value="<?php if($elem['DeclaredValue'][3]){  echo $elem['DeclaredValue'][4];  } ?>" <?php if($elem['DeclaredValue'][2]){ echo "required"; }  ?> readonly>
               </div>
             </div>
-            <?php } ?> 
+            <?php } ?>
+            
+            <div class="col-sm-12 col-md-3">
+              <div class="form-group">
+                <label><?php echo $assArr['add_invoice'];?></label>
+              <input type="file" class="form-control mulinvoices" id="addinvoiceTxtMul_1" multiple  name="addinvoiceTxtMul_1[]" value="" >
+                
+              </div>
+            </div>
             
             <!-- currency conversion -->
             
@@ -667,14 +809,26 @@ function createCookie(name, value, days) {
             <!--    <input type="text" class="form-control"  name="txtTpriceConversion" readonly>-->
             <!--  </div>-->
             <!--</div>-->
+            
+            <div class="clearfix"></div>
+            
+            <div class="col-sm-12 col-md-2">
+              <div class="form-group btn-grp1">
+                <input type="button" name="addrow" value="+" class="btn btn-primary btn-add"> 
+                <input type="button" name="deleterow" value="x" class="btn btn-danger btn-rem">
+              </div>
+          </div>
          
             
           </div>
+          
+         
+          
           <div class="row">
             <div class="col-sm-12 text-left">
               <div class="form-group">
-                <input type="button" value="<?php echo Jtext::_('COM_USERPROFILE_SHOPPER_ASSIST_RESET');?>" name="btnReset" class="btn btn-danger">    
-                <input type="submit" value="<?php echo Jtext::_('COM_USERPROFILE_SHOPPER_ASSIST_SUBMIT');?>" class="btn btn-primary">
+                <input type="button" value="<?php echo $assArr['reset'];?>" name="btnReset" class="btn btn-danger">    
+                <input type="submit" value="<?php echo $assArr['submit'];?>" class="btn btn-primary">
               </div>
             </div>
           </div>
@@ -696,7 +850,7 @@ function createCookie(name, value, days) {
                         <h3 class=""><strong><?php echo Jtext::_('Inventory purchases');?></strong></h3>
                      </div>
                     <div class="col-sm-6 form-group text-right">
-                        <a style="color:white;" href="<?php echo JURI::base(); ?>/csvdata/shopperassist_list.csv" class="btn btn-primary csvDownload export-csv">Export CSV</a>
+                        <a style="color:white;" href="<?php echo JURI::base(); ?>/csvdata/shopperassist_list.csv" class="btn btn-primary csvDownload export-csv"><?php echo $assArr['eXPORT_CSV'];?></a>
                     </div>
                 </div>
         </div>
@@ -706,20 +860,40 @@ function createCookie(name, value, days) {
             <table class="table table-bordered theme_table" id="N_table">
               <thead>
                 <tr>
-                  <th><?php echo Jtext::_('COM_USERPROFILE_SHOPPER_ASSIST_TABLE_SELECT');?></th>
-                  <th><?php echo $assArr['merchant_name'];?></th>
+                  <th><?php echo $assArr['select'];?></th>
+                  <th><?php echo $assArr['merchants_Name'];?></th>
                   <th><?php echo $assArr['item_name'];?></th>
                   <th><?php echo $assArr['quantity'];?></th>
                   <th><?php echo $assArr['item_Price_(USD)'];?></th>
                   <th><?php echo $assArr['Declared Value (USD)'];?></th>
-                  <th><?php echo Jtext::_('COM_USERPROFILE_SHOPPER_ASSIST_TABLE_ACTION');?></th>
+                  <th><?php echo $assArr['action'];?></th>
                 </tr>
               </thead>
               <tbody>
                 <?php
     $ordersView= UserprofileHelpersUserprofile::getShopperassistList($user);
     foreach($ordersView as $rg){
-      echo '<tr><td><input type="radio" name="txtitemId" value="'.$rg->Id.':'.$rg->ItemName.':'.$rg->ItemQuantity.':'.$rg->ItemPrice.':'.$rg->TotalPrice.'"></td><td>'.$rg->SupplierId.'</td><td>'.$rg->ItemName.'</td><td>'.$rg->ItemQuantity.'</td><td>'.$rg->ItemPrice.'</td><td>'.$rg->TotalPrice.'</td><td class="action_btns"><a class="btn btn-danger" data-id='.$rg->Id.'><i class="fa fa-trash"></i></a></td></tr>';
+        
+        $imagePathCnt = count(explode("/",$rg->ItemImage));
+        if($imagePathCnt >4){
+            $image = str_replace(":","#",$rg->ItemImage);
+            
+        }
+        $image1PathCnt = count(explode("/",$rg->ItemImage1));
+        if($image1PathCnt >4){
+            $image1 = str_replace(":","#",$rg->ItemImage1);
+        }
+        $image2PathCnt = count(explode("/",$rg->ItemImage2));
+        if($image2PathCnt >4){
+            $image2 = str_replace(":","#",$rg->ItemImage2);
+        }
+        $image3PathCnt = count(explode("/",$rg->ItemImage3));
+        if($image3PathCnt >4){
+            $image3 = str_replace(":","#",$rg->ItemImage3);
+        }
+        
+        
+      echo '<tr><td><input type="radio" name="txtitemId" value="'.$rg->Id.':'.$rg->ItemName.':'.$rg->ItemQuantity.':'.$rg->ItemPrice.':'.$rg->TotalPrice.':'.$image.':'.$image1.':'.$image2.':'.$image3.'"></td><td>'.$rg->SupplierId.'</td><td>'.$rg->ItemName.'</td><td>'.$rg->ItemQuantity.'</td><td>'.$rg->ItemPrice.'</td><td>'.$rg->TotalPrice.'</td><td class="action_btns"><a class="btn btn-danger" data-id='.$rg->Id.'><i class="fa fa-trash"></i></a></td></tr>';
     }
 ?>
               </tbody>
@@ -798,6 +972,8 @@ function createCookie(name, value, days) {
               <input type="hidden" name="hiddenItemIds">
               <input type="hidden" name="hiddenItemQuantity">
               <input type="hidden" name="hiddenItemSupplierId">
+              <input type="hidden" name="paypalinvoice">
+              
              
              
              <input type='hidden' name='business' value='sb-jftsj5136420@business.example.com'> 
@@ -825,8 +1001,9 @@ function createCookie(name, value, days) {
                         <tr>
                           <th><?php echo $assArr['item_name'];?></th>
                           <th><?php echo $assArr['quantity'];?></th>
-                          <th><?php echo Jtext::_('COM_USERPROFILE_SHOPPER_ASSIST_K_TABLE_ITEM_COST');?></th>
-                          <th><?php echo $assArr['declared_Value (USD)'];?></th>
+                          <th><?php echo $assArr['item_price'];?></th>
+                          <th><?php echo $assArr['Declared Value (USD)'];?></th>
+                          <th><?php echo "Invoice"; ?></th>
                         </tr>
                       </thead>
                     </table>
@@ -1010,6 +1187,7 @@ $joomla(document).keyup('#cvv,#cardNumber',function() {
             $joomla("#cvv-error").html("<?php echo Jtext::_('COM_USERPROFILE_ENTER_THREE_DIGITS_ERROR'); ?>");
         }
     });
+   
     $joomla("#cvv,#cardNumber").on('blur',function() {
        
         $joomla("#cvv-error").html("");
@@ -1083,7 +1261,7 @@ $joomla(document).keyup('#cvv,#cardNumber',function() {
                   
                     $joomla.ajax({
                    			url: ajaxurl,
-                   			data: { "paymentgatewayshopflag":1,"amount":$joomla('input[name="amount"]').val(),"hiddentxtTaxes":$joomla('input[name="hiddentxtTaxes"]').val(),"hiddentxtShippCharges":$joomla('input[name="hiddentxtShippCharges"]').val(),"hiddenItemIds":$joomla('input[name="hiddenItemIds"]').val(),"hiddenItemQuantity":$joomla('input[name="hiddenItemQuantity"]').val(),"hiddenItemSupplierId":$joomla('input[name="hiddenItemSupplierId"]').val(),"paymentmethod":"PPD","paymentgateway":"Stripe"},
+                   			data: { "paymentgatewayshopflag":1,"amount":$joomla('input[name="amount"]').val(),"hiddentxtTaxes":$joomla('input[name="hiddentxtTaxes"]').val(),"hiddentxtShippCharges":$joomla('input[name="hiddentxtShippCharges"]').val(),"hiddenItemIds":$joomla('input[name="hiddenItemIds"]').val(),"hiddenItemQuantity":$joomla('input[name="hiddenItemQuantity"]').val(),"hiddenItemSupplierId":$joomla('input[name="hiddenItemSupplierId"]').val(),"paymentmethod":"PPD","paymentgateway":"Stripe","invoiceStr":$joomla('input[name="paypalinvoice"]').val()},
                    			dataType:"text",
                    			type: "get",
                             beforeSend: function() {

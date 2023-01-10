@@ -35,6 +35,7 @@ if(strpos($_SERVER['REQUEST_URI'], '/index.php/') !== false){
 <script type="text/javascript" src="<?php echo JUri::base(); ?>/components/com_userprofile/js/jquery.dataTables.min.js" ></script>
 <script type="text/javascript" src="<?php echo JUri::base(); ?>/components/com_userprofile/js/dataTables.bootstrap.min.js" ></script>
 
+
 <script type="text/javascript">
 var $joomla = jQuery.noConflict(); 
 $joomla(document).ready(function(){
@@ -93,24 +94,37 @@ $joomla(document).ready(function(){
     });  
     //$joomla('#M_table').DataTable();  
     $joomla('#N_table').DataTable({
-        "language": {
-            "lengthMenu": showEntText,
-            "search": searchText,
-            "info": showingEntriesText,
-            "infoEmpty": showingEmptyEntriesText,
-            "emptyTable":nodataText,
-            "paginate": {
-              "previous": previousPageText,
-              "next": nextPageText
-            }
-        }
-        ,
-    //     columnDefs: [
-    //     { "width": "20%", "targets": [0] },
-    //     { targets: '_all', visible: true }
-    // ]
-    
+     select: true,
+     dom: 'Blfrtip',
+     lengthMenu: [10,25,75, 100],
+
+      dom: 'Bfrtip',
+      buttons: 
+      [{ extend: 'pdf', text: ' Exportar a PDF' },
+      { extend: 'csv', text: ' Exportar a CSV' },
+      { extend: 'excel', text: ' Exportar a EXCEL' },
+      'pageLength' ,
+      ]
+      
+      
     });
+
+    $joomla('.export_table').DataTable({
+     select: true,
+     dom: 'Blfrtip',
+     lengthMenu: [10,25,75, 100],
+
+      dom: 'Bfrtip',
+      buttons: 
+      [{ extend: 'pdf', text: ' Exportar a PDF' },
+      { extend: 'csv', text: ' Exportar a CSV' },
+      { extend: 'excel', text: ' Exportar a EXCEL' },
+      'pageLength' ,
+      ],
+      
+      
+    });
+    
 	$joomla( "#view_image,#exampleModal2,#exampleModal1,#exampleModal,#inv_view,#shipdetailsModal,#logModal,#ord_delete,#ord_keep,#ord_return,#ord_ship,#ord_edit" ).on('shown', function(){
 	 $joomla( "html" ).css("overflow","hidden");
 	});	
@@ -120,17 +134,32 @@ $joomla(document).ready(function(){
 	
 	
 	$joomla('#M_table').DataTable({ "ordering": false,
-	 "language": {
-            "lengthMenu": showEntText,
-            "search": searchText,
-            "info": showingEntriesText,
-            "infoEmpty": showingEmptyEntriesText,
-            "emptyTable":nodataText,
-            "paginate": {
-              "previous": previousPageText,
-              "next": nextPageText
-            }
-        }});
+	//  "language": {
+  //           "lengthMenu": showEntText,
+  //           "search": searchText,
+  //           "info": showingEntriesText,
+  //           "infoEmpty": showingEmptyEntriesText,
+  //           "emptyTable":nodataText,
+  //           "paginate": {
+  //             "previous": previousPageText,
+  //             "next": nextPageText
+  //           }
+  //       }
+
+  select: true,
+     dom: 'Blfrtip',
+     lengthMenu: [10,25,75, 100],
+
+     dom: 'Bfrtip',
+      buttons: 
+
+       [{ extend: 'pdf', text: ' Exportar a PDF' },
+        { extend: 'csv', text: ' Exportar a CSV' },
+        { extend: 'excel', text: ' Exportar a EXCEL' },
+        'pageLength' ,
+      ],
+
+});
 });
 $joomla(".modal").modal({backdrop: 'static',keyboard: false,show: true});
 
@@ -156,7 +185,13 @@ $joomla(".modal").modal({backdrop: 'static',keyboard: false,show: true});
   <!--  </div>-->
   <!--</div>-->
 
-
+<!--export-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <!-- <script src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script> -->
+  <script src="https://cdn.datatables.net/buttons/2.3.2/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
         
         
         

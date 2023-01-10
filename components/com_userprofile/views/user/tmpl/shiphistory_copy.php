@@ -65,8 +65,6 @@ $menuCustType=end($menuCustData);
 <!-- 
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 -->
-
-
 <script type="text/javascript">
 var $joomla = jQuery.noConflict(); 
 $joomla(document).ready(function() {

@@ -75,7 +75,6 @@ if(!$user){
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 -->
 
-
 <script type="text/javascript">
 var $joomla = jQuery.noConflict(); 
 $joomla(document).ready(function() {
@@ -627,7 +626,10 @@ $joomla(document).ready(function() {
           txtCarrierName: "<?php echo $assArr['carrier_error'];?>",
           txtTracking: "<?php echo $assArr['tracking_ID_of_the_operator_error'];?>",
           txtQuantity: "<?php echo $assArr['quAntity_error'];?>",
-          txtFile: "<?php echo Jtext::_('COM_USERPROFILE_ALERTS_FILE_ERROR');?>"
+          txtFile: "<?php echo Jtext::_('COM_USERPROFILE_ALERTS_FILE_ERROR');?>",
+          txtLength:"please select length",
+          txtHeight:"please select height",
+          txtWidth:"please select width"
         },
         // Make sure the form is submitted to the destination defined
         // in the "action" attribute of the form when valid
@@ -1121,7 +1123,7 @@ $joomla(document).ready(function() {
            <?php } ?>
            
               <?php if($elem['AddInvoice'][1] == "ACT"){ ?>
-             <div class="col-sm-12 col-md-7">
+             <div class="col-sm-12 col-md-5">
               <div class="form-group">
                 <label><?php echo $assArr['add_invoice'];?> <?php if($elem['AddInvoice'][2]){ ?><span class="error">*</span><?php } ?></label>
                 
@@ -1133,25 +1135,25 @@ $joomla(document).ready(function() {
             
             <?php } ?>
            
-            <div class="">
-            <div class="col-sm-12 col-md-3">
+            <div class="row rows row-mob">
+            <div class="col-sm-12 col-md-4">
               <div class="form-group">
                 <label>Length<span class="error">*</span></label>
                 <input type="text" class="form-control" name="lengthTxt[]"  maxlength="25" required>
               </div>
             </div>
-            <div class="col-sm-12 col-md-3">
+            <div class="col-sm-12 col-md-4">
+              <div class="form-group">
+                <label>Heigth<span class="error">*</span></label>
+                <input type="text" class="form-control"  name="heightTxt[]"  maxlength="25" required>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
               <div class="form-group">
                 <label>Width<span class="error">*</span></label>
                 <input type="text" class="form-control"  name="widthTxt[]"  maxlength="25"  required>
               </div>
             </div>
-            <div class="col-sm-12 col-md-3">
-              <div class="form-group">
-                <label>Heigth<span class="error">*</span></label>
-                <input type="text" class="form-control"  name="heightTxt[]"  maxlength="25" required>
-              </div>
-            </div>            
           </div>
            
             <!-- End -->
@@ -1207,7 +1209,7 @@ $joomla(document).ready(function() {
         
         <div class="row">
           <div class="col-md-12">
-            <table class="table table-bordered theme_table" id="N_table">
+            <table class="table table-bordered theme_table n_table" id="N_table">
               <thead>
                 <tr>
                   <th><?php echo $assArr['sNo'];?></th>
@@ -1452,3 +1454,9 @@ $joomla(document).ready(function() {
     </div>
   </div>
 </div>
+
+
+
+
+
+

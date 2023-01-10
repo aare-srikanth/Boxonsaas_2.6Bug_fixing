@@ -15,6 +15,7 @@ $document->setTitle("Order Process in Boxon Pobox Software");
 defined('_JEXEC') or die;
 $session = JFactory::getSession();
 $user=$session->get('user_casillero_id');
+$pass=$session->get('user_casillero_password');
 if(!$user){
     $app =& JFactory::getApplication();
     $app->redirect('index.php?option=com_register&view=login');
@@ -36,54 +37,46 @@ if($_GET['r']==1){
             $AccountType = strtolower($PaymentGateways->AccountType);
    }
    
-?>
-<?php
-$ch = curl_init();
-$url="http://boxonsaasdev.inviewpro.com//api/ImgUpldFTP/ConvertResxXmlToJson?companyId=130&language=es";
-
-
-curl_setopt($ch, CURLOPT_URL,$url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-$resp = curl_exec($ch);
-
-if($e= curl_error($ch)){
-    echo $e;
-}
-else{
-    $decoded = json_decode($resp,true);
-    
-    $res = json_decode($decoded['Data']);
-    
-    //echo '<pre>';
-    //var_dump($res->data);
-$assArr = [];
-
-//$assArr[$res->data[0]->id] = $res->data[0]->text;
-
-foreach($res->data as $response){
-
-   $assArr[$response->id]  = $response->text;
-   //echo $response->id;
-  
-}
-
-//echo '<pre>';
-//var_dump($assArr);
    
-}  
+   // get labels
+     
+    $lang=$session->get('lang_sel');
+     
+    $res=Controlbox::getlabels($lang);
+    $assArr = [];
+    
+    foreach($res->data as $response){
+    $assArr[$response->id]  = $response->text;
+    }
+    // menu access
+    
+   $menuAccessStr=Controlbox::getMenuAccess($user,$pass);
+   $menuCustData = explode(":",$menuAccessStr);
+   
+    $maccarr=array();
+    foreach($menuCustData as $menuaccess){
+        
+        $macess = explode(",",$menuaccess);
+        $maccarr[$macess[0]]=$macess[1];
+     
+    }
+   
+   $menuCustType=end($menuCustData);
+   
+//   var_dump($menuCustType);
+//   exit;
 
-curl_close($ch);
-
+   
 ?>
-<?php include 'dasboard_navigation.php' ?>
 
+<?php include 'dasboard_navigation.php' ?>
 <script type="text/javascript" src="<?php echo JUri::base(true); ?>/components/com_userprofile/js/jquery.validate.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="<?php echo JUri::base(true); ?>/components/com_userprofile/assets/css/styles.css">
 <link rel="stylesheet" href="<?php echo JUri::base(true); ?>/components/com_userprofile/assets/css/demo.css">
 <script type="text/javascript" src="https://js.squareupsandbox.com/v2/paymentform"></script>
+
 
 <!-- 
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -168,10 +161,18 @@ $joomla(document).ready(function() {
       $joomla('#Discountstr').val(loops[8]);
       $joomla('#InhouseIdk').html(loops[9]);
       $joomla('#InhouseIdkstr').val(loops[9]);
-      $joomla('#amtStr').val(loops[7]);
-      $joomla('input[name="amount"]').val(loops[7]);
-      $joomla('#InvoiceNo').val(loops[10]);
       
+      var totamount = parseFloat(loops[7])-parseFloat(loops[3]);
+      
+      // new code
+      
+      $joomla('#amtStr').val(totamount);
+      $joomla('input[name="amount"]').val(totamount);
+      $joomla('#DueAmount').html(totamount.toFixed(2));
+      
+       // new code end
+      
+      $joomla('#InvoiceNo').val(loops[10]);
       $joomla("input[name='return']").val('<?php echo JURI::base(); ?>index.php?option=com_userprofile&&view=user&layout=response&page=cod&invoice='+loops[10]+'&pay=<?php echo base64_encode(date("m/d/0Y"));?>');
          
     });    
@@ -248,7 +249,7 @@ $joomla(document).ready(function() {
                         ajaxurl = "<?php echo JURI::base(); ?>index.php?option=com_userprofile&task=user.get_ajax_data&amount="+$joomla('input[name="amount"]').val()+"&cardnumberStr="+$joomla('input[name="cardnumberStr"]').val()+"&txtccnumberStr="+$joomla('input[name="txtccnumberStr"]').val()+"&MonthDropDownListStr="+$joomla('select[name="MonthDropDownListStr"]').val()+"&YearDropDownListStr="+$joomla('select[name="YearDropDownListStr"]').val()+"&invidkStr="+''+"&qtyStr="+''+"&wherhourecStr="+$joomla('input[name="bill_form_nostr"]').val()+"&user="+user+"&txtspecialinsStr="+''+"&cc=PayForCOD&paymentgateway=Stripe&shipservtStr="+$joomla('input[name="Id_Servstr"]').val()+"&consignidStr="+''+"&invf="+''+"&filenameStr="+''+"&articleStr="+''+"&priceStr="+'';
                         $joomla.ajax({
                        			url: ajaxurl,
-                       			data: { "paymentgatewayflag":1,"ratetypeStr": "","Conveniencefees":$joomla('input[name="Conveniencefees"]').val(),"addSerStr":"","addSerCostStr":"","companyId":$joomla('input[name="companyId"]').val(),"insuranceCost":"","extAddSer":"","paypalinvoice":"","page":"cod","inhouseNo":$joomla('input[name="InHouseNostr"]').val(),"invoice":$joomla('input[name="InvoiceNo"]').val()},
+                       			data: { "paymentgatewayflag":1,"ratetypeStr": "","Conveniencefees":$joomla('input[name="Conveniencefees"]').val(),"addSerStr":"","addSerCostStr":"","companyId":$joomla('input[name="companyId"]').val(),"insuranceCost":"","extAddSer":"","paypalinvoice":"","page":"cod","inhouseNo":$joomla('input[name="InHouseNostr"]').val(),"invoice":$joomla('input[name="InvoiceNo"]').val(),"InhouseIdkstr":$joomla('input[name="InhouseIdkstr"]').val()},
                        			dataType:"text",
                        			type: "get",
                                 beforeSend: function() {
@@ -387,10 +388,19 @@ $joomla(document).ready(function() {
       <div class="row">
         <div class="col-sm-12 tab_view">
           <ul class="nav nav-tabs">
-            <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=orderprocessalerts"> <?php echo Jtext::_('COM_USERPROFILE_DASHBOARD_PREALERTS');?></a> </li>
-            <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=orderprocess"> <?php echo Jtext::_('COM_USERPROFILE_DASHBOARD_PENDING_SHIPMENT');?></a>  </li>
-            <li> <a class="active"  href="index.php?option=com_userprofile&view=user&layout=cod"> <?php echo Jtext::_('COM_USERPROFILE_DASHBOARD_COD');?> </a> </li>
-            <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=shiphistory"> <?php echo Jtext::_('COM_USERPROFILE_DASHBOARD_SHIPMENT_HISTORY');?></a> </li>
+            <?php if(!isset($maccarr['FulFillment'])){
+                      $maccarr['FulFillment'] = "False";
+                  }
+                  
+                    
+                  if($menuCustType == "CUST" || ($menuCustType == "COMP" && $maccarr['FulFillment'] == "False") ){  ?>
+                  <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=orderprocessalerts"><?php echo $assArr['my_Pre_Alerts'];?></a> </li>
+                  <?php }else if($menuCustType == "COMP" && $maccarr['FulFillment'] == "True"){  ?>
+                  <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=inventoryalerts"><?php echo $assArr['inventory_Pre-Alerts'];?></a> </li>
+                  <?php } ?>
+            <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=orderprocess"> <?php echo $assArr['ready_to_ship'];?></a>  </li>
+            <li> <a class="active"  href="index.php?option=com_userprofile&view=user&layout=cod"> <?php echo $assArr['cOD'];?> </a> </li>
+            <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=shiphistory"> <?php echo $assArr['shipment_History'];?></a> </li>
           </ul>
         </div>
       </div>
@@ -403,12 +413,13 @@ $joomla(document).ready(function() {
         <div class="row">
           <div class="col-md-12">
             <div class="table-responsive">
-              <table class="table table-bordered theme_table" id="j_table">
+              <table class="table table-bordered theme_table export_table">
                 <thead>
                   <tr>
-                    <th class="action_btns"  width=100><?php echo $assArr['actions#']; ?></th>
-                    <th><?php echo $assArr['shipping#'];?></th>
-                    <th><?php echo $assArr['warehouse_Receipt#']; ?></th>
+                    <th class="action_btns"  width=100><?php echo $assArr['action']; ?></th>
+                    <th><?php echo $assArr['shipping'];?></th>
+                    <th><?php echo $assArr['warehouse_Receipt']; ?></th>
+                    <th><?php echo 'Payment Type' ;?></th>
                     <th><?php echo $assArr['total_cost'] ;?></th>
                   </tr>
                 </thead>
@@ -418,6 +429,10 @@ $joomla(document).ready(function() {
     
    
     foreach($ordersPendingView as $rg){
+        
+        $totalCost = $rg->TotalFinalCost-$rg->TotalAmountPaid;
+        
+        if($totalCost >0){
       			
       echo '<tr>
       		<td class="action_btns"  width=100>
@@ -425,8 +440,10 @@ $joomla(document).ready(function() {
       		</td>
       		<td>'.$rg->InHouseNo.'</td>
       		<td>'.$rg->bill_form_no.'</td>
-      		<td>'.$rg->TotalFinalCost.'</td>
-      		</tr>';
+      		<td>'.$rg->paymentType.'</td>
+      		<td>'.number_format($totalCost, 2).'</td>
+     		</tr>';
+        }
     }
     ?>
                 </tbody>
@@ -542,6 +559,14 @@ $joomla(document).ready(function() {
                       <td><label><?php echo Jtext::_('COM_USERPROFILE_TOTAL_BUY_FOR_TODAY');?></label></td>
                       <td class="txt-right"><div id="TotalFinalCost"></div></td>
                     </tr>
+                    <tr class="">
+                      <td><label><?php echo Jtext::_('Total Amount Paid');?></label></td>
+                      <td class="txt-right"><div id="TotalAmountPaid"></div></td>
+                    </tr>
+                    <tr class="">
+                      <td><label><?php echo Jtext::_('Due Amount');?></label></td>
+                      <td class="txt-right"><div id="DueAmount"></div></td>
+                    </tr>
 
                   </table>
                   <div class="clearfix"></div>
@@ -571,7 +596,7 @@ $joomla(document).ready(function() {
                  
                 <div class="modal-body pagshipup" style="display:none"><img src='/components/com_userprofile/images/loader.gif' height="400"></div>
                   
-                <div class="dvPaymentInformation col-md-6 col-sm-12 col-xs-12" style="display:none">
+        <div class="dvPaymentInformation col-md-6 col-sm-12 col-xs-12" style="display:none">
             <div class="heading">
                 <h3 class="text-center">Confirm Purchase</h3>
             </div>
