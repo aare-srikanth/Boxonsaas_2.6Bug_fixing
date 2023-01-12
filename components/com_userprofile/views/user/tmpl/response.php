@@ -25,6 +25,7 @@ $clientConfigObj = file_get_contents(JURI::base().'/client_config.json');
 $clientConf = json_decode($clientConfigObj, true);
 $clients = $clientConf['ClientList'];
 
+
 if(!$user){
     $app =& JFactory::getApplication();
     $app->redirect('index.php?option=com_register&view=login');
@@ -62,6 +63,16 @@ if($pay){
     }
     
 }
+
+
+$res = Controlbox::dynamicElements('PendingShipments');
+$elem=array();
+foreach($res as $element){
+   $elem[$element->ElementId]=array($element->ElementDescription,$element->ElementStatus,$element->is_mandatory,$element->is_default,$element->ElementValue);
+}
+
+// var_dump($elem['GenerateInvoice'][1]);
+// exit;
 
 ?>
 <?php include 'dasboard_navigation.php' ?>
@@ -146,8 +157,8 @@ foreach($clients as $client){
                 ?>
 			
 				<div class="order-info">
-            <h3> <?php echo Jtext::_('ORDER_CONFORMATION');?><Label ID="lblord" class="ord"><?php echo $status[0];?></Label> </h3>
-            <h3> <?php echo strtoupper($domainName[0])." ".Jtext::_('ORDER_CONFORMATION_TANS'); ?> <Label ID="lblordno" class="ord"><?php echo $status[0];?></Label>  </h3>
+            <h3> <?php echo Jtext::_('ORDER_CONFORMATION');?><Label ID="lblord" class="ord"><?php if($elem['GenerateInvoice'][1] == "ACT"){ echo "#".$status[0]; } ?></Label> </h3>
+            <h3> <?php echo strtoupper($domainName[0])." ".Jtext::_('ORDER_CONFORMATION_TANS'); ?> <Label ID="lblordno" class="ord"><?php if($elem['GenerateInvoice'][1] == "ACT"){  echo "#".$status[0]; } ?></Label>  </h3>
 
             <h6> <?php echo Jtext::_('ORDER_CONFORMATION_HI');?> <Label ID="lblname"></Label> </h6>
             <p>

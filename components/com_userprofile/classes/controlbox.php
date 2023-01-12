@@ -1494,16 +1494,15 @@ if($priceStr != ""){
 		$result=curl_exec($ch);
 		$msg=json_decode($result);
 
-// 	 $req='{"CompanyID":"'.$CompanyId.'","paymentOption":{"_amt":"'.$amtStr.'","_cardno":"'.$cardnumberStr.'","_ccno":"'.$txtccnumberStr.'","_index":"1","_month":"'.$MonthDropDownListStr.'","_nameoncard":"'.$txtNameonCardStr.'","_year":"'.$YearDropDownListStr.'"},"billFormIdsList":['.$wrhsloop.'],"idks":"'.$invidkStr.'","qtys":"'.$qtyStr.'","billFormIds":"'.$wherhourecStr.',","ShippingCost":"'.$amtStr.'","ConsigneeId":"'.$consignidStr.'","Comments":"'.$specialinstructionStr.'","PaymentType":"'.$cc.'","CustId":"'.$CustId.'","id_serv":"'.$shipservtStr.'","paymentgateway":"'.$pg.'","TransactionID":"'.$tid.'","UploadedFile":"'.$invf.'","fileName":"'.$nameStr.'","fileExtension":"'.$extStr.'","InHouseNo":"'.$inhouse.'","InhouseId":"'.$inhouseid.'","EachItemName":"'.$articleStr.'","EachItemQty":"'.$qtyStr.'","TotalitemsPrice":"'.$priceStr.'","id_rate_type":"'.$ratetype.'","Conveniencefees":"'.$Conveniencefees.'","InsuranceCost":"'.$insuranceCost.'","domainname":"'.$domainname.'","domainurl":"'.$domainurl.'","PromoCouponDiscountAmt":"'.$couponDiscAmt .'","PromoCouponCode":"'.$couponCodeStr.'","Addoninvoiceno":"'.$invoice.'"}';
-//      echo $req."##".$msg->InvoiceId;
-//      var_dump($result);
-//      exit;
+	//  $req='{"CompanyID":"'.$CompanyId.'","paymentOption":{"_amt":"'.$amtStr.'","_cardno":"'.$cardnumberStr.'","_ccno":"'.$txtccnumberStr.'","_index":"1","_month":"'.$MonthDropDownListStr.'","_nameoncard":"'.$txtNameonCardStr.'","_year":"'.$YearDropDownListStr.'"},"billFormIdsList":['.$wrhsloop.'],"idks":"'.$invidkStr.'","qtys":"'.$qtyStr.'","billFormIds":"'.$wherhourecStr.',","ShippingCost":"'.$amtStr.'","ConsigneeId":"'.$consignidStr.'","Comments":"'.$specialinstructionStr.'","PaymentType":"'.$cc.'","CustId":"'.$CustId.'","id_serv":"'.$shipservtStr.'","paymentgateway":"'.$pg.'","TransactionID":"'.$tid.'","UploadedFile":"'.$invf.'","fileName":"'.$nameStr.'","fileExtension":"'.$extStr.'","InHouseNo":"'.$inhouse.'","InhouseId":"'.$inhouseid.'","EachItemName":"'.$articleStr.'","EachItemQty":"'.$qtyStr.'","TotalitemsPrice":"'.$priceStr.'","id_rate_type":"'.$ratetype.'","Conveniencefees":"'.$Conveniencefees.'","InsuranceCost":"'.$insuranceCost.'","domainname":"'.$domainname.'","domainurl":"'.$domainurl.'","PromoCouponDiscountAmt":"'.$couponDiscAmt .'","PromoCouponCode":"'.$couponCodeStr.'","Addoninvoiceno":"'.$invoice.'"}';
+    //  echo $req."##".$msg->InvoiceId;
+    //  var_dump($result);
+    //  exit;
 	 
         
         
         if($msg->InvoiceId!=""){
             
-                  
                     // isert billform
                     
         $lengthStrSum = array_sum(explode(",",$lengthStr));
