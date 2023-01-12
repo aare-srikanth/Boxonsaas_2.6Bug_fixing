@@ -64,7 +64,7 @@ $joomla(document).ready(function(){
             "emptyTable":nodataText,
             "paginate": {
               "previous": previousPageText,
-              "next": nextPageText
+              "next": nextPageText  
             }
         }
     });  
@@ -95,17 +95,17 @@ $joomla(document).ready(function(){
     //$joomla('#M_table').DataTable();  
     $joomla('#N_table').DataTable({
      select: true,
-     dom: 'Blfrtip',
-     lengthMenu: [10,25,75, 100],
+    
 
       dom: 'Bfrtip',
       buttons: 
-      [{ extend: 'pdf', text: ' Exportar a PDF' },
-      { extend: 'csv', text: ' Exportar a CSV' },
-      { extend: 'excel', text: ' Exportar a EXCEL' },
+      [{ extend:'pdfHtml5',text:  '<i class="fa fa-file-pdf-o"></i>',titleAttr: 'PDF'},
+      {extend: 'csvHtml5',text:      '<i class="fa fa-file-text-o"></i>',titleAttr: 'CSV' },
+      { extend: 'excelHtml5', text:    '<i class="fa fa-file-excel-o"></i>',titleAttr: 'Excel' },
       'pageLength' ,
-      ]
+      ],
       
+    
       
     });
 
@@ -114,13 +114,15 @@ $joomla(document).ready(function(){
      dom: 'Blfrtip',
      lengthMenu: [10,25,75, 100],
 
-      dom: 'Bfrtip',
+    
+
+     dom: 'Bfrtip',
       buttons: 
-      [{ extend: 'pdf', text: ' Exportar a PDF' },
-      { extend: 'csv', text: ' Exportar a CSV' },
-      { extend: 'excel', text: ' Exportar a EXCEL' },
+      [{ extend:'pdfHtml5',text:  '<i class="fa fa-file-pdf-o"></i>',titleAttr: 'PDF'},
+      {extend: 'csvHtml5',text:      '<i class="fa fa-file-text-o"></i>',titleAttr: 'CSV' },
+      { extend: 'excelHtml5', text:      '<i class="fa fa-file-excel-o"></i>',titleAttr: 'Excel' },
       'pageLength' ,
-      ],
+      ]
       
       
     });
@@ -152,12 +154,11 @@ $joomla(document).ready(function(){
 
      dom: 'Bfrtip',
       buttons: 
-
-       [{ extend: 'pdf', text: ' Exportar a PDF' },
-        { extend: 'csv', text: ' Exportar a CSV' },
-        { extend: 'excel', text: ' Exportar a EXCEL' },
-        'pageLength' ,
-      ],
+      [{ extend:'pdfHtml5',text:  '<i class="fa fa-file-pdf-o"></i>',titleAttr: 'PDF'},
+      {extend: 'csvHtml5',text:      '<i class="fa fa-file-text-o"></i>',titleAttr: 'CSV' },
+      { extend: 'excelHtml5', text:      '<i class="fa fa-file-excel-o"></i>',titleAttr: 'Excel' },
+      'pageLength' ,
+      ]
 
 });
 });
@@ -192,6 +193,7 @@ $joomla(".modal").modal({backdrop: 'static',keyboard: false,show: true});
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
   <script src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.colVis.min.js"></script>
         
         
-        
+  
