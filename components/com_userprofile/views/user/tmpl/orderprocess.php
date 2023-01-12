@@ -4015,7 +4015,7 @@
                <div id="step1" style="display:none">
                   <div class="row">
                      <div class="col-md-12">
-                     <div class="selcetedCountSec">Selected Items : <span class="selcetedCount"></span></div>
+                     <div class="selcetedCountSec badge">Selected Items : <span class="selcetedCount"></span></div>
                         <div class="table-responsive">
                            <table class="table table-bordered theme_table" id="j_table">
                               <thead>
