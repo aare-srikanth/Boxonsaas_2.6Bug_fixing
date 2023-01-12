@@ -56,42 +56,71 @@ $joomla(document).ready(function(){
     var nodataText = "<?php echo Jtext::_('COM_USERPROFILE_NO_DATA');?>";
     
     $joomla('#a_table').DataTable({
-        "language": {
-            "lengthMenu": showEntText,
-            "search": searchText,
-            "info": showingEntriesText,
-            "infoEmpty": showingEmptyEntriesText,
-            "emptyTable":nodataText,
-            "paginate": {
-              "previous": previousPageText,
-              "next": nextPageText
-            }
-        }
+
+    select: true,
+     dom: 'Blfrtip',
+     lengthMenu: [10,25,75, 100],
+     scrollX: "400px",
+
+      dom: 'Bfrtip',
+      buttons: 
+      [{ extend: 'pdf', text: ' Exportar a PDF',orientation: 'landscape',
+                pageSize: 'LEGAL' },
+      { extend: 'csv', text: ' Exportar a CSV' },
+      { extend: 'excel', text: ' Exportar a EXCEL' },
+      'pageLength' ,
+      ]
+      
+        // "language": {
+        //     "lengthMenu": showEntText,
+        //     "search": searchText,
+        //     "info": showingEntriesText,
+        //     "infoEmpty": showingEmptyEntriesText,
+        //     "emptyTable":nodataText,
+        //     "paginate": {
+        //       "previous": previousPageText,
+        //       "next": nextPageText
+        //     }
+        // }
     });  
     $joomla('#j_table').DataTable({
-         "ordering": false,
-         "language": {
-            "lengthMenu": showEntText,
-            "search": searchText,
-            "info": showingEntriesText,
-            "infoEmpty": showingEmptyEntriesText,
-            "emptyTable":nodataText,
-            "paginate": {
-              "previous": previousPageText,
-              "next": nextPageText
-            }
-         },
-            "lengthMenu": [50, 75, 100],
-            "iDisplayLength": 50,
-            "order": [],
-            "columnDefs": [
-            { 
-                "targets": [0], //first column / numbering column
-                "orderable": false, //set not orderable
-            }
-            ]
+        //  "ordering": false,
+        //  "language": {
+        //     "lengthMenu": showEntText,
+        //     "search": searchText,
+        //     "info": showingEntriesText,
+        //     "infoEmpty": showingEmptyEntriesText,
+        //     "emptyTable":nodataText,
+        //     "paginate": {
+        //       "previous": previousPageText,
+        //       "next": nextPageText
+        //     }
+        //  },
+        //     "lengthMenu": [50, 75, 100],
+        //     "iDisplayLength": 50,
+        //     "order": [],
+        //     "columnDefs": [
+        //     { 
+        //         "targets": [0], //first column / numbering column
+        //         "orderable": false, //set not orderable
+        //     }
+        //     ]
+     select: true,
+     dom: 'Blfrtip',
+     lengthMenu: [10,25,75, 100],
+     scrollX: "400px",
+
+      dom: 'Bfrtip',
+      buttons: 
+      [{ extend: 'pdf', text: ' Exportar a PDF',orientation: 'landscape',
+                pageSize: 'LEGAL' },
+      { extend: 'csv', text: ' Exportar a CSV' },
+      { extend: 'excel', text: ' Exportar a EXCEL' },
+      'pageLength' ,
+      ]
             
-    });  
+    }); 
+     
     //$joomla('#M_table').DataTable();  
     $joomla('#N_table').DataTable({
      select: true,
@@ -100,7 +129,8 @@ $joomla(document).ready(function(){
 
       dom: 'Bfrtip',
       buttons: 
-      [{ extend: 'pdf', text: ' Exportar a PDF' },
+      [{ extend: 'pdf', text: ' Exportar a PDF',orientation: 'landscape',
+                pageSize: 'LEGAL'},
       { extend: 'csv', text: ' Exportar a CSV' },
       { extend: 'excel', text: ' Exportar a EXCEL' },
       'pageLength' ,
@@ -111,12 +141,14 @@ $joomla(document).ready(function(){
 
     $joomla('.export_table').DataTable({
      select: true,
+     scrollX: true,
      dom: 'Blfrtip',
      lengthMenu: [10,25,75, 100],
 
       dom: 'Bfrtip',
       buttons: 
-      [{ extend: 'pdf', text: ' Exportar a PDF' },
+      [{ extend: 'pdf', text: ' Exportar a PDF',orientation: 'landscape',
+                pageSize: 'LEGAL' },
       { extend: 'csv', text: ' Exportar a CSV' },
       { extend: 'excel', text: ' Exportar a EXCEL' },
       'pageLength' ,
@@ -153,7 +185,8 @@ $joomla(document).ready(function(){
      dom: 'Bfrtip',
       buttons: 
 
-       [{ extend: 'pdf', text: ' Exportar a PDF' },
+       [{ extend: 'pdf', text: ' Exportar a PDF',orientation: 'landscape',
+                pageSize: 'LEGAL' },
         { extend: 'csv', text: ' Exportar a CSV' },
         { extend: 'excel', text: ' Exportar a EXCEL' },
         'pageLength' ,
@@ -161,6 +194,7 @@ $joomla(document).ready(function(){
 
 });
 });
+
 $joomla(".modal").modal({backdrop: 'static',keyboard: false,show: true});
 
 </script>
