@@ -613,7 +613,26 @@ table.shipping-costtbl{margin-bottom:30px;}
   .drag-text h3 {font-weight: bold;text-transform: uppercase;color: #000;padding: 0px 0;margin: 14px 0;	font-size: 14px;}
   /* fileupload css End*/
   .dt-buttons{float: left;}
-  .dt-buttons .dt-button{background-color: transparent;border: none;}
+  .dt-buttons .dt-button{background-color: transparent;border: none;padding: 0;}
+  .dt-buttons i{font-size:25px; min-width:auto;}
+  .dt-button.buttons-collection.buttons-page-length {
+	background: white;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #000;
+}
+.dt-button.button-page-length {
+    display: block;
+    margin: 0px 154px;
+    width: 38%;
+}
+.dt-button.button-page-length span {
+    display: block;
+    background: #fff;
+}
+.dt-button-collection{
+    margin-top: 0px !important;
+}
 /*ui enhancement 2.7 css start*/
 
 

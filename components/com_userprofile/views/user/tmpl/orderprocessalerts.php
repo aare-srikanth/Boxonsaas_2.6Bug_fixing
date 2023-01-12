@@ -1159,7 +1159,7 @@ $joomla(document).ready(function() {
        
         
         <div class="row">
-          <div class="col-md-12">
+          <div class="table-responsive col-md-12">
             <table class="table table-bordered theme_table" id="N_table">
               <thead>
                 <tr>
