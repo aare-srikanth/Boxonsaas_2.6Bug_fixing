@@ -270,11 +270,9 @@ h1.breadcrumb_title{font-size : 24px !important;}.cls-add-ico .btn-danger {font-
 #divShipCOstTwo tr td {padding: 3px !important;}
 .inventry-alert h3{margin:0;}
 .inventry-alert .btn.btn-primary{margin-bottom: 10px;}
-.inventry-item h3{margin:0;}
 .inventry-alert {border-bottom: 1px solid #000;margin: 0px auto 10px;padding:0;}
 .inventry-item  {border-bottom: 1px solid #000;margin: 0px auto 10px;padding:0;}
 .export-csv{background: url(/../../../wbe/components/com_userprofile/images/csv-file.png);background-size: 27px;background-repeat: no-repeat;width: auto;background-position: 9px;padding: 5px 8px 5px 40px;/* line-height: 0; */margin: 0px;}
-.inventry-item{padding-top:20px;}
 .inventry-item .btn.btn-primary{margin-bottom:6px;margin-right: 0;}
 .csvDownload.export-csv:hover{text-decoration:none;}
 .item-cnt p{padding:10px;}
@@ -601,60 +599,149 @@ table.shipping-costtbl{margin-bottom:30px;}
   .page_content .main_panel .main_heading{padding: 15px 0 15px !important;}
   .prof-pic-blk1 h3{font-size:20px;text-align:center;margin-bottom: 12px;}
 	/* fileupload css start */
-.file-upload {
-	background-color: #ffffff;
-	margin: 0 auto;
-	padding: 10px;
-  }
-  .upld-btn{
-	margin-top: 8px;
-  }
-  .submitBtn{
-	border-radius: 0;
-    height: 46px;
-  }
-  .file-upload-content {
-	display: none;
-	text-align: center;
-  }
-  
-  .file-upload-input {
-	position: absolute;
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	height: 100%;
-	outline: none;
-	opacity: 0;
-	cursor: pointer;
-  }
-  
-  .image-upload-wrap {
-	background-color: #f3f3f3;
-    /* border: 2px solid #f3f3f3; */
-    position: relative;
-    margin: 0 0px;
-    /* border-radius: 4px; */
-    padding: 1px;
-  }
-  
+.file-upload {background-color: #ffffff;margin: 0 auto;padding: 10px;}
+  .upld-btn{margin-top: 8px;}
+  .submitBtn{border-radius: 0;height: 46px;}
+  .file-upload-content {display: none;text-align: center;}
+  .file-upload-input {position: absolute;margin: 0;padding: 0;width: 100%;height: 100%;outline: none;opacity: 0;cursor: pointer;}
+  .image-upload-wrap {background-color: #f3f3f3;/* border: 2px solid #f3f3f3; */position: relative;margin: 0 0px;/* border-radius: 4px; */padding: 1px;}
   .image-dropping,
-  .image-upload-wrap:hover {
-	background-color: #f3f3f3;
-  }
-  
-  .drag-text {
-	text-align: center;
-  }
-  
-  .drag-text h3 {
-	    font-weight: bold;
-	text-transform: uppercase;
-	color: #000;
-	padding: 0px 0;
-	margin: 14px 0;	font-size: 14px;}
-
+  .image-upload-wrap:hover {background-color: #f3f3f3;}
+  .drag-text {text-align: center;}
+  .drag-text h3 {font-weight: bold;text-transform: uppercase;color: #000;padding: 0px 0;margin: 14px 0;	font-size: 14px;}
   /* fileupload css End*/
+  .dt-buttons{float: left;}
+  .dt-buttons .dt-button{background-color: transparent;border: none;padding: 0;}
+  .dt-buttons i{font-size:25px; min-width:auto;}
+  .dt-button.buttons-collection.buttons-page-length {
+	background: white;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #000;
+}
+.dt-button.button-page-length {
+    display: block;
+    margin: 0px 154px;
+    width: 38%;
+}
+.dt-button.button-page-length span {
+    display: block;
+    background: #fff;
+}
+.dt-button-collection{
+  margin-top: 0px !important;
+  position: absolute;
+  z-index: 2;
+  left: 15px !important;
+}
+.keep_global {
+    margin: -12px 4px;
+}
+.return_global {
+	background: url(/images/return-ico.png);
+  background-size: 33px;
+  border-radius: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-left:0;
+  border-right: 0;
+  border-top: 0;
+  border-bottom: 0;
+  height: 35px;
+  text-align: center;
+  padding: 20px 26px;
+  margin: 4px 0 0 0;
+  vertical-align: middle;
+}
+.keep_global {
+    background: url(/images/keep_ico.png);
+    background-size: 30px;
+    border-radius: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-left: 2px solid #eee;
+    border-right: 0;
+    border-top: 0;
+    border-bottom: 0;
+    height: 35px;
+    text-align: center;
+    padding: 16px 26px;
+    vertical-align: middle;
+}
+.action-icons{
+  background:#23bbed;
+  border-radius: 10px;
+  padding: 0 22px;
+}
+.expand_icon{
+  background: url(/images/expand.png);
+  background-size: 28px;
+  border-radius: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-left: 2px solid #eee;
+  border-right: 0;
+  border-top: 0;
+  border-bottom: 0;
+  height: 35px;
+  text-align: center;
+  padding: 16px 26px;
+  vertical-align: middle;
+}
+.collapse_icon{
+  background: url(/images/collapse_ico.png);
+  background-size: 28px;
+  border-radius: 0;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-left: 2px solid #eee;
+  border-right: 0;
+  border-top: 0;
+  border-bottom: 0;
+  height: 35px;
+  text-align: center;
+  padding: 16px 26px;
+  vertical-align: middle;
+}
+.inventory_icon{
+  background: url(/images/inventory.png);
+  background-size: auto;
+  border-radius: 0;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-left: 2px solid #eee;
+    border-right: 0;
+    border-top: 0;
+    border-bottom: 0;
+    height: 35px;
+    text-align: center;
+    padding: 8px 26px;
+    vertical-align: middle;
+}
+.inventry-item h3 {
+  margin: 4px 0px;
+}
+.inventry-item {
+  padding-top: 0;
+}
+@media (max-width:767px) {
+  .action-icons {
+    padding: 0 0px;
+    margin: 30px auto;
+    width: 100%;
+}
+.inventry-item-right{
+  text-align: center;
+}
+}
+@media (max-width: 991px) {
+  .action-icons{
+    padding: 0 10px;
+  }
+  .inventry-item h3{
+    font-size: 18px;
+  }
+}
 /*ui enhancement 2.7 css start*/
 
 

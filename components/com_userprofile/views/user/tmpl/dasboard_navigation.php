@@ -56,163 +56,73 @@ $joomla(document).ready(function(){
     var nodataText = "<?php echo Jtext::_('COM_USERPROFILE_NO_DATA');?>";
     
     $joomla('#a_table').DataTable({
-
-    select: true,
-     dom: 'Blfrtip',
-     lengthMenu: [10,25,75, 100],
-     scrollX: "400px",
-
-      dom: 'Bfrtip',
-      buttons: 
-      [{ extend: 'pdf', text: ' Exportar a PDF',orientation: 'landscape',
-                pageSize: 'LEGAL',
-              
-        },
-      { extend: 'csv', text: ' Exportar a CSV' },
-      { extend: 'excel', text: ' Exportar a EXCEL' },
-      'pageLength' ,
-      ]
-      
-        // "language": {
-        //     "lengthMenu": showEntText,
-        //     "search": searchText,
-        //     "info": showingEntriesText,
-        //     "infoEmpty": showingEmptyEntriesText,
-        //     "emptyTable":nodataText,
-        //     "paginate": {
-        //       "previous": previousPageText,
-        //       "next": nextPageText
-        //     }
-        // }
+        "language": {
+            "lengthMenu": showEntText,
+            "search": searchText,
+            "info": showingEntriesText,
+            "infoEmpty": showingEmptyEntriesText,
+            "emptyTable":nodataText,
+            "paginate": {
+              "previous": previousPageText,
+              "next": nextPageText  
+            }
+        }
     });  
     $joomla('#j_table').DataTable({
-      "ordering": false,
-     select: true,
-     dom: 'Blfrtip',
-     lengthMenu: [10,25,75, 100],
-     scrollX: "400px",
-   
-      dom: 'Bfrtip',
-      buttons: 
-      [{ extend: 'pdf', text: ' Exportar a PDF',orientation: 'landscape',
-                pageSize: 'LEGAL',
-                exportOptions: {
-            rows: 'tr:not(.child_row)',
-            columns: [1,2,3,4,5,6,7,8,9,10,11],
-       }},
-      { extend: 'csv', text: ' Exportar a CSV',  exportOptions: {
-            rows: 'tr:not(.child_row)',  columns: [1,2,3,4,5,6,7,8,9,10,11],
-         }},
-      { extend: 'excel', text: ' Exportar a EXCEL',  exportOptions: {
-            rows: 'tr:not(.child_row)',  columns: [1,2,3,4,5,6,7,8,9,10,11],
-         } },
-      'pageLength',
-      ]
-      
-        //  "ordering": false,
-        //  "language": {
-        //     "lengthMenu": showEntText,
-        //     "search": searchText,
-        //     "info": showingEntriesText,
-        //     "infoEmpty": showingEmptyEntriesText,
-        //     "emptyTable":nodataText,
-        //     "paginate": {
-        //       "previous": previousPageText,
-        //       "next": nextPageText
-        //     }
-        //  },
-        //     "lengthMenu": [50, 75, 100],
-        //     "iDisplayLength": 50,
-        //     "order": [],
-        //     "columnDefs": [
-        //     { 
-        //         "targets": [0], //first column / numbering column
-        //         "orderable": false, //set not orderable
-        //     }
-        //     ]
+         "ordering": false,
+         "language": {
+            "lengthMenu": showEntText,
+            "search": searchText,
+            "info": showingEntriesText,
+            "infoEmpty": showingEmptyEntriesText,
+            "emptyTable":nodataText,
+            "paginate": {
+              "previous": previousPageText,
+              "next": nextPageText
+            }
+         },
+            "lengthMenu": [50, 75, 100],
+            "iDisplayLength": 50,
+            "order": [],
+            "columnDefs": [
+            { 
+                "targets": [0], //first column / numbering column
+                "orderable": false, //set not orderable
+            }
+            ]
             
-    }); 
-
-    $joomla('#u_table').DataTable({
-      "ordering": false,
-     select: true,
-     dom: 'Blfrtip',
-     lengthMenu: [10,25,75, 100],
-    
-   
-      dom: 'Bfrtip',
-      buttons: 
-      [{ extend: 'pdf', text: ' Exportar a PDF',orientation: 'landscape',
-                pageSize: 'LEGAL',
-                exportOptions: {
-            rows: 'tr:not(.child_row)',
-            columns: [1,2,3,4,5,6,7,8,9,10,11],
-       }},
-      { extend: 'csv', text: ' Exportar a CSV',  exportOptions: {
-            rows: 'tr:not(.child_row)',  columns: [1,2,3,4,5,6,7,8,9,10,11],
-         }},
-      { extend: 'excel', text: ' Exportar a EXCEL',  exportOptions: {
-            rows: 'tr:not(.child_row)',  columns: [1,2,3,4,5,6,7,8,9,10,11],
-         } },
-      'pageLength',
-      ]
-      
-        //  "ordering": false,
-        //  "language": {
-        //     "lengthMenu": showEntText,
-        //     "search": searchText,
-        //     "info": showingEntriesText,
-        //     "infoEmpty": showingEmptyEntriesText,
-        //     "emptyTable":nodataText,
-        //     "paginate": {
-        //       "previous": previousPageText,
-        //       "next": nextPageText
-        //     }
-        //  },
-        //     "lengthMenu": [50, 75, 100],
-        //     "iDisplayLength": 50,
-        //     "order": [],
-        //     "columnDefs": [
-        //     { 
-        //         "targets": [0], //first column / numbering column
-        //         "orderable": false, //set not orderable
-        //     }
-        //     ]
-            
-    }); 
-     
+    });  
     //$joomla('#M_table').DataTable();  
     $joomla('#N_table').DataTable({
      select: true,
-     dom: 'Blfrtip',
-     lengthMenu: [10,25,75, 100],
+    
 
       dom: 'Bfrtip',
       buttons: 
-      [{ extend: 'pdf', text: ' Exportar a PDF',orientation: 'landscape',
-                pageSize: 'LEGAL'},
-      { extend: 'csv', text: ' Exportar a CSV' },
-      { extend: 'excel', text: ' Exportar a EXCEL' },
+      [{ extend:'pdfHtml5',text:  '<i class="fa fa-file-pdf-o btn btn-default"></i>',titleAttr: 'PDF'},
+      {extend: 'csvHtml5',text:      '<i class="fa fa-file-text-o btn btn-default"></i>',titleAttr: 'CSV' },
+      { extend: 'excelHtml5', text:    '<i class="fa fa-file-excel-o btn btn-default"></i>',titleAttr: 'Excel' },
       'pageLength' ,
-      ]
+      ],
       
+    
       
     });
 
     $joomla('.export_table').DataTable({
      select: true,
-    //  scrollX: true,
      dom: 'Blfrtip',
      lengthMenu: [10,25,75, 100],
 
-      dom: 'Bfrtip',
+    
+
+     dom: 'Bfrtip',
       buttons: 
-      [{ extend: 'pdf', text: ' Exportar a PDF',orientation: 'landscape',
-                pageSize: 'LEGAL' },
-      { extend: 'csv', text: ' Exportar a CSV' },
-      { extend: 'excel', text: ' Exportar a EXCEL' },
+      [{ extend:'pdfHtml5',text:  '<i class="fa fa-file-pdf-o btn btn-default"></i>',titleAttr: 'PDF'},
+      {extend: 'csvHtml5',text:      '<i class="fa fa-file-text-o btn btn-default"></i>',titleAttr: 'CSV' },
+      { extend: 'excelHtml5', text:      '<i class="fa fa-file-excel-o btn btn-default"></i>',titleAttr: 'Excel' },
       'pageLength' ,
-      ],
+      ]
       
       
     });
@@ -245,17 +155,14 @@ $joomla(document).ready(function(){
 
      dom: 'Bfrtip',
       buttons: 
-
-       [{ extend: 'pdf', text: ' Exportar a PDF',orientation: 'landscape',
-                pageSize: 'LEGAL' },
-        { extend: 'csv', text: ' Exportar a CSV' },
-        { extend: 'excel', text: ' Exportar a EXCEL' },
-        'pageLength' ,
-      ],
+      [{ extend:'pdfHtml5',text:  '<i class="fa fa-file-pdf-o btn btn-default"></i>',titleAttr: 'PDF'},
+      {extend: 'csvHtml5',text:      '<i class="fa fa-file-text-o btn btn-default"></i>',titleAttr: 'CSV' },
+      { extend: 'excelHtml5', text:      '<i class="fa fa-file-excel-o btn btn-default"></i>',titleAttr: 'Excel' },
+      'pageLength' ,
+      ]
 
 });
 });
-
 $joomla(".modal").modal({backdrop: 'static',keyboard: false,show: true});
 
 </script>
@@ -287,7 +194,7 @@ $joomla(".modal").modal({backdrop: 'static',keyboard: false,show: true});
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/pdfmake.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.32/vfs_fonts.js"></script>
   <script src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
-  <script src=" https://cdn.datatables.net/buttons/2.3.2/js/buttons.colVis.min.js "></script>
+  <script src="https://cdn.datatables.net/buttons/2.3.2/js/buttons.colVis.min.js"></script>
         
- 
         
+  

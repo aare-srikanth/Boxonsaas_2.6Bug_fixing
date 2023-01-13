@@ -6,7 +6,7 @@
     * @copyright  2018 madan
     * @license    GNU General Public License version 2 or later; see LICENSE.txt
     */
-   // No direct access
+   // No direct access t
    
    
    
@@ -3834,25 +3834,26 @@ if($joomla(this).html() == '+'){
                    <div class="col-sm-3">
                         <h3 class=""><strong><?php echo Jtext::_('COM_USERPROFILE_SHIP_SUB_TITLE');?></strong></h3>
                      </div>
-                    <div class="col-sm-9 form-group text-right">
-                     <div>
+                    <div class="col-sm-9 form-group text-right inventry-item-right">
+                     <div class=" col-lg-4 col-md-4 col-sm-6 action-icons pull-right">
                     <?php 
-                     echo'<div class="action_btns">
+                     echo'
                      
                      <input type="checkbox"  name="txtId" class="txtId selinpt-chksub" data-sno="item_wr_'.$idf.'"  value="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$repack->Length.':'.$repack->Width.':'.$repack->Height.':'.$repack->Weight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'" style="margin:10px;">';
                      // if($elem['Return'][1] == "ACT")
-                     echo '<input type="button" name="Return" class="btn btn-primary return_global" value="Return" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-id="'.$res->BillFormNo.':'.$rg->ItemIdk.':'.$rg->ItemQuantity.'"  title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_RETURN').'">';
+                     echo '<input type="button" name="Return" class=" return_global" value="" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-id="'.$res->BillFormNo.':'.$rg->ItemIdk.':'.$rg->ItemQuantity.'"  title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_RETURN').'">';
                      // if($elem['Hold'][1] == "ACT") 
-                     echo '<input type="button" name="Keep" class="btn btn-primary keep_global"  value="Keep" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-id="'.$res->BillFormNo.':'.$rg->ItemIdk.':'.$rg->ItemQuantity.'"  title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_HOLD').'">';
-                     echo '</div>';
+                     echo '<input type="button" name="Keep" class="keep_global"  value="" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-id="'.$res->BillFormNo.':'.$rg->ItemIdk.':'.$rg->ItemQuantity.'"  title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_HOLD').'">';
+                     echo '';
                      ?>
-                     </div>
-                    <input type="checkbox" name="expandAll" id="expandAll"><button class="btn btn-primary expand_all_btn">Expand All</button> 
-                    <a style="color:white;" target="_blank" href="<?php echo $backend_url; ?>/ASPX/Tx_inventoryReceipt.aspx?bid=<?php echo $user; ?>&companyid=<?php echo $CompanyId; ?>"  class="btn btn-primary csvDownload">Inventory Reports</a>
+                    
+                    <input type="checkbox" name="expandAll" id="expandAll"><button class="expand_all_btn expand_icon" data-toggle="tooltip" title="Expand All"></button> 
+                    <a style="color:white;" target="_blank" href="<?php echo $backend_url; ?>/ASPX/Tx_inventoryReceipt.aspx?bid=<?php echo $user; ?>&companyid=<?php echo $CompanyId; ?>"  class="csvDownload inventory_icon"></a>
                         <?php if($elem['EXPORTCSV'][1] == "ACT"){ ?>
-                        <a style="color:white;" href="<?php echo JURI::base(); ?>/csvdata/pending_list.csv" class="btn btn-primary csvDownload export-csv"><?php echo $assArr['eXPORT_CSV'];?></a>
+                        <a style="color:white;" href="<?php echo JURI::base(); ?>/csvdata/pending_list.csv" class="btn btn-primary csvDownload export-csv" data-toggle="tooltip" title="Inventory Report"><?php echo $assArr['eXPORT_CSV'];?></a>
                         <?php }  ?>
                     </div>
+                  </div>
                 </div>
             </div>
                 
