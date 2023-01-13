@@ -574,6 +574,13 @@ table.shipping-costtbl{margin-bottom:30px;}
 .warehude-detail_popup .theme_table {margin: 0px 0 0;}
 .ntifiction-info {border-bottom: 1px solid #cccc;padding: 14px;}
 
+.rdo_rd1 {
+  width: 100%;
+  float: left;
+  clear: both;
+  margin-bottom: 10px!important;
+}
+
 /* 2.7 ui start */
 a{cursor: pointer;}
 .badge{padding: 10px;}
