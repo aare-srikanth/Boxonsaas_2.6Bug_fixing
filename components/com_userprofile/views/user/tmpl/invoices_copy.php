@@ -479,9 +479,14 @@ $joomla(".expand_all").on('click',function(){
 								<th><?php echo $assArr['generated_in']; ?></th>
 								<th><?php echo $assArr['consignee'];?></th>
 								<th><?php echo $assArr['invoice_Type'];?></th>
+                <th>CardNumber</th>
+                <th>TranscationID</th>
+                <th>Payment Gateway</th>
+                <th>PaymentType</th>
 								<th><?php echo $assArr['view'];?></th>
                 <th><?php echo 'Due Amount';?></th>
                 <th><?php echo 'Pay';?></th>
+               
 
 								
 							</tr>
@@ -513,7 +518,7 @@ $joomla(".expand_all").on('click',function(){
                             //echo '<tr><td class="action_btns"><span data-id="'.$rg->FormNumber.'" class="expand_all btn btn-success">+</span></td><td>'.$rg->InvoiceNumber.'</td><td>'.$rg->FormNumber.'</td><td>'.$rg->Date.'</td><td>'.$rg->ConsigneeName.'</td><td>'.$rg->InvoiceType.'</td><td class="action_btns"><a href="#" class="btn btn-primary" data-backdrop="static" data-keyboard="false" data-toggle="modal"  data-id="'.$rg->InvoiceNumber.'" ><i class="fa fa-eye"></i></a></td><td>'.number_format($totDue,2).'</td>'.$paynow.'</tr>';
                             // }
                             
-                             echo '<tr><td>'.$i.'</td><td>'.$rg->InvoiceNumber.'</td><td>'.$rg->FormNumber.'</td><td>'.$rg->Date.'</td><td>'.$rg->ConsigneeName.'</td><td>'.$rg->InvoiceType.'</td><td class="action_btns"><a href="#" class="btn btn-primary" data-backdrop="static" data-keyboard="false" data-toggle="modal"  data-id="'.$rg->InvoiceNumber.'" ><i class="fa fa-eye"></i></a></td><td>'.number_format($totDue,2).'</td>'.$paynow.'</tr>';
+                             echo '<tr><td>'.$i.'</td><td>'.$rg->InvoiceNumber.'</td><td>'.$rg->FormNumber.'</td><td>'.$rg->Date.'</td><td>'.$rg->ConsigneeName.'</td><td>'.$rg->InvoiceType.'</td><td>'.$rg->CardNumber.'</td><td>'.$rg->TransactionNumber.'</td><td>'.$rg->PaymentGateway.'</td><td>'.$rg->PaymentMethod.'</td><td class="action_btns"><a href="#" class="btn btn-primary" data-backdrop="static" data-keyboard="false" data-toggle="modal"  data-id="'.$rg->InvoiceNumber.'" ><i class="fa fa-eye"></i></a></td><td>'.number_format($totDue,2).'</td>'.$paynow.'</tr>';
 
                              //$formNums[$i] = $rg->FormNumber;
                           

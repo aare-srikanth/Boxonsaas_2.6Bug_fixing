@@ -65,6 +65,8 @@ $menuCustType=end($menuCustData);
 <!-- 
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 -->
+
+
 <script type="text/javascript">
 var $joomla = jQuery.noConflict(); 
 $joomla(document).ready(function() {
@@ -249,7 +251,7 @@ $joomla(document).ready(function() {
        var htmse='';
        var rs=$joomla(this).attr("data-id");
        rs = rs.replace(/\s/g,'');
-       htmse+='<tr class="child_row"><td colspan="6"><table class="table table-bordered"> <tr class="'+rs+' wrhuse-grid"><th style="display:none"></th><th>Item Name</th><th>Item Quantity</th><th colspan="3">Item Status</th><th style="display:none"></th><th style="display:none"></th></tr>';
+       htmse+='<tr class="child_row"><td colspan="10"><table class="table table-bordered"><tr class="'+rs+' wrhuse-grid"><th style="display:none"></th><th>Item Name</th><th>Item Quantity</th><th>Item Status</th><th style="display:none"></th><th style="display:none"></th><th style="display:none"></th><th style="display:none"></th><th style="display:none"></th><th style="display:none"></th></tr>';
        $joomla('#M_table tbody tr').each( function () {
            
          if($joomla(this).attr('id') == rs){
@@ -412,6 +414,10 @@ $joomla(document).on('change','select[name=M_table_length]',function(){
                   <th><?php echo $assArr['carrier'];?></th>
                   <th><?php echo $assArr['the_tracking_number'];?></th>
                   <th><?php echo $assArr['reports'];?></th>
+                  <th>CardNumber</th>
+                  <th>TransactionNumber</th>
+                  <th>PaymentGateway</th>
+                  <th>PaymentMethod</th>
                 </tr>
               </thead>
               <tbody>
@@ -448,12 +454,16 @@ $joomla(document).on('change','select[name=M_table_length]',function(){
                                         
          $rep='<a href="'.$service_url.'/ASPX/Tx_Wh_Receipt.aspx?bid='.$res->BillFormNo.'&companyid='.$CompanyId.'" target="_blank">'.Jtext::_('COM_USERPROFILE_HISTORY_TABLE_WAREHOUSE_RECEIPT').'<a>';
         
-         echo '<tr ><td ><input type="button" class="btn btn-success exp_item" data-id="'.$res->BillFormNo.'" value="+"></td>
+         echo '<tr><td ><input type="button" class="btn btn-success exp_item" data-id="'.$res->BillFormNo.'" value="+"></td>
          <td><a data-toggle="modal" data-backdrop="static" data-keyboard="false" class="getmlog whrse-link label-success" data-id="'.$res->BillFormNo.'" data-target="#logModal" title="momento">'.$res->BillFormNo.'</a></td>
          <td>'.$res->CreatedDate.'</td>
          <td>'.$res->CarrierName.'</td>
          <td>'.$res->TrackingId.'</td>
          <td>'.$rep.'</td>
+         <td>'.$res->CardNumber.'</td>
+         <td>'.$res->TransactionId.'</td>
+         <td>'.$res->PaymentGateway.'</td>
+         <td>'.$res->PaymentType.'</td>
          </tr>';
         
        
@@ -484,6 +494,10 @@ $joomla(document).on('change','select[name=M_table_length]',function(){
                   <td>'.$rg->ItemStatus.'</td>
                   <td style="display:none"></td>
                   <td style="display:none"></td>
+                  <td style="display:none"></td>
+                  <td style="display:none"></td>
+                  <td style="display:none"></td>
+                  <td style="display:none"></td>
                   </tr>';
 
         }  
@@ -492,10 +506,14 @@ $joomla(document).on('change','select[name=M_table_length]',function(){
 
         
 }
-echo' </table></td><td style="display:none"></td><td style="display:none"></td>
-<td style="display:none"></td>
-<td style="display:none"></td>
-<td style="display:none"></td>
+echo' </table></td><td></td><td></td>
+<td ></td>
+<td ></td>
+<td ></td>
+<td ></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>';
 ?>
               </tbody>

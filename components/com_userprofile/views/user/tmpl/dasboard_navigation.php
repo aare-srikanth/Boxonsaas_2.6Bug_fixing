@@ -201,7 +201,7 @@ $joomla(document).ready(function(){
 
     $joomla('.export_table').DataTable({
      select: true,
-     scrollX: true,
+    //  scrollX: true,
      dom: 'Blfrtip',
      lengthMenu: [10,25,75, 100],
 
@@ -241,6 +241,7 @@ $joomla(document).ready(function(){
   select: true,
      dom: 'Blfrtip',
      lengthMenu: [10,25,75, 100],
+    //  scrollX: "400px",
 
      dom: 'Bfrtip',
       buttons: 
