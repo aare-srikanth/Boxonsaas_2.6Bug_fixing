@@ -385,29 +385,29 @@
        var nodataText = "<?php echo Jtext::_('COM_USERPROFILE_NO_DATA');?>";
        
        
-       $joomla('#u_table').DataTable({
-           "pagingType": "simple", // "simple" option for 'Previous' and 'Next' buttons only
-           "ordering": false,
-          "language": {
-            "lengthMenu": showEntText,
-            "search": searchText,
-            "info": showingEntriesText,
-            "infoEmpty": showingEmptyEntriesText,
-            "emptyTable":nodataText,
-            "paginate": {
-              "previous": previousPageText,
-              "next": nextPageText
-            }
-         },
-            "order": [],
-            "columnDefs": [
-            { 
-                "targets": [0], //first column / numbering column
-                "orderable": false, //set not orderable
-            }
-            ]
+   //     $joomla('#u_table').DataTable({
+   //         "pagingType": "simple", // "simple" option for 'Previous' and 'Next' buttons only
+   //         "ordering": false,
+   //        "language": {
+   //          "lengthMenu": showEntText,
+   //          "search": searchText,
+   //          "info": showingEntriesText,
+   //          "infoEmpty": showingEmptyEntriesText,
+   //          "emptyTable":nodataText,
+   //          "paginate": {
+   //            "previous": previousPageText,
+   //            "next": nextPageText
+   //          }
+   //       },
+   //          "order": [],
+   //          "columnDefs": [
+   //          { 
+   //              "targets": [0], //first column / numbering column
+   //              "orderable": false, //set not orderable
+   //          }
+   //          ]
             
-    });  
+   //  });  
     
      $joomla(document).on('change','input[name="invFile[]"]', function() {
         
@@ -3624,6 +3624,18 @@ if($joomla(this).html() == '+'){
                         <h3 class=""><strong><?php echo Jtext::_('COM_USERPROFILE_SHIP_SUB_TITLE');?></strong></h3>
                      </div>
                     <div class="col-sm-6 form-group text-right">
+                    <div>
+                    <?php 
+                     echo'<div class="action_btns">
+                     
+                     <input type="checkbox"  name="txtId" class="txtId selinpt-chksub" data-sno="item_wr_'.$idf.'"  value="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$repack->Length.':'.$repack->Width.':'.$repack->Height.':'.$repack->Weight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'" style="margin:10px;">';
+                     // if($elem['Return'][1] == "ACT")
+                     echo '<input type="button" name="Return" class="btn btn-primary return_global" value="Return" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-id="'.$res->BillFormNo.':'.$rg->ItemIdk.':'.$rg->ItemQuantity.'"  title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_RETURN').'">';
+                     // if($elem['Hold'][1] == "ACT") 
+                     echo '<input type="button" name="Keep" class="btn btn-primary keep_global"  value="Keep" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-id="'.$res->BillFormNo.':'.$rg->ItemIdk.':'.$rg->ItemQuantity.'"  title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_HOLD').'">';
+                     echo '</div>';
+                     ?>
+                     </div>
                     <!-- <input type="checkbox" name="expandAll" id="expandAll"><button class="btn btn-primary expand_all_btn">Expand All</button> -->
                     <a style="color:white;text-align:center;" target="_blank" href="<?php echo $backend_url; ?>/ASPX/Tx_inventoryReceipt.aspx?bid=<?php echo $user; ?>&companyid=<?php echo $CompanyId; ?>"  class="btn btn-primary csvDownload">Inventory Reports</a>  
                         <?php if($elem['EXPORTCSV'][1] == "ACT"){ ?>
@@ -3634,10 +3646,7 @@ if($joomla(this).html() == '+'){
             </div>
                 
                <div class="col-md-12">
-                <div class="row">
-                   
-                </div>
-                  <div class="table-responsive">
+              <div class="table-responsive">
                      <table class="table table-bordered theme_table" id="u_table" data-page-length='10'>
                          <thead>
                            <tr> 
@@ -3657,6 +3666,7 @@ if($joomla(this).html() == '+'){
                              <th><?php echo $assArr['gROSS_WT'];?></th>
                                <?php } ?>
                            </tr>
+                          
                         </thead>
                         <tbody>
                             
@@ -3673,59 +3683,54 @@ if($joomla(this).html() == '+'){
                                     foreach($repack->WarehouseDetails as $res){
                                 
                                        echo'<tr> 
-                                       <td ><button class="exp_item btn btn-success" data-sno="item_wr_'.$i.'"  data-id="'.$res->BillFormNo.'">+</button><input type="checkbox" class="selinpt-chk check_all_items" data-id="'.$res->BillFormNo.'"></td>
-                                       <td><span class="whrse-link label-success"><input type="hidden" name="txtbiladdress" value="'.UserprofileHelpersUserprofile::getBindShipingAddress($user,$res->BillFormNo).'">'.$res->BillFormNo.'</span></td>
-                                       <td>'.$itemsListtArr[$i].'</td>
-                                       <td>'.$res->TrackingId.'</td>
-                                       <td>'.$res->MerchantName.'</td>
-                                       <td>'.$repack->ShipmentType.'</td>
-                                       <td>'.$repack->SourceHub.'</td>
-                                       <td>'.$repack->DestinationCountryName.'</td>
-                                       <td>'.$repack->DestinationHubName.'</td>
-                                       <td>'.$res->WeightUnit.'</td>
-                                       <td>'.$repack->MeasureUnits.'</td>
-                                       <td>'.$repack->BusinessType.'</td>';
-                                        if($Gross_weight_display){
-                                       echo '<th>'.$repack->Weight.'</th>';
-                                       }
-                                       echo'</tr>';
-                                
-                                       echo'<tr class="child_row"><td colspan="12">
-                                       <table class="table table-bordered"> 
-                                       <tr>
-                                       <th colspan="2">'.$assArr['action'].'</th>
-                                        <th>'.$assArr['item_Description'].'</th>
-                                        <th>'.$assArr['quantity'].'</th>
-                                        <th>'.$assArr['ship_quantity'].'</th>
-                                        <th>'.$assArr['tracking_ID'].'</th>
-                                        <th>'.$assArr['merchants_Name'].'</th>';
-                                        if($OrderId){
-                                           echo '<th>Order Id</th>';
-                                           }
-                                        if(!$OrderId){
-                                        echo '<th></th>';
-                                        }
-                                        if($RmaVal){
-                                        echo '<th>RMA Value</th>';
-                                           }
-                                        if(!$RmaVal){
-                                        echo '<th></th>';
-                                        } 
-                                        echo '<th>View image</th>
-                                        <th></th>
-                                        <th></th>';
-                                        if($Gross_weight_display){
-                                        echo '<th>Gross Weight</th>';
-                                        }
-                                        echo '</tr>';
-          
-                                        		
-                              
-                                            $idf=1;
-                              
-                             
-                              
-                                            foreach($res->ItemDetails as $rg){
+                              <td ><button class="exp_item btn btn-success" data-sno="item_wr_'.$i.'"  data-id="'.$res->BillFormNo.'">+</button><input type="checkbox" class="selinpt-chk check_all_items" data-id="'.$res->BillFormNo.'"></td>
+                              <td><span class="whrse-link label-success"><input type="hidden" name="txtbiladdress" value="'.UserprofileHelpersUserprofile::getBindShipingAddress($user,$res->BillFormNo).'">'.$res->BillFormNo.'</span></td>
+                              <td>'.$itemsListtArr[$i].'</td>
+                              <td>'.$res->TrackingId.'</td>
+                              <td>'.$res->MerchantName.'</td>
+                              <td>'.$repack->ShipmentType.'</td>
+                              <td>'.$repack->SourceHub.'</td>
+                              <td>'.$repack->DestinationCountryName.'</td>
+                              <td>'.$repack->DestinationHubName.'</td>
+                              <td>'.$res->WeightUnit.'</td>
+                              <td>'.$repack->MeasureUnits.'</td>
+                              <td>'.$repack->BusinessType.'</td>';
+                               if($Gross_weight_display){
+                              echo '<th>'.$repack->Weight.'</th>';
+                              }
+                              echo'</tr>';
+
+                              echo'<tr class="child_row "><td colspan="12">
+                              <table class="table table-bordered"> 
+                              <tr>
+                              <th colspan="2">'.$assArr['action'].'</th>
+                               <th>'.$assArr['item_Description'].'</th>
+                               <th>'.$assArr['quantity'].'</th>
+                               <th>'.$assArr['ship_quantity'].'</th>
+                               <th>'.$assArr['tracking_ID'].'</th>
+                               <th>'.$assArr['merchants_Name'].'</th>';
+                               if($OrderId){
+                                  echo '<th>Order Id</th>';
+                                  }
+                               if(!$OrderId){
+                               echo '<th></th>';
+                               }
+                               if($RmaVal){
+                               echo '<th>RMA Value</th>';
+                                  }
+                               if(!$RmaVal){
+                               echo '<th></th>';
+                               } 
+                               echo '<th>View image</th>
+                               <th></th>
+                               <th></th>';
+                               if($Gross_weight_display){
+                               echo '<th>Gross Weight</th>';
+                               }
+                               echo '</tr>';
+                                      
+                                $idf=1;
+                              foreach($res->ItemDetails as $rg){
                                   
                                 //   var_dump($rg->ItemImage1);
                                 //   exit;
@@ -3792,16 +3797,16 @@ if($joomla(this).html() == '+'){
                                   
                               }
                               echo' </table></td><td style="display:none"></td><td style="display:none"></td>
-                              <td style="display:none"></td>
-                              <td style="display:none"></td>
-                              <td style="display:none"></td>
-                              <td style="display:none"></td>
-                              <td style="display:none"></td>
-                              <td style="display:none"></td>
-                              <td style="display:none"></td>
-                              <td style="display:none"></td>
-                              <td style="display:none"></td>
-                              </tr>';
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        <td style="display:none"></td>
+                        </tr>';
                               
                                             $i++;
                                     }
@@ -3916,7 +3921,7 @@ if($joomla(this).html() == '+'){
                               }
                               echo'</tr>';
 
-                             echo'<tr class="child_row"><td colspan="12">
+                             echo'<tr class="child_row "><td colspan="12">
                              <table class="table table-bordered"> 
                         	  <tr>
                              <th colspan="2">'.$assArr['action'].'</th>
