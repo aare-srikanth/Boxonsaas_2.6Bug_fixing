@@ -74,10 +74,35 @@ $joomla(document).ready(function() {
    $joomla("#country3Txt option").css("whiteSpace","break-spaces");
     
     $joomla('#p_table').DataTable({
-        "pagingType": "simple" // "simple" option for 'Previous' and 'Next' buttons only
+        // "pagingType": "simple" // "simple" option for 'Previous' and 'Next' buttons only
+    select: true,
+     dom: 'Blfrtip',
+     lengthMenu: [10,25,75, 100],
+
+      dom: 'Bfrtip',
+      buttons: 
+      [{ extend: 'pdf', text: ' Exportar a PDF',orientation: 'landscape',
+                pageSize: 'LEGAL' },
+      { extend: 'csv', text: ' Exportar a CSV' },
+      { extend: 'excel', text: ' Exportar a EXCEL' },
+      'pageLength' ,
+      ]
       });
     $joomla('#O_table').DataTable({
-        "pagingType": "simple" // "simple" option for 'Previous' and 'Next' buttons only
+        // "pagingType": "simple" // "simple" option for 'Previous' and 'Next' buttons only
+        select: true,
+     dom: 'Blfrtip',
+     lengthMenu: [10,25,75, 100],
+
+      dom: 'Bfrtip',
+      buttons: 
+      [{ extend: 'pdf', text: ' Exportar a PDF',orientation: 'landscape',
+                pageSize: 'LEGAL' },
+      { extend: 'csv', text: ' Exportar a CSV' },
+      { extend: 'excel', text: ' Exportar a EXCEL' },
+      'pageLength' ,
+      ]
+      
       });
      
     $joomla('input[name="carriertrackingTxt"]').keydown(function(e) {
@@ -1409,7 +1434,7 @@ $joomla(document).ready(function() {
                     <input class="form-control" name="orderidTxt[]" id="orderidTxt_1"  maxlength="40"  >
               </div>
             </div>
-            <div class="col-sm-12 col-md-5">
+            <div class="col-sm-12 col-md-7">
               <div class="form-group">
                 <label><?php echo $assArr['add_Invoice '];?> <span class="error">*</span></label>
                 <!--  <div class="input-group finputfile">
@@ -1423,23 +1448,24 @@ $joomla(document).ready(function() {
               </div>
             </div>
             <!-----length,width,height--->
-            <div class="row rows row-mob">
-            <div class="col-sm-12 col-md-4">
+            <div class="">
+            <div class="col-sm-12 col-md-3">
               <div class="form-group">
                 <label>Length<span class="error">*</span></label>
                 <input type="text" class="form-control" name="lengthTxt[]"  maxlength="25" required>
               </div>
             </div>
-            <div class="col-sm-12 col-md-4">
-              <div class="form-group">
-                <label>Heigth<span class="error">*</span></label>
-                <input type="text" class="form-control"  name="heightTxt[]"  maxlength="25" required>
-              </div>
-            </div>
-            <div class="col-sm-12 col-md-4">
+            
+            <div class="col-sm-12 col-md-3">
               <div class="form-group">
                 <label>Width<span class="error">*</span></label>
                 <input type="text" class="form-control"  name="widthTxt[]"  maxlength="25"  required>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-3">
+              <div class="form-group">
+                <label>Heigth<span class="error">*</span></label>
+                <input type="text" class="form-control"  name="heightTxt[]"  maxlength="25" required>
               </div>
             </div>
           </div>
