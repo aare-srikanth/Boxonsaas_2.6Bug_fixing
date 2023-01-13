@@ -156,6 +156,8 @@ $joomla(document).ready(function(){
          } },
       'pageLength',
       ]
+
+
       
         //  "ordering": false,
         //  "language": {
@@ -187,14 +189,13 @@ $joomla(document).ready(function(){
      dom: 'Blfrtip',
      lengthMenu: [10,25,75, 100],
 
-      dom: 'Bfrtip',
+     dom: 'Bfrtip',
       buttons: 
-      [{ extend: 'pdf', text: ' Exportar a PDF',orientation: 'landscape',
-                pageSize: 'LEGAL'},
-      { extend: 'csv', text: ' Exportar a CSV' },
-      { extend: 'excel', text: ' Exportar a EXCEL' },
+      [{ extend:'pdfHtml5',text:  '<i class="fa fa-file-pdf-o btn btn-default"></i>',titleAttr: 'PDF'},
+      {extend: 'csvHtml5',text:      '<i class="fa fa-file-text-o btn btn-default"></i>',titleAttr: 'CSV' },
+      { extend: 'excelHtml5', text:    '<i class="fa fa-file-excel-o btn btn-default"></i>',titleAttr: 'Excel' },
       'pageLength' ,
-      ]
+      ],
       
       
     });
@@ -205,12 +206,11 @@ $joomla(document).ready(function(){
      dom: 'Blfrtip',
      lengthMenu: [10,25,75, 100],
 
-      dom: 'Bfrtip',
+     dom: 'Bfrtip',
       buttons: 
-      [{ extend: 'pdf', text: ' Exportar a PDF',orientation: 'landscape',
-                pageSize: 'LEGAL' },
-      { extend: 'csv', text: ' Exportar a CSV' },
-      { extend: 'excel', text: ' Exportar a EXCEL' },
+      [{ extend:'pdfHtml5',text:  '<i class="fa fa-file-pdf-o btn btn-default"></i>',titleAttr: 'PDF'},
+      {extend: 'csvHtml5',text:      '<i class="fa fa-file-text-o btn btn-default"></i>',titleAttr: 'CSV' },
+      { extend: 'excelHtml5', text:    '<i class="fa fa-file-excel-o btn btn-default"></i>',titleAttr: 'Excel' },
       'pageLength' ,
       ],
       
@@ -244,12 +244,10 @@ $joomla(document).ready(function(){
 
      dom: 'Bfrtip',
       buttons: 
-
-       [{ extend: 'pdf', text: ' Exportar a PDF',orientation: 'landscape',
-                pageSize: 'LEGAL' },
-        { extend: 'csv', text: ' Exportar a CSV' },
-        { extend: 'excel', text: ' Exportar a EXCEL' },
-        'pageLength' ,
+      [{ extend:'pdfHtml5',text:  '<i class="fa fa-file-pdf-o btn btn-default"></i>',titleAttr: 'PDF'},
+      {extend: 'csvHtml5',text:      '<i class="fa fa-file-text-o btn btn-default"></i>',titleAttr: 'CSV' },
+      { extend: 'excelHtml5', text:    '<i class="fa fa-file-excel-o btn btn-default"></i>',titleAttr: 'Excel' },
+      'pageLength' ,
       ],
 
 });

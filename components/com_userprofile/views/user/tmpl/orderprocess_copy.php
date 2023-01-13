@@ -3696,7 +3696,7 @@ if($joomla(this).html() == '+'){
                               <td>'.$repack->MeasureUnits.'</td>
                               <td>'.$repack->BusinessType.'</td>';
                                if($Gross_weight_display){
-                              echo '<th>'.$repack->Weight.'</th>';
+                              echo '<td>'.$repack->Weight.'</td>';
                               }
                               echo'</tr>';
 
