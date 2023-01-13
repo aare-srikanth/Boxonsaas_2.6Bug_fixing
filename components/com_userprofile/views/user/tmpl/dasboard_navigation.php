@@ -99,9 +99,9 @@ $joomla(document).ready(function(){
 
       dom: 'Bfrtip',
       buttons: 
-      [{ extend:'pdfHtml5',text:  '<i class="fa fa-file-pdf-o btn btn-primary"></i>',titleAttr: 'PDF'},
-      {extend: 'csvHtml5',text:      '<i class="fa fa-file-text-o btn btn-primary"></i>',titleAttr: 'CSV' },
-      { extend: 'excelHtml5', text:    '<i class="fa fa-file-excel-o btn btn-primary"></i>',titleAttr: 'Excel' },
+      [{ extend:'pdfHtml5',text:  '<i class="fa fa-file-pdf-o btn btn-default"></i>',titleAttr: 'PDF'},
+      {extend: 'csvHtml5',text:      '<i class="fa fa-file-text-o btn btn-default"></i>',titleAttr: 'CSV' },
+      { extend: 'excelHtml5', text:    '<i class="fa fa-file-excel-o btn btn-default"></i>',titleAttr: 'Excel' },
       'pageLength' ,
       ],
       
@@ -118,9 +118,9 @@ $joomla(document).ready(function(){
 
      dom: 'Bfrtip',
       buttons: 
-      [{ extend:'pdfHtml5',text:  '<i class="fa fa-file-pdf-o btn btn-primary"></i>',titleAttr: 'PDF'},
-      {extend: 'csvHtml5',text:      '<i class="fa fa-file-text-o btn btn-primary"></i>',titleAttr: 'CSV' },
-      { extend: 'excelHtml5', text:      '<i class="fa fa-file-excel-o btn btn-primary"></i>',titleAttr: 'Excel' },
+      [{ extend:'pdfHtml5',text:  '<i class="fa fa-file-pdf-o btn btn-default"></i>',titleAttr: 'PDF'},
+      {extend: 'csvHtml5',text:      '<i class="fa fa-file-text-o btn btn-default"></i>',titleAttr: 'CSV' },
+      { extend: 'excelHtml5', text:      '<i class="fa fa-file-excel-o btn btn-default"></i>',titleAttr: 'Excel' },
       'pageLength' ,
       ]
       
@@ -154,9 +154,9 @@ $joomla(document).ready(function(){
 
      dom: 'Bfrtip',
       buttons: 
-      [{ extend:'pdfHtml5',text:  '<i class="fa fa-file-pdf-o btn btn-primary"></i>',titleAttr: 'PDF'},
-      {extend: 'csvHtml5',text:      '<i class="fa fa-file-text-o btn btn-primary"></i>',titleAttr: 'CSV' },
-      { extend: 'excelHtml5', text:      '<i class="fa fa-file-excel-o btn btn-primary"></i>',titleAttr: 'Excel' },
+      [{ extend:'pdfHtml5',text:  '<i class="fa fa-file-pdf-o btn btn-default"></i>',titleAttr: 'PDF'},
+      {extend: 'csvHtml5',text:      '<i class="fa fa-file-text-o btn btn-default"></i>',titleAttr: 'CSV' },
+      { extend: 'excelHtml5', text:      '<i class="fa fa-file-excel-o btn btn-default"></i>',titleAttr: 'Excel' },
       'pageLength' ,
       ]
 

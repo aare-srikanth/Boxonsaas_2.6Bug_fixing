@@ -384,7 +384,7 @@ $joomla(document).on('change','select[name=M_table_length]',function(){
             
         <div class="row">
           <div class="col-md-12">
-            <table class="table table-bordered theme_table" id="M_table"  data-page-length='10'>
+            <table class="table table-bordered theme_table table-responsive " id="M_table"  data-page-length='10'>
               <thead>
                 <tr>
                   <th><?php echo 'Actions'; ?></th>
