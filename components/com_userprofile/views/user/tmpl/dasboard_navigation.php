@@ -23,15 +23,24 @@ if(strpos($_SERVER['REQUEST_URI'], '/index.php/') !== false){
      $res=Controlbox::getlabels($language);
     $assArr = [];
     foreach($res as $response){
-    $assArr[$response['Id']]  = $response['Text'];
-    
+        $assArr[$response['Id']]  = $response['Text'];
      }
+     
+     // dynamic style sheets for default and created domains
+     
+     $dir=getcwd()."/components/com_userprofile/clients/".$domain;
+     if(is_dir($dir)){
+         $stylesheetpath = JUri::base()."/components/com_userprofile/clients/".$domain."/css/style.css";
+     }else{
+         $stylesheetpath = JUri::base()."/components/com_userprofile/clients/defaulttheme/css/style.css";
+     }
+     
 
 ?>
 
 <link rel="stylesheet" type="text/css" href="<?php echo JUri::base(); ?>/components/com_userprofile/css/dataTables.bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="<?php echo JUri::base(); ?>/components/com_userprofile/css/style_global.css">
-<link rel="stylesheet" type="text/css" href="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/css/style.css">
+<link rel="stylesheet" type="text/css" href="<?php echo $stylesheetpath; ?>" >
 <script type="text/javascript" src="<?php echo JUri::base(); ?>/components/com_userprofile/js/jquery.dataTables.min.js" ></script>
 <script type="text/javascript" src="<?php echo JUri::base(); ?>/components/com_userprofile/js/dataTables.bootstrap.min.js" ></script>
 

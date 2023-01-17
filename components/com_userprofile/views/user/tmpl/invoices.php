@@ -44,6 +44,8 @@ if(!$user){
             $PaypalEmail = $PaymentGateways->Email;
             $AccountType = strtolower($PaymentGateways->AccountType);
    }
+   
+   
 
 ?>
 
@@ -59,7 +61,7 @@ $joomla(document).ready(function(){
     window.onpopstate = function () {
         history.go(1);
     };
-    $joomla('a.btn-primary').click(function(e){
+    $joomla('a.btn-primary.view_invoice').click(function(e){
         e.preventDefault();
         var hostname=window.location.hostname;
         hostArr=hostname.split('.');
@@ -76,6 +78,17 @@ $joomla(document).ready(function(){
         
         //$joomla('.form-group').html('<iframe src="'+url+'" width="700px" height="500px"></iframe>');
     });
+    // authoriz.net error msg display
+    
+    var url_string = window.location.href;
+    var url = new URL(url_string);
+    var error_msg = url.searchParams.get("error");
+    if(error_msg != null ){
+        alert(error_msg);
+         $joomla(".page_loader").show();
+        window.location = "index.php?option=com_userprofile&view=user&layout=invoices";
+    }
+    
 });
 
 
@@ -127,7 +140,7 @@ $joomla(document).on('click','.ship',function(){
   //  end
     
       
-      $joomla("input[name='return']").val('<?php echo JURI::base(); ?>index.php?option=com_userprofile&&view=user&layout=response&page=cod&invoice='+loops[10]+'&pay=<?php echo base64_encode(date("m/d/0Y"));?>');
+      $joomla("input[name='return']").val('<?php echo JURI::base(); ?>index.php?option=com_userprofile&&view=user&layout=response&page=invoice&invoice='+loops[10]+'&pay=<?php echo base64_encode(date("m/d/0Y"));?>');
   
     
   });  
@@ -270,7 +283,7 @@ $joomla(document).on('click','.ship',function(){
                                 success: function(data){
                                     res = data.split(":");
                                     if(res[0] == 1){
-                                    window.location.href="<?php echo JURI::base(); ?>index.php?option=com_userprofile&view=user&layout=response&page=cod&invoice="+$joomla('input[name="InvoiceNo"]').val()+"&res="+res[1];
+                                    window.location.href="<?php echo JURI::base(); ?>index.php?option=com_userprofile&view=user&layout=response&page=invoice&invoice="+$joomla('input[name="InvoiceNo"]').val()+"&res="+res[1];
                                     }else{
                                         $joomla(".page_loader").hide();
                                         $joomla(".paygaterrormsg").html(data);
@@ -394,7 +407,7 @@ $joomla(".expand_all").on('click',function(){
                          success: function(data){
                              res = data.split(":");
                              if(res[0] == 1){
-                             window.location.href="<?php echo JURI::base(); ?>index.php?option=com_userprofile&view=user&layout=response&page=cod&invoice="+$joomla('input[name="InvoiceNo"]').val()+"&res="+res[1];
+                             window.location.href="<?php echo JURI::base(); ?>index.php?option=com_userprofile&view=user&layout=response&page=invoice&invoice="+$joomla('input[name="InvoiceNo"]').val()+"&res="+res[1];
                              }else{
                                  $joomla(".page_loader").hide();
                                  $joomla(".paygaterrormsg").html(data);
@@ -456,14 +469,13 @@ $joomla(".expand_all").on('click',function(){
             Controlbox::getInvoicedetailsListCsv($user);
             
         ?>
-	        
 	        <div class="row">
                <div class="col-sm-12 inventry-item">
-                   <div class="col-sm-6">
+                    <div class="col-sm-6">
                         <h3 class=""><strong><?php echo Jtext::_('COM_USERPROFILE_INV_SUB_TITLE');?></strong></h3>
                      </div>
                     <div class="col-sm-6 form-group text-right">
-                        <a style="color:white;" href="<?php echo $assArr['eXPORT_CSV']; ?>/csvdata/invoice_list.csv" class="btn btn-primary csvDownload export-csv"><?php echo $assArr['eXPORT_CSV'];?></a>
+                        <a style="color:white;" href="<?php echo JURI::base(); ?>/csvdata/invoice_list.csv" class="btn btn-primary csvDownload export-csv"><?php echo $assArr['eXPORT_CSV'];?></a>
                     </div>
                 </div>
           </div>
@@ -483,7 +495,6 @@ $joomla(".expand_all").on('click',function(){
                 <th><?php echo 'Due Amount';?></th>
                 <th><?php echo 'Pay';?></th>
 
-								
 							</tr>
 	        </thead>	
             <tbody>
@@ -505,15 +516,13 @@ $joomla(".expand_all").on('click',function(){
                               $paynow = '<td class="inhouse_paynow" ><a class="ship label-success">Paid</a></td>';
                             }
                             
-                            
-                            
                             // if (in_array($rg->FormNumber, $formNums)){
                             //     echo '<tr style="display:none;"><td><span data-id="'.$rg->FormNumber.'" class="inhsrec"></span></td><td>'.$rg->InvoiceNumber.'</td><td>'.$rg->FormNumber.'</td><td>'.$rg->Date.'</td><td>'.$rg->ConsigneeName.'</td><td>'.$rg->InvoiceType.'</td><td class="action_btns"><a href="#" class="btn btn-primary" data-backdrop="static" data-keyboard="false" data-toggle="modal"  data-id="'.$rg->InvoiceNumber.'" ><i class="fa fa-eye"></i></a></td><td>'.number_format($totDue,2).'</td>'.$paynow.'</tr>';
                             // }else{
                             //echo '<tr><td class="action_btns"><span data-id="'.$rg->FormNumber.'" class="expand_all btn btn-success">+</span></td><td>'.$rg->InvoiceNumber.'</td><td>'.$rg->FormNumber.'</td><td>'.$rg->Date.'</td><td>'.$rg->ConsigneeName.'</td><td>'.$rg->InvoiceType.'</td><td class="action_btns"><a href="#" class="btn btn-primary" data-backdrop="static" data-keyboard="false" data-toggle="modal"  data-id="'.$rg->InvoiceNumber.'" ><i class="fa fa-eye"></i></a></td><td>'.number_format($totDue,2).'</td>'.$paynow.'</tr>';
                             // }
                             
-                             echo '<tr><td>'.$i.'</td><td>'.$rg->InvoiceNumber.'</td><td>'.$rg->FormNumber.'</td><td>'.$rg->Date.'</td><td>'.$rg->ConsigneeName.'</td><td>'.$rg->InvoiceType.'</td><td class="action_btns"><a href="#" class="btn btn-primary" data-backdrop="static" data-keyboard="false" data-toggle="modal"  data-id="'.$rg->InvoiceNumber.'" ><i class="fa fa-eye"></i></a></td><td>'.number_format($totDue,2).'</td>'.$paynow.'</tr>';
+                             echo '<tr><td>'.$i.'</td><td>'.$rg->InvoiceNumber.'</td><td>'.$rg->FormNumber.'</td><td>'.$rg->Date.'</td><td>'.$rg->ConsigneeName.'</td><td>'.$rg->InvoiceType.'</td><td class="action_btns"><a href="#" class="btn btn-primary view_invoice" data-backdrop="static" data-keyboard="false" data-toggle="modal"  data-id="'.$rg->InvoiceNumber.'" ><i class="fa fa-eye"></i></a></td><td>'.number_format($totDue,2).'</td>'.$paynow.'</tr>';
 
                              //$formNums[$i] = $rg->FormNumber;
                           
@@ -554,7 +563,7 @@ $joomla(".expand_all").on('click',function(){
             <input type="hidden" id="InhouseIdkstr" name="InhouseIdkstr">
             <input type="hidden" id="InvoiceNo" name="InvoiceNo">
             <input type="hidden" id="InvoiceType" name="InvoiceType">
-             <input type="hidden"  name="page" value="cod">
+             <input type="hidden"  name="page" value="invoice">
             
             <input type="hidden" id="amtStr" name="amtStr">
            
@@ -572,7 +581,7 @@ $joomla(".expand_all").on('click',function(){
             <input type='hidden' name='cancel_return'
                 value='<?php echo JURI::base(); ?>index.php?option=com_userprofile&&view=user&layout=cod'>
             <input type='hidden' name='return'
-                value='<?php echo JURI::base(); ?>index.php?option=com_userprofile&&view=user&layout=response&page=cod&invoice=&pay=<?php echo base64_encode(date("m/d/0Y"));?>'>
+                value='<?php echo JURI::base(); ?>index.php?option=com_userprofile&&view=user&layout=response&page=invoice&invoice=&pay=<?php echo base64_encode(date("m/d/0Y"));?>'>
             <input type="hidden" name="cmd" value="_xclick">  
               
 

@@ -251,18 +251,18 @@ $joomla(document).on('change','select[name=M_table_length]',function(){
                     }
             
             
-            if($menuCustType == "CUST" || ($menuCustType == "COMP" && $maccarr['FulFillment'] == "False") ){  ?>
+            if(($menuCustType == "CUST" && $dynpage["PreAlerts"][1]=="ACT") || ($menuCustType == "COMP" && $maccarr['FulFillment'] == "False" && $dynpage["PreAlerts"][1]=="ACT") ){  ?>
                 <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=orderprocessalerts"><?php echo $assArr['my_Pre_Alerts'];?></a> </li>
             <?php }else if($menuCustType == "COMP" && $maccarr['FulFillment'] == "True"){  ?>
                 <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=inventoryalerts"><?php echo $assArr['inventory_Pre-Alerts'];?></a> </li>
-            <?php } ?>
-            
+            <?php } if($dynpage["PendingShipments"][1]=="ACT"){ ?>
             <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=orderprocess"><?php echo $assArr['ready_to_ship'];?></a> </li>
-             <?php if($dynpage["COD"][1]=="ACT"){ ?>
+             <?php } if($dynpage["COD"][1]=="ACT"){ ?>
             <li> <a class=""  href="index.php?option=com_userprofile&view=user&layout=cod"> <?php echo $assArr['cOD'];?> </a> </li>
-            <?php } ?>
+            <?php } if($dynpage["ShipmentHistory"][1]=="ACT"){ ?>
             <!--<li> <a class="" href="index.php?option=com_userprofile&view=user&layout=cod">COD</a> </li>-->
             <li> <a class="active"><?php echo $assArr['shipment_History'];?></a> </li>
+             <?php } ?>
           </ul>
         </div>
       </div>

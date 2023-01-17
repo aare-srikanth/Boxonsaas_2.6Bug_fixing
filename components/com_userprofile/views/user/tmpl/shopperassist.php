@@ -53,7 +53,7 @@ if($_GET['r']==1){
       $elem[$element->ElementId]=array($element->ElementDescription,$element->ElementStatus,$element->is_mandatory,$element->is_default,$element->ElementValue);
    }
    
-   //var_dump($elem['MerchantName'][0]);exit;
+  //var_dump($res);exit;
    
    // end
    
@@ -161,36 +161,6 @@ function createCookie(name, value, days) {
        
        $joomla(document).on('click','input[name=cc]',function(){
            $joomla("label.error").html("");
-           
-        //   if($joomla(this).val() != 'COD'){
-        //     // convenience fees 
-        //       $joomla.ajax({
-        //           url: "<?php echo JURI::base(); ?>index.php?option=com_userprofile&task=user.get_ajax_data&amount="+$joomla('input[name="amount"]').val() +"&convflag=1&gateway="+$joomla(this).val()+"&jpath=<?php echo urlencode  (JPATH_SITE); ?>&pseudoParam="+new Date().getTime(),
-       	// 		data: { "shippmentid": 1 },
-       	// 		dataType:"html",
-       	// 		type: "get",
-       	// 		beforeSend: function() {
-        //              //$joomla(".pagshipup_prepaid").show();
-        //              $joomla(".page_loader").show();
-        //              $joomla('#ord_ship #step2 .btn-primary').attr("disabled", true);
-        //           },success: function(data){
-        //               slot=1
-                     
-        //               var sg=data;
-        //               sg=sg.split(":");
-        //               $joomla('input[name="Conveniencefees"]').val(sg[1]);
-        //               $joomla('input[name=amtStr]').val(sg[0]);
-        //               $joomla('#divTotalShippingCharges').html(sg[0]);
-        //               $joomla('input[name=amount]').val(sg[0]);
-                       
-        //               $joomla(".page_loader").hide();
-        //               //$joomla(".pagshipup_prepaid").hide();
-                      
-        //              $joomla('#ord_ship #step2 .btn-primary').attr("disabled", false);
-        //           }
-        //       });
-               
-        //   }  
            
                if($joomla(this).val() == 'Paypal'){
                    $joomla('#userprofileFormTwo').attr('action','https://www.sandbox.paypal.com/cgi-bin/webscr');
@@ -399,7 +369,7 @@ function createCookie(name, value, days) {
         $joomla("span.error").html("");
     });
     $joomla('#tabs1').on('click','.btn-primary:last',function(){
-         $joomla('label.error').remove();
+         $joomla('span.error').remove();
          if (($joomla("input[name*='txtitemId']:checked").length)<=0) {
            $joomla(this).after('<span class="error"><?php echo Jtext::_('PLEASE_CHECK_ORDERS');?></span>');  
            return false;
@@ -669,6 +639,10 @@ function createCookie(name, value, days) {
         });
     });
     
+    $joomla(document).on("keyup","input[name='txtQuantity[]']",function(e){
+    this.value = this.value.replace(/[^0-9]/g, '');
+   });
+    
 });
 
 //*** MulInvoices alert
@@ -776,10 +750,10 @@ return false;
                 <input type="text" class="form-control" id="8" name="txtQuantity[]" value="<?php if($elem['Quantity'][3]){  echo $elem['Quantity'][4];  } ?>" maxlength="3" <?php if($elem['Quantity'][2]){ echo "required"; }  ?> >
               </div>
             </div>
-            <?php }if($elem['ItemPrice'][1] == "ACT"){  ?>
+            <?php } if($elem['ItemPrice'][1] == "ACT"){  ?>
             <div class="col-sm-12 col-md-3">
               <div class="form-group">
-                <label> <?php echo $assArr['item_Price_(USD)'];?><?php if($elem['item_Price_(USD)'][2]){ ?><span class="error">*</span><?php } ?></label>
+                <label> <?php echo $assArr['item_Price_(USD)'];?><?php if($elem['ItemPrice'][2]){ ?><span class="error">*</span><?php } ?></label>
                 <input type="text" class="form-control" id="9" name="txtDvalue[]" value="<?php if($elem['ItemPrice'][3]){  echo $elem['ItemPrice'][4];  } ?>" maxlength="7" <?php if($elem['ItemPrice'][2]){ echo "required"; }  ?> >
               </div>
             </div>

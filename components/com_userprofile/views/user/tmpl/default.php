@@ -474,6 +474,15 @@ $joomla(function() {
                 
                   <?php 
                   
+                  // dynamic style sheets for default and created domains
+                  
+    $dir=getcwd()."/components/com_userprofile/clients/".$domain;
+     if(is_dir($dir)){
+         $imagepath = JUri::base()."/components/com_userprofile/clients/".$domain."/images";
+     }else{
+         $imagepath = JUri::base()."/components/com_userprofile/clients/defaulttheme/images";
+     }
+                  
                 foreach($clients as $client){ 
                     if(strtolower($client['Domain']) == strtolower($domainNameDb) ){   
                          $prealert_text=$client['Myprealerts_text_dashboard'];
@@ -484,7 +493,7 @@ $joomla(function() {
                   ?>
                   
                     <div class="col-sm-4">
-                        <div class="dash_option_blck"> <a href="index.php?option=com_userprofile&view=user&layout=orderprocessalerts"> <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/my_purchase.png" class="img-responsive img_view"> <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/my_purchase_hover.png" class="img-responsive img_hvr">
+                        <div class="dash_option_blck"> <a href="index.php?option=com_userprofile&view=user&layout=orderprocessalerts"> <img src="<?php echo $imagepath.'/my_purchase.png'; ?>" class="img-responsive img_view"> <img src="<?php echo $imagepath.'/my_purchase_hover.png';?>" class="img-responsive img_hvr">
                         <!--<h5><?php //echo Jtext::_($dynpage["PreAlerts"][0]);?></h5>-->
                         <h5><?php echo $assArr['my_Pre_Alerts']; ?></h5>
                         
@@ -495,7 +504,7 @@ $joomla(function() {
                     <?php }if($dynpage["InventoryAlerts"][2] =="InventoryAlerts" && $dynpage["InventoryAlerts"][1]=="ACT" && $menuCustType == "COMP"){ ?>
                
                     <div class="col-sm-4">
-                        <div class="dash_option_blck"> <a href="index.php?option=com_userprofile&view=user&layout=inventoryalerts"> <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/my_purchase.png" class="img-responsive img_view"> <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/my_purchase_hover.png" class="img-responsive img_hvr">
+                        <div class="dash_option_blck"> <a href="index.php?option=com_userprofile&view=user&layout=inventoryalerts"> <img src="<?php echo $imagepath.'/my_purchase.png';?>" class="img-responsive img_view"> <img src="<?php echo $imagepath.'/my_purchase_hover.png';?>" class="img-responsive img_hvr">
                         <h5><?php echo $assArr['inventory_Pre-Alerts'];?></h5>
                         </a> 
                         </div>
@@ -503,13 +512,13 @@ $joomla(function() {
                   <?php  }if($dynpage["PendingShipments"][2] =="PendingShipments" && $dynpage["PendingShipments"][1]=="ACT"){ ?>
                 
                 <div class="col-sm-4">
-                  <div class="dash_option_blck"> <a href="index.php?option=com_userprofile&view=user&layout=orderprocess"> <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/pending_ship.png" class="img-responsive img_view"> <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/pending_ship_hover.png" class="img-responsive img_hvr">
+                  <div class="dash_option_blck"> <a href="index.php?option=com_userprofile&view=user&layout=orderprocess"> <img src="<?php echo $imagepath.'/pending_ship.png';?>" class="img-responsive img_view"> <img src="<?php echo $imagepath.'/pending_ship_hover.png';?>" class="img-responsive img_hvr">
                     <h5><?php echo $assArr['ready_to_ship'];?></h5>
                     <span class="num_count"><?php echo $UserView->ArticleInvCount;?></span> </a> </div>
                 </div>
                  <?php  }if($dynpage["ShipmentHistory"][2] =="ShipmentHistory" && $dynpage["ShipmentHistory"][1]=="ACT"){ ?>
                 <div class="col-sm-4">
-                  <div class="dash_option_blck"> <a href="index.php?option=com_userprofile&view=user&layout=shiphistory"> <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/ship_history.png" class="img-responsive img_view"> <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/ship_history_hover.png" class="img-responsive img_hvr">
+                  <div class="dash_option_blck"> <a href="index.php?option=com_userprofile&view=user&layout=shiphistory"> <img src="<?php echo $imagepath.'/ship_history.png';?>" class="img-responsive img_view"> <img src="<?php echo $imagepath.'/ship_history_hover.png';?>" class="img-responsive img_hvr">
                     <h5><?php echo $assArr['shipment_History'];?></h5>
                     </a> </div>
                 </div>
@@ -532,14 +541,14 @@ $joomla(function() {
                     if($dynpage["OrdersInProgress"][2] =="OrdersInProgress" && $dynpage["OrdersInProgress"][1]=="ACT" && $menuCustType=="CUST"){ ?>
                   
                     <div class="col-sm-4">
-                    <div class="dash_option_blck"> <a href="index.php?option=com_userprofile&view=user&layout=pendingorderprocess"> <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/orders.png" class="img-responsive img_view"> <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/orders_hover.png" class="img-responsive img_hvr">
+                    <div class="dash_option_blck"> <a href="index.php?option=com_userprofile&view=user&layout=pendingorderprocess"> <img src="<?php echo $imagepath.'/orders.png';?>" class="img-responsive img_view"> <img src="<?php echo $imagepath.'/orders_hover.png';?>" class="img-responsive img_hvr">
                     <h5><?php echo $assArr['order_in_progress'];?></h5>
                     <span class="num_count"><?php echo $UserView->InProgressCount;?></span> </a> 
                     </div>
                     </div>
                   <?php }if($dynpage["FulFillment"][2] =="FulFillment" && $dynpage["FulFillment"][1]=="ACT" && $menuCustType=="COMP"){  ?>
                     <div class="col-sm-4">
-                    <div class="dash_option_blck"> <a href="index.php?option=com_userprofile&view=user&layout=projectrequest"> <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/orders.png" class="img-responsive img_view"> <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/orders_hover.png" class="img-responsive img_hvr">
+                    <div class="dash_option_blck"> <a href="index.php?option=com_userprofile&view=user&layout=projectrequest"> <img src="<?php echo $imagepath.'/orders.png';?>" class="img-responsive img_view"> <img src="<?php echo $imagepath.'/orders_hover.png';?>" class="img-responsive img_hvr">
                     <h5><?php echo Jtext::_('COM_USERPROFILE_DASHBOARD_PROJECT_REQUEST_FORM'); ?></h5>
                     </a> 
                     </div>
@@ -547,7 +556,7 @@ $joomla(function() {
                   <?php }if($dynpage["ItemsInStock"][2] =="ItemsInStock" && $dynpage["ItemsInStock"][1]=="ACT"){  ?>
                 
                 <div class="col-sm-4">
-                  <div class="dash_option_blck"> <a href="index.php?option=com_userprofile&view=user&layout=orderprocessnew&c=2"> <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/inventory.png" class="img-responsive img_view"> <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/inventory_hover.png" class="img-responsive img_hvr">
+                  <div class="dash_option_blck"> <a href="index.php?option=com_userprofile&view=user&layout=orderprocessnew&c=2"> <img src="<?php echo $imagepath.'/inventory.png';?>" class="img-responsive img_view"> <img src="<?php echo $imagepath.'/inventory_hover.png';?>" class="img-responsive img_hvr">
                     <h5><?php echo $assArr['items_in_Stock'];?></h5>
                     <span class="num_count"><?php echo $UserView->ArticleInvCount;?></span> </a> </div>
                 </div>
@@ -555,7 +564,7 @@ $joomla(function() {
                  <?php }if($dynpage["Invoices"][2] =="Invoices" && $dynpage["Invoices"][1]=="ACT"){  ?>
                  
                 <div class="col-sm-4">
-                  <div class="dash_option_blck"> <a href="index.php?option=com_userprofile&view=user&layout=invoices"> <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/invoice.png" class="img-responsive img_view"> <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/invoice_hover.png" class="img-responsive img_hvr">
+                  <div class="dash_option_blck"> <a href="index.php?option=com_userprofile&view=user&layout=invoices"> <img src="<?php echo $imagepath.'/invoice.png';?>" class="img-responsive img_view"> <img src="<?php echo $imagepath.'/invoice_hover.png';?>" class="img-responsive img_hvr">
                     <h5><?php echo $assArr['invoices'];?></h5>
                     </a> </div>
                 </div>
@@ -598,7 +607,7 @@ $joomla(function() {
         </div>
       </div> -->
       
-       <?php   if($dynpage["PickUpOrder"][1]=="ACT" && $dynpage["Quotation"][1]=="ACT"){ ?>
+       <?php   if($dynpage["PickUpOrder"][1]=="ACT" || $dynpage["Quotation"][1]=="ACT"){ ?>
      
       <div class="usr_orders">
         <div class="">
@@ -609,21 +618,21 @@ $joomla(function() {
                   <?php   if($dynpage["Quotation"][2] =="Quotation" && $dynpage["Quotation"][1]=="ACT"){ ?>
                 <div class="col-sm-4">
                   <div class="dash_option_blck"> <a href="index.php?option=com_userprofile&view=user&layout=quotations" > <!-- style="pointer-events: none" --> 
-                    <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/quotation.png" class="img-responsive img_view"> <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/quotation_hover.png" class="img-responsive img_hvr">
+                    <img src="<?php echo $imagepath.'/quotation.png';?>" class="img-responsive img_view"> <img src="<?php echo $imagepath.'/quotation_hover.png';?>" class="img-responsive img_hvr">
                     <h5><?php echo $assArr['qUOTATION'];?></h5>
                     </a> </div>
                 </div>
                 <?php  }if($dynpage["PickUpOrder"][2] =="PickUpOrder" && $dynpage["PickUpOrder"][1]=="ACT"){ ?>
                 <div class="col-sm-4">
                   <div class="dash_option_blck"> <a href="index.php?option=com_userprofile&view=user&layout=pickuporders" > <!-- style="pointer-events: none" --> 
-                    <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/pickup.png" class="img-responsive img_view"> <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/pickup_hover.png" class="img-responsive img_hvr">
+                    <img src="<?php echo $imagepath.'/pickup.png';?>" class="img-responsive img_view"> <img src="<?php echo $imagepath.'/pickup_hover.png';?>" class="img-responsive img_hvr">
                     <h5><?php echo $assArr['pickup_order'];?></h5>
                     </a> </div>
                 </div>
                  <?php  }if($dynpage["ViewShipments"][2]=="ViewShipments" && $dynpage["ViewShipments"][1]=="ACT"){ ?>
                 <div class="col-sm-4">
                   <div class="dash_option_blck"> <a href="index.php?option=com_userprofile&view=user&layout=viewshipments" > <!-- style="pointer-events: none" --> 
-                    <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/view_ship.png" class="img-responsive img_view"> <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/view_ship_hover.png" class="img-responsive img_hvr">
+                    <img src="<?php echo $imagepath.'/view_ship.png';?>" class="img-responsive img_view"> <img src="<?php echo $imagepath.'/view_ship_hover.png';?>" class="img-responsive img_hvr">
                     <h5><?php echo $assArr['view_Shipments'];?></h5>
                     </a> </div>
                 </div>
@@ -644,13 +653,13 @@ $joomla(function() {
               <div class="row">
                    <?php  if($dynpage["Calculator"][2] =="Calculator" && $dynpage["Calculator"][1]=="ACT"){ ?>
                 <div class="col-sm-4">
-                  <div class="dash_option_blck"> <a href="index.php?option=com_userprofile&view=user&layout=calculator"> <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/calculator.png" class="img-responsive img_view"> <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/calculator_hover.png" class="img-responsive img_hvr">
+                  <div class="dash_option_blck"> <a href="index.php?option=com_userprofile&view=user&layout=calculator"> <img src="<?php echo $imagepath.'/calculator.png';?>" class="img-responsive img_view"> <img src="<?php echo $imagepath.'/calculator_hover.png';?>" class="img-responsive img_hvr">
                     <h5><?php echo $assArr['calculator'];?></h5>
                     </a> </div>
                 </div>
                  <?php  }if($dynpage["ShopperAssist"][2] =="ShopperAssist" && $dynpage["ShopperAssist"][1]=="ACT"){ ?>
                 <div class="col-sm-4">
-                  <div class="dash_option_blck"> <a href="index.php?option=com_userprofile&view=user&layout=shopperassist"> <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/shopper_assist.png" class="img-responsive img_view"> <img src="<?php echo JUri::base(); ?>/components/com_userprofile/clients/<?php echo $domain; ?>/images/shopper_assist_hover.png" class="img-responsive img_hvr">
+                  <div class="dash_option_blck"> <a href="index.php?option=com_userprofile&view=user&layout=shopperassist"> <img src="<?php echo $imagepath.'/shopper_assist.png';?>" class="img-responsive img_view"> <img src="<?php echo $imagepath.'/shopper_assist_hover.png';?>" class="img-responsive img_hvr">
                     <h5><?php echo $assArr['shopper_Assist'];?></h5>
                     <span class="num_count"><?php echo $UserView->ShopperAsstCount;?></span></a> </div>
                 </div>
