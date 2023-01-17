@@ -834,10 +834,21 @@ color: #4c4e56;
 .warehude-detail_popup td{white-space: normal !important;}
 .warehude-detail_popup .modal-lg{width:640px;}
 .warehude-detail_popup .theme_table {margin: 0px 0 0;}
-.ntifiction-info {
-    border-bottom: 1px solid #cccc;
-    padding: 14px;
+.ntifiction-info {border-bottom: 1px solid #cccc;padding: 14px;}
+
+.rdo_rd1 {
+  width: 100%;
+  float: left;
+  clear: both;
+  margin-bottom: 10px!important;
 }
+
+/* 2.7 ui start */
+a{cursor: pointer;}
+.badge{padding: 10px;}
+.rdo_rd1{margin-bottom: 20px;}
+/* 2.7 ui end */
+
 @media (max-width:1024px) {
 	.address_section {border-top: 2px solid #ccc;}
 	.navbar-collapse.navbar-right.custommenu {display: block !important;}	

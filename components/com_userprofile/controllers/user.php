@@ -1117,7 +1117,6 @@ class UserprofileControllerUser extends JControllerLegacy
 	public function payshippment()
 	{
 	    
-	    
 	    $app = JFactory::getApplication();
 	    $companyId = JRequest::getVar('companyId', '', 'post');
         $amtStr = JRequest::getVar('amount', '', 'post');
