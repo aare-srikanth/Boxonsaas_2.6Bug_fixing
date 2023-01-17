@@ -437,6 +437,14 @@ color: #4c4e56;
 
 #inv_view .modal-body{width:100% !important;}
 
+
+/* 2.7 ui start */
+.convertToPickup a{
+  background: #23bbed;
+  color: #fff;
+}
+/* 2.7 ui end */
+
 @media (min-width:1024px){
 #inv_view .modal-dialog {width:800px;}
 }
