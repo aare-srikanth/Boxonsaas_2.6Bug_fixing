@@ -128,15 +128,10 @@ if(!empty($_POST['cardnumberStr']) && !empty($_POST['MonthDropDownListStr']) && 
     $request->setMerchantAuthentication($merchantAuthentication); 
     $request->setRefId($refID); 
     $request->setTransactionRequest($transactionRequestType); 
-    
-    // echo "<pre>";
-    // print_r($request);exit;
-    
     $controller = new AnetController\CreateTransactionController($request); 
     $response = $controller->executeWithApiResponse($apiurl); 
     
-    // var_dump($response);
-    // exit;
+    
    
     if ($response != null) { 
         // Check to see if the API request was successfully received and acted upon 
@@ -252,7 +247,7 @@ if(!empty($_POST['cardnumberStr']) && !empty($_POST['MonthDropDownListStr']) && 
                     
                     $status=Controlbox::submitpayshopperassist($CustId,$itemPrice,$card_number,$txtccnumberStr, $card_exp_month,  $txtNameonCardStr, $card_exp_year,$specialinstructionStr,$txtTaxesStr,$txtShippChargesStr,$invidkStr,$qtyStr,$articleStr,$txtPaymentMethod,$pg,'','',$tid,$filenameArr,$invfArr);
                     
-                }else if($_POST['page'] == "cod" || $_POST['page'] == "invoice"){
+                }else if($_POST['page'] == "cod"){
                     $exp=explode(":",$itemNameStr);
                     $txtccnumberStr=$card_cvc;
                     $invidkStr='';
@@ -308,8 +303,6 @@ if(!empty($_POST['cardnumberStr']) && !empty($_POST['MonthDropDownListStr']) && 
                                     header('Location: '.JRoute::_('index.php?option=com_userprofile&view=user&layout=shopperassist&error='.$status, false));
                                 }else if($_POST['page'] == 'cod'){
                                     header('Location: '.JRoute::_('index.php?option=com_userprofile&view=user&layout=cod&error='.$status, false));
-                                }else if($_POST['page'] == 'invoice'){
-                                    header('Location: '.JRoute::_('index.php?option=com_userprofile&view=user&layout=invoices&error='.$status, false));
                                 }
                                 
                             }else{
@@ -320,9 +313,7 @@ if(!empty($_POST['cardnumberStr']) && !empty($_POST['MonthDropDownListStr']) && 
                                      }else if($_POST['page'] == 'shopperassist'){
                                          header('Location: '.JRoute::_('index.php?option=com_userprofile&view=user&layout=response&res='.base64_encode($statausArr[0]), false));
                                      }else if($_POST['page'] == 'cod'){
-                                         header('Location: '.JRoute::_('index.php?option=com_userprofile&view=user&layout=response&res='.base64_encode($statausArr[0]), false));
-                                     }else if($_POST['page'] == 'invoice'){
-                                         header('Location: '.JRoute::_('index.php?option=com_userprofile&view=user&layout=response&res='.base64_encode($statausArr[0]), false));
+                                         header('Location: '.JRoute::_('index.php?option=com_userprofile&view=user&layout=response&page=cod&invoice='.$invoiceNO.'&res='.base64_encode($statausArr[0]), false));
                                      }
                                     
                                 }else{
@@ -332,8 +323,6 @@ if(!empty($_POST['cardnumberStr']) && !empty($_POST['MonthDropDownListStr']) && 
                                         header('Location: '.JRoute::_('index.php?option=com_userprofile&view=user&layout=shopperassist', false));
                                     }else if($_POST['page'] == 'cod'){
                                         header('Location: '.JRoute::_('index.php?option=com_userprofile&view=user&layout=cod', false));
-                                    }else if($_POST['page'] == 'invoice'){
-                                        header('Location: '.JRoute::_('index.php?option=com_userprofile&view=user&layout=invoices', false));
                                     }
                                 }
                                 
@@ -356,8 +345,6 @@ if(!empty($_POST['cardnumberStr']) && !empty($_POST['MonthDropDownListStr']) && 
                     header('Location: '.JRoute::_('index.php?option=com_userprofile&view=user&layout=shopperassist&error='.$statusMsg, false));
                 }else if($_POST['page'] == 'cod'){
                     header('Location: '.JRoute::_('index.php?option=com_userprofile&view=user&layout=cod&error='.$statusMsg, false));
-                }else if($_POST['page'] == 'invoice'){
-                    header('Location: '.JRoute::_('index.php?option=com_userprofile&view=user&layout=invoices&error='.$statusMsg, false));
                 }
             } 
             // Or, print errors if the API request wasn't successful  
@@ -379,8 +366,6 @@ if(!empty($_POST['cardnumberStr']) && !empty($_POST['MonthDropDownListStr']) && 
                 header('Location: '.JRoute::_('index.php?option=com_userprofile&view=user&layout=shopperassist&error='.$statusMsg, false));
             }else if($_POST['page'] == 'cod'){
                 header('Location: '.JRoute::_('index.php?option=com_userprofile&view=user&layout=cod&error='.$statusMsg, false));
-            }else if($_POST['page'] == 'invoice'){
-                header('Location: '.JRoute::_('index.php?option=com_userprofile&view=user&layout=invoices&error='.$statusMsg, false));
             }
         } 
     } else { 
@@ -391,8 +376,6 @@ if(!empty($_POST['cardnumberStr']) && !empty($_POST['MonthDropDownListStr']) && 
             header('Location: '.JRoute::_('index.php?option=com_userprofile&view=user&layout=shopperassist&error='.$statusMsg, false));
         }else if($_POST['page'] == 'cod'){
             header('Location: '.JRoute::_('index.php?option=com_userprofile&view=user&layout=cod&error='.$statusMsg, false));
-        }else if($_POST['page'] == 'invoice'){
-            header('Location: '.JRoute::_('index.php?option=com_userprofile&view=user&layout=invoices&error='.$statusMsg, false));
         }
     } 
 }else{ 
@@ -403,8 +386,6 @@ if(!empty($_POST['cardnumberStr']) && !empty($_POST['MonthDropDownListStr']) && 
         header('Location: '.JRoute::_('index.php?option=com_userprofile&view=user&layout=shopperassist&error='.$statusMsg, false));
     }else if($_POST['page'] == 'cod'){
         header('Location: '.JRoute::_('index.php?option=com_userprofile&view=user&layout=cod&error='.$statusMsg, false));
-    }else if($_POST['page'] == 'invoice'){
-        header('Location: '.JRoute::_('index.php?option=com_userprofile&view=user&layout=invoices&error='.$statusMsg, false));
     }
 } 
 
