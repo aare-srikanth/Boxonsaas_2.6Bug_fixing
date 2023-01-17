@@ -64,12 +64,12 @@ $joomla(document).ready(function(){
 
       dom: 'Bfrtip',
       buttons: 
-      [{ extend: 'pdf', text: ' Exportar a PDF',orientation: 'landscape',
+      [{extend:'pdfHtml5',text:  '<i class="fa fa-file-pdf-o btn btn-default"></i>',titleAttr: 'PDF',orientation: 'landscape',
                 pageSize: 'LEGAL',
               
         },
-      { extend: 'csv', text: ' Exportar a CSV' },
-      { extend: 'excel', text: ' Exportar a EXCEL' },
+      {extend: 'csvHtml5',text:  '<i class="fa fa-file-text-o btn btn-default"></i>',titleAttr: 'CSV' },
+      { extend: 'excelHtml5', text:    '<i class="fa fa-file-excel-o btn btn-default"></i>',titleAttr: 'Excel'},
       'pageLength' ,
       ]
       
@@ -94,16 +94,16 @@ $joomla(document).ready(function(){
    
       dom: 'Bfrtip',
       buttons: 
-      [{ extend: 'pdf', text: ' Exportar a PDF',orientation: 'landscape',
+      [{ extend:'pdfHtml5',text:  '<i class="fa fa-file-pdf-o btn btn-default"></i>',titleAttr: 'PDF',orientation: 'landscape',
                 pageSize: 'LEGAL',
                 exportOptions: {
             rows: 'tr:not(.child_row)',
             columns: [1,2,3,4,5,6,7,8,9,10,11],
        }},
-      { extend: 'csv', text: ' Exportar a CSV',  exportOptions: {
+      { extend: 'csvHtml5',text:      '<i class="fa fa-file-text-o btn btn-default"></i>',titleAttr: 'CSV',  exportOptions: {
             rows: 'tr:not(.child_row)',  columns: [1,2,3,4,5,6,7,8,9,10,11],
          }},
-      { extend: 'excel', text: ' Exportar a EXCEL',  exportOptions: {
+      {  extend: 'excelHtml5', text:    '<i class="fa fa-file-excel-o btn btn-default"></i>',titleAttr: 'Excel',  exportOptions: {
             rows: 'tr:not(.child_row)',  columns: [1,2,3,4,5,6,7,8,9,10,11],
          } },
       'pageLength',
@@ -142,16 +142,16 @@ $joomla(document).ready(function(){
    
       dom: 'Bfrtip',
       buttons: 
-      [{ extend: 'pdf', text: ' Exportar a PDF',orientation: 'landscape',
+      [{ extend:'pdfHtml5',text:  '<i class="fa fa-file-pdf-o btn btn-default"></i>',titleAttr: 'PDF', orientation: 'landscape',
                 pageSize: 'LEGAL',
                 exportOptions: {
             rows: 'tr:not(.child_row)',
             columns: [1,2,3,4,5,6,7,8,9,10,11],
        }},
-      { extend: 'csv', text: ' Exportar a CSV',  exportOptions: {
+      { extend: 'csvHtml5',text:      '<i class="fa fa-file-text-o btn btn-default"></i>',titleAttr: 'CSV', exportOptions: {
             rows: 'tr:not(.child_row)',  columns: [1,2,3,4,5,6,7,8,9,10,11],
          }},
-      { extend: 'excel', text: ' Exportar a EXCEL',  exportOptions: {
+      {  extend: 'excelHtml5', text:    '<i class="fa fa-file-excel-o btn btn-default"></i>',titleAttr: 'Excel', exportOptions: {
             rows: 'tr:not(.child_row)',  columns: [1,2,3,4,5,6,7,8,9,10,11],
          } },
       'pageLength',
@@ -202,7 +202,7 @@ $joomla(document).ready(function(){
 
     $joomla('.export_table').DataTable({
      select: true,
-     scrollX: true,
+    //  scrollX: true,
      dom: 'Blfrtip',
      lengthMenu: [10,25,75, 100],
 
