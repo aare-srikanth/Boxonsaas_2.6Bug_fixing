@@ -98,12 +98,10 @@
       $elem[$element->ElementId]=array($element->ElementDescription,$element->ElementStatus,$element->is_mandatory,$element->is_default,$element->ElementValue);
    }
    
-   
-   
    // end
    
 // echo '<pre>';   
-// var_dump($elem);exit;
+// var_dump($elem['PaymentType']);exit;
 
 // get labels
     $lang=$session->get('lang_sel');
@@ -155,8 +153,8 @@
 <script type="text/javascript">
    var $joomla = jQuery.noConflict(); 
    $joomla(document).ready(function() {
-       
-       $joomla('#dvPaymentInformation input[type=text]').on('keyup',function(){
+   $joomla(".other_payment_type").prop("checked", true);
+   $joomla('#dvPaymentInformation input[type=text]').on('keyup',function(){
         cardFormValidate();
     });
     
@@ -1224,7 +1222,6 @@
    
    
    $joomla(document).on('click','#goto_payment_scr',function(){
-       
        var rateTypesText = $joomla('#divShipCOstTwo').text();
        var decValsErr=0;
        
@@ -1299,7 +1296,7 @@
             
             unselList = unselList.replace(/,+$/, '');
             $joomla("#extAddSer").val(unselList);
-           
+            $joomla(".other_payment_type").prop("checked", "checked");
           
    });
    
@@ -4809,6 +4806,9 @@
                             <div class="paymentmethodsDiv">
                                 
                                 <?php 
+                                 if($elem['PaymentType'][1] == "ACT"){
+                                    echo '<input type="radio" style="display:none;" class="other_payment_type"  name="cc" value="'.$elem['PaymentType'][4].'" >';
+                                 }else{
                                     $paymentmethodsStr = ''; 
                                     $paymentmethods = Controlbox::getpaymentmethods();
                                     foreach($paymentmethods as $method){
@@ -4822,6 +4822,8 @@
                                     
                                     $paymentmethodsStr.=Controlbox::getpaymentgateways('PPD');
                                     echo $paymentmethodsStr;
+                                 }
+
                                 ?>
                                
                             </div>    
