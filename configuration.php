@@ -15,7 +15,7 @@ class JConfig {
 	public $host = 'localhost';
 	public $user = 'root';
 	public $password = '';
-	public $db = 'inviewpr_invdb_2.6';
+	public $db = 'inviewpr_invdb';
 	public $dbprefix = 'bnce7_';
 	public $live_site = '';
 	public $secret = 'dCzZyLDHNEW0AJU0';

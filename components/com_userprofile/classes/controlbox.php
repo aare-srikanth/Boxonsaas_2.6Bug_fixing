@@ -3720,7 +3720,7 @@ if($priceStr != ""){
                   
               }elseif($quotation == "True"){    
                   if($rg->number_quotation != '')
-                   $rs.= '<tr><td>'.$i.'</td><td>'.$rg->number_quotation.'</td>'.$cv.'<td class="convertToPickup"><a data-id="'.$rg->number_quotation.':'.$rg->id_cust.'">Click</a></td><td>'.$rg->bill_form_no.'</td><td>'.$rg->status.'</td><td>'.$rg->totalQty.'</td><td>'.$rg->dti_created.'</td></tr>';
+                   $rs.= '<tr><td>'.$i.'</td><td>'.$rg->number_quotation.'</td>'.$cv.'<td>'.$rg->bill_form_no.'</td><td>'.$rg->status.'</td><td>'.$rg->totalQty.'</td><td>'.$rg->dti_created.'</td></tr>';
               }
           
           $i++;
