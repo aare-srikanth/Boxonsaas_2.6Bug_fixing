@@ -1220,7 +1220,7 @@
    
        });
        
-       
+    // new pull req   
    
    
    $joomla(document).on('click','#goto_payment_scr',function(){
