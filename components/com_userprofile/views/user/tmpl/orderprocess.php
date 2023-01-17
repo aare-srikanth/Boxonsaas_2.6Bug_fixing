@@ -147,7 +147,7 @@
   font-size: 20px;
 }
 
-
+ 
 </style>
 <!--  
    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -3753,9 +3753,10 @@
                                 //   var_dump($rg->ItemImage1);
                                 //   exit;
                                
-                                if(1){ // $rg->ItemQuantity>0
-                                    $volres=$repack->Height*$repack->Width*$repack->Length*UserprofileHelpersUserprofile::getShippmentDetailsValues($res->DimUnits,$res->shipment_type,$res->ServiceType,$res->Source,$res->Dest_Cntry);
-                                    if($repack->shipment_type=="AIR"){
+                                if(1){ // $rg->ItemQuantity>0 
+                                    $volres=$rg->Height*$rg->Width*$rg->Length*UserprofileHelpersUserprofile::getShippmentDetailsValues($res->MeasureUnits,$res->shipment_type,$res->ServiceType,$res->Source,$res->Dest_Cntry);
+                                    if($res->shipment_type=="AIR"){
+
                                       $volres=$rg->ItemQuantity*$volres;
                                     }
                                     if($rg->ItemImage1==""){
