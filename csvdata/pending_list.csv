@@ -1,3 +1,4 @@
-"Warehouse Receipt#","Item Description","Tracking Id","Merchant Name",Quantity,"Shipment Type","Source Hub",Destination,"Destination Hub","Wt. Units","Dimention Units",Image
-,,,,4,,,,,,,
-,,,,1,,,,,,,
+"Warehouse Receipt#","Item Description",Quantity,"Repack Label","Tracking Id","Merchant Name","Shipment Type","Source Hub","Destination Hub",Destination,"Wt. Units","Dimention Units"
+WR-8376,tfhjgj,1,,,,AIR,US-HUB,IN-HUB,INDIA,Kilograms,INCHES
+WR-8375,fghghj,1,,,,AIR,US-HUB,IN-HUB,INDIA,Kilograms,INCHES
+WR-8377,fghfgh,1,PM-872,,,AIR,US-HUB,IN-HUB,INDIA,Kilograms,INCHES
