@@ -31,50 +31,26 @@ foreach($menuCustData as $menuaccess){
 $quotation = $maccarr['Quotation'];
 $pickup = $maccarr['PickUpOrder'];
 
-?>
-<?php
-$ch = curl_init();
-$url="http://boxonsaasdev.inviewpro.com//api/ImgUpldFTP/ConvertResxXmlToJson?companyId=130&language=es";
-
-
-curl_setopt($ch, CURLOPT_URL,$url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-$resp = curl_exec($ch);
-
-if($e= curl_error($ch)){
-    echo $e;
-}
-else{
-    $decoded = json_decode($resp,true);
+// get labels
+    $lang=$session->get('lang_sel');
+    $res=Controlbox::getlabels($lang);
+    $assArr = [];
     
-    $res = json_decode($decoded['Data']);
-    
-    //echo '<pre>';
-    //var_dump($res->data);
-$assArr = [];
+    foreach($res->data as $response){
+    $assArr[$response->id]  = $response->text;
+    }
 
-//$assArr[$res->data[0]->id] = $res->data[0]->text;
-
-foreach($res->data as $response){
-
-   $assArr[$response->id]  = $response->text;
-   //echo $response->id;
-  
-}
-
-//echo '<pre>';
-//var_dump($assArr);
-   
-}  
-
-curl_close($ch);
 
 ?>
+
 <?php include 'dasboard_navigation.php' ?>
 <script type="text/javascript">
 var $joomla = jQuery.noConflict(); 
 $joomla(document).ready(function() {
+    $joomla('.convertToPickup').on('click',function(e){
+        $joomla("#inv_view").modal("show");
+    });
+   
         history.pushState(null, null, location.href);
     window.onpopstate = function () {
         history.go(1);
@@ -134,7 +110,7 @@ $joomla(document).ready(function() {
 </script>
 <div class="container">
 	<div class="main_panel persnl_panel">
-		<div class="main_heading">View Shipments</div>
+		<div class="main_heading"><?php echo $assArr['view_Shipments'];?></div>
 		<div class="panel-body">
 		    
 		    <?php  
@@ -146,10 +122,10 @@ $joomla(document).ready(function() {
         <div class="row">
                <div class="col-sm-12 inventry-item">
                    <div class="col-sm-6">
-                        <h3 class=""><strong><?php echo Jtext::_('View Shipments Details');?></strong></h3>
+                        <h3 class=""><strong><?php echo $assArr['view_Shipments_Details'];?></strong></h3>
                      </div>
                     <div class="col-sm-6 form-group text-right">
-                        <a style="color:white;" href="<?php echo JURI::base(); ?>/csvdata/viewshipments_list.csv" class="btn btn-primary csvDownload export-csv">Export CSV</a>
+                        <a style="color:white;" href="<?php echo $assArr['eXPORT_CSV']; ?>/csvdata/viewshipments_list.csv" class="btn btn-primary csvDownload export-csv"><?php echo $assArr['eXPORT_CSV'];?></a>
                     </div>
                 </div>
         </div>
@@ -165,17 +141,19 @@ $joomla(document).ready(function() {
 								<?php  if($pickup == "True" && $quotation == "True"){ ?>
 								
 								<th><?php echo Jtext::_('COM_USERPROFILE_VIEW_SHIPMENTS_QUOTATION');?>#</th>
+								<th><?php echo "Convert To Pickup";?></th>
 								<th><?php echo Jtext::_('COM_USERPROFILE_VIEW_SHIPMENTS_PICKUP_ORDER');?>#</th>
 								
 								<?php }else if($pickup == "True"){ ?>
 								
-								<th><?php echo Jtext::_('COM_USERPROFILE_VIEW_SHIPMENTS_PICKUP_ORDER');?>#</th>
+								<th><?php echo $assArr['pickup_order#'];?></th>
 								
 								<?php }elseif($quotation == "True"){ ?>
 									<th><?php echo $assArr['quotation#'];?></th>
+									<th><?php echo "Convert To Pickup";?></th>
 								<?php } ?>
 								
-								<th><?php echo $assArr['warehouse_Receipt#'];?></th>
+								<th><?php echo $assArr['warehouse_Receipt'];?>#</th>
 								<th><?php echo $assArr['status'];?></th>
 								<th><?php echo $assArr['quantity'];?> </th>
 								<th><?php echo $assArr['generated_date'];?></th>

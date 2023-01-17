@@ -899,17 +899,18 @@ $joomla(document).ready(function() {
       <div class="row">
         <div class="col-sm-12 tab_view">
           <ul class="nav nav-tabs">
-             <?php if($menuCustType == "CUST" || ($menuCustType == "COMP" && $maccarr['FulFillment'] == "False") ){  ?>
+             <?php if(($menuCustType == "CUST" && $dynpage["PreAlerts"][1]=="ACT") || ($menuCustType == "COMP" && $maccarr['FulFillment'] == "False" && $dynpage["PreAlerts"][1]=="ACT") ){  ?>
                   <li> <a class="active" href="index.php?option=com_userprofile&view=user&layout=orderprocessalerts"><?php echo $assArr['my_Pre_Alerts'];?></a> </li>
                   <?php }else if($menuCustType == "COMP" && $maccarr['FulFillment'] == "True"){  ?>
                   <li> <a class="active" href="index.php?option=com_userprofile&view=user&layout=inventoryalerts"><?php echo $assArr['inventory_Pre-Alerts'];?></a> </li>
-            <?php } ?>
-            <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=orderprocess"><?php echo $assArr['ready_to_ship'];?></a> </li>
-           <!--  <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=cod">COD</a> </li>-->
-            <?php if($dynpage["COD"][1]=="ACT"){ ?>
-           <li> <a class=""  href="index.php?option=com_userprofile&view=user&layout=cod"> <?php echo $assArr['cOD'];?> </a> </li>
-           <?php } ?>
-            <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=shiphistory"><?php echo $assArr['shipment_History'];?></a> </li>
+                  <?php } if($dynpage["PendingShipments"][1]=="ACT"){ ?>
+                  <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=orderprocess"><?php echo $assArr['ready_to_ship'];?></a> </li>
+                  <!--  <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=cod">COD</a> </li>-->
+                  <?php } if($dynpage["COD"][1]=="ACT"){ ?>
+                  <li> <a class=""  href="index.php?option=com_userprofile&view=user&layout=cod"> <?php echo $assArr['cOD'];?> </a> </li>
+                  <?php } if($dynpage["ShipmentHistory"][1]=="ACT"){  ?>
+                  <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=shiphistory"><?php echo $assArr['shipment_History'];?></a> </li>
+                  <?php } ?>
           </ul>
         </div>
       </div>
@@ -1024,7 +1025,7 @@ $joomla(document).ready(function() {
             <div class="col-sm-12 col-md-2">
               <div class="form-group">
                 <label><?php echo $assArr['quantity']; ?><?php if($elem['Quantity'][2]){ ?><span class="error">*</span><?php } ?></label>
-                <input class="form-control" name="quantityTxt[]" id="2" value="<?php if($elem['Quantity'][3]){  echo intval($elem['Quantity'][4]);  } ?>" maxlength=3 value="<?php echo $Default_qnt_prealert; ?>"  <?php echo $Default_qnt_prealert_readonly; ?> <?php if($elem['Quantity'][2]){ echo "required"; } ?> >
+                <input class="form-control" name="quantityTxt[]" id="2" value="<?php if($elem['Quantity'][4]){  echo intval($elem['Quantity'][4]); } ?>" maxlength=3  <?php if($elem['Quantity'][3]){ echo "readonly"; } ?> <?php if($elem['Quantity'][2]){ echo "required"; } ?> >
               </div>
             </div>
              <?php } if($elem['ItemPrice'][1] == "ACT"){  ?>

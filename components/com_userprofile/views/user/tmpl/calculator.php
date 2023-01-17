@@ -876,24 +876,24 @@ $joomla(document).ready(function(){
 			        </div>
 			    </div>
 			    <?php } if($elem['Length'][1] == "ACT"){ ?>
-				<div class="col-sm-3 col-md-3">
+					<div class="col-sm-3 col-md-3">
 			        <div class="form-group">
 			            <label><?php echo $assArr['length'];?><?php if($elem['Length'][2]){ ?><span class="error">*</span><?php } ?></label>
-			            <input class="form-control numDecimal"  name="txtLength" <?php if($elem['Length'][2]){ echo "required";  } ?> value="<?php if($elem['Length'][3]){  echo intval($elem['Length'][4]);  } ?>"  <?php echo $Default_len_calc_readonly; ?> >
+			            <input class="form-control numDecimal"  name="txtLength" <?php if($elem['Length'][2]){ echo "required";  } ?> value="<?php if($elem['Length'][4]){  echo intval($elem['Length'][4]);  } ?>"  <?php if($elem['Length'][4]){ echo 'readonly'; } ?> >
 			        </div>
 			    </div>
 			    <?php } if($elem['Width'][1] == "ACT"){ ?>
 			    <div class="col-sm-3 col-md-3">
 			        <div class="form-group">
 			            <label><?php echo $assArr['width'];?><?php if($elem['Width'][2]){ ?><span class="error">*</span><?php } ?></label>
-			            <input class="form-control numDecimal"  name="txtWidth" <?php if($elem['Width'][2]){ echo "required";  } ?> value="<?php if($elem['Width'][3]){  echo intval($elem['Width'][4]);  } ?>" <?php echo $Default_width_calc_readonly; ?> >
+			            <input class="form-control numDecimal"  name="txtWidth" <?php if($elem['Width'][2]){ echo "required";  } ?> value="<?php if($elem['Width'][4]){  echo intval($elem['Width'][4]);  } ?>" <?php if($elem['Width'][4]){ echo 'readonly'; } ?> >
 			        </div>
 			    </div>
 			    <?php } if($elem['Height'][1] == "ACT"){ ?>
 				<div class="col-sm-3 col-md-3">
 			        <div class="form-group">
 			            <label><?php echo $assArr['height'];?><?php if($elem['Height'][2]){ ?><span class="error">*</span><?php } ?></label>
-			            <input class="form-control numDecimal"  name="txtHeight" <?php if($elem['Height'][2]){ echo "required";  } ?> value="<?php if($elem['Height'][3]){  echo intval($elem['Height'][4]);  } ?>" <?php echo $Default_height_calc_readonly; ?> >
+			            <input class="form-control numDecimal"  name="txtHeight" <?php if($elem['Height'][2]){ echo "required";  } ?> value="<?php if($elem['Height'][4]){  echo intval($elem['Height'][4]);  } ?>" <?php if($elem['Height'][4]){ echo 'readonly'; } ?> >
 			        </div>
 			    </div>
 			    <?php } ?>

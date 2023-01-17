@@ -562,7 +562,12 @@ class Controlbox{
         curl_setopt($ch, CURLOPT_POSTFIELDS,'{"CompanyID":"'.$CompanyId.'","QuoteNumber":"'.$QuoteNumberTxts[0].'","IdCust":"'.$QuoteNumberTxts[1].'","IdServ":"'.$QuoteNumberTxts[1].'","Shipment_Id":"","ShipperId":"'.$QuoteNumberTxts[1].'","ShipperName":"'.$txtShipperNames[0].'","ShipperAddress":"'.$txtShipperAddress.'","ConsigneeId":"'.$txtConsigneeNames[0].'","ConsigneeName":"'.$txtConsigneeNames[1].'","ConsigneeAddress":"'.$txtConsigneeAddress.'","BitThirdPartySameAsCust":"","ThirdPartyId":"'.$QuoteNumberTxts[1].'","ThirdPartyName":"'.$txtThirdPartyNames[0].'","ThirdPartyAddress":"'.$txtThirdPartyAddress.'","BitConSameAsCust":"false","BitShipperSameAsCust":"true","PickUpInfo":{"Name":"'.$txtName.'","PickupDate":"'.$txtPickupDate.'","PickupAddr":"'.$txtPickupAddress.'"}}');
         curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
 		$result=curl_exec($ch);
-		//var_dump($result);exit;
+		
+		echo $url;
+		echo '{"CompanyID":"'.$CompanyId.'","QuoteNumber":"'.$QuoteNumberTxts[0].'","IdCust":"'.$QuoteNumberTxts[1].'","IdServ":"'.$QuoteNumberTxts[1].'","Shipment_Id":"","ShipperId":"'.$QuoteNumberTxts[1].'","ShipperName":"'.$txtShipperNames[0].'","ShipperAddress":"'.$txtShipperAddress.'","ConsigneeId":"'.$txtConsigneeNames[0].'","ConsigneeName":"'.$txtConsigneeNames[1].'","ConsigneeAddress":"'.$txtConsigneeAddress.'","BitThirdPartySameAsCust":"","ThirdPartyId":"'.$QuoteNumberTxts[1].'","ThirdPartyName":"'.$txtThirdPartyNames[0].'","ThirdPartyAddress":"'.$txtThirdPartyAddress.'","BitConSameAsCust":"false","BitShipperSameAsCust":"true","PickUpInfo":{"Name":"'.$txtName.'","PickupDate":"'.$txtPickupDate.'","PickupAddr":"'.$txtPickupAddress.'"}}';
+		var_dump($result);
+		exit;
+		
         $msg=json_decode($result);
         return $msg->Msg;
     }
@@ -2324,7 +2329,7 @@ if($priceStr != ""){
         $result=curl_exec($ch);
         
         // echo $url;
-        // var_dump($url);exit;
+        // var_dump($result);exit;
         
         $msg=json_decode($result);
         $i=1;
@@ -2825,9 +2830,9 @@ if($priceStr != ""){
 		$result=curl_exec($ch);
 		
 		/** Debug **/
-		// echo $url;
-		// echo '{"CompanyID":"'.$CompanyId.'","CustomerId":"'.strtoupper($CustId).'","SupplierId":"'.$mnameTxt.'","CarrierId":"'.$carrierTxt.'","TrackingId":"'.$carriertrackingTxt.'", "OrderDate":"'.$orderdateTxt.'","Dest_Cntry":"'.$countryTxt.'","Dest_Hub":"'.$stateTxt.'","ItemUrl":"Joomla","ActivationKey":"123456789","liInventoryPurchasesVM":['.$loop.'],"domainurl":"'.$domainurl.'","type_busines":"'.$business_type.'"}';
-        // var_dump($result);exit;
+// 		echo $url;
+// 		echo '{"CompanyID":"'.$CompanyId.'","CustomerId":"'.strtoupper($CustId).'","SupplierId":"'.$mnameTxt.'","CarrierId":"'.$carrierTxt.'","TrackingId":"'.$carriertrackingTxt.'", "OrderDate":"'.$orderdateTxt.'","Dest_Cntry":"'.$countryTxt.'","Dest_Hub":"'.$stateTxt.'","ItemUrl":"Joomla","ActivationKey":"123456789","liInventoryPurchasesVM":['.$loop.'],"domainurl":"'.$domainurl.'","type_busines":"'.$business_type.'"}';
+//         var_dump($result);exit;
         
         $msg=json_decode($result);
         return $msg->Description;
@@ -3250,43 +3255,68 @@ if($priceStr != ""){
         return $msg->Data;
    }
    
-    public static function getOrdersPendingListCsv($user)
+     public static function getOrdersPendingListCsv($user)
     {
-        $data= json_decode(json_encode(Controlbox::getOrdersPendingList($user)),true);
-        $keyArr = array("Warehouse Receipt#","Item Description","Tracking Id","Merchant Name","Quantity","Shipment Type","Source Hub","Destination","Destination Hub","Wt. Units","Dimention Units","Image");
+        $data= Controlbox::getOrdersPendingList($user);
+        $keyArr = array("Warehouse Receipt#","Item Description","Quantity","Repack Label","Tracking Id","Merchant Name","Shipment Type","Source Hub","Destination Hub","Destination","Wt. Units","Dimention Units");
             
-          
             $csv = JPATH_ROOT.'/csvdata/pending_list.csv';
             $file_pointer = fopen($csv, 'w');
              fputcsv($file_pointer, $keyArr);
-           
-            foreach($data as $i){
-                
-                // echo '<pre>';
-                // var_dump($i);exit;
-                
-                $row = array(
-                    "BillFormNo" => $i["BillFormNo"],
-                    "ItemName" => $i["ItemName"],
-                    "TrackingId" => $i["TrackingId"],
-                    "SupplierId" => $i["SupplierId"],
-                    "ItemQuantity" => $i["ItemQuantity"],
-                    "shipment_type_desc" => $i["shipment_type_desc"],
-                    "source_hub" => $i["source_hub"],
-                    "destination_name" => $i["destination_name"],
-                    "dest_hub_name" => $i["dest_hub_name"],
-                    "mass_unit" => $i["mass_unit"],
-                    "distance_units" => $i["distance_units"],
-                    "ItemImage" => $i["ItemImage"]
-                    );
-                
-                if($i['Fnsku']=="0" || $i['Fnsku']==""){
-                    fputcsv($file_pointer, $row);
-                }
-                
-                
-            }
-               
+             
+             foreach($data as $repack){
+                                if($repack->InhouseRepackLbl == ""){
+                                     
+                                    foreach($repack->WarehouseDetails as $res){
+                                        $row = array();
+                                        $row["BillFormNo"]=$res->BillFormNo;
+                                        
+                                        foreach($res->ItemDetails as $rg){
+                                            $row["ItemName"]=$rg->ItemName;
+                                            $row["ItemQuantity"]=$rg->ItemQuantity;
+                                        }
+                                        $row["InhouseRepackLbl"]=$repack->InhouseRepackLbl;
+                                        $row["TrackingId"]=$res->TrackingId;
+                                        $row["MerchantName"]=$res->MerchantName; 
+                                        $row["ShipmentType"]=$res->ShipmentType;
+                                        $row["SourceHub"]=$res->SourceHub;
+                                        $row["DestinationHubName"]=$res->DestinationHubName;
+                                        $row["DestinationCountryName"]=$res->DestinationCountryName;
+                                        $row["WeightUnit"]=$res->WeightUnit;
+                                        $row["DimUnits"]=$res->DimUnits;
+                                         fputcsv($file_pointer, $row);
+                                    }
+                                        // var_dump($row);exit;
+                                       
+                                   
+                                }else{
+                                    
+                                    foreach($repack->WarehouseDetails as $res){
+                                        $row = array();
+                                        $row["BillFormNo"]=$res->BillFormNo;
+                                        
+                                        foreach($res->ItemDetails as $rg){
+                                            $row["ItemName"]=$rg->ItemName;
+                                            $row["ItemQuantity"]=$rg->ItemQuantity;
+                                        }
+                                        $row["InhouseRepackLbl"]=$repack->InhouseRepackLbl;
+                                        $row["TrackingId"]=$res->TrackingId;
+                                        $row["MerchantName"]=$res->MerchantName; 
+                                        $row["ShipmentType"]=$res->ShipmentType;
+                                        $row["SourceHub"]=$res->SourceHub;
+                                        $row["DestinationHubName"]=$res->DestinationHubName;
+                                        $row["DestinationCountryName"]=$res->DestinationCountryName;
+                                        $row["WeightUnit"]=$res->WeightUnit;
+                                        $row["DimUnits"]=$res->DimUnits;
+                                        fputcsv($file_pointer, $row);
+                                        
+                                    }
+                                        // var_dump($row);exit;
+                                        
+                                }
+                 
+             }
+              
             // Close the file pointer.
             fclose($file_pointer);
             
@@ -3327,74 +3357,107 @@ if($priceStr != ""){
    
     public static function getOrdersHoldListCsv($user)
     {
-        $data= json_decode(json_encode(Controlbox::getOrdersHoldList($user)),true);
-        $keyArr = array("Warehouse Receipt#","Item Description","Tracking Id","Merchant Name","Quantity","Shipment Type","Source Hub","Destination","Destination Hub","Wt. Units","Dimention Units","Image");
+        $data= Controlbox::getOrdersHoldList($user);
+        
+        $keyArr = array("Warehouse Receipt#","Item Description","Quantity","Tracking Id","Merchant Name","Shipment Type","Source Hub","Destination Hub","Destination","Wt. Units","Dimention Units");
             
           
             $csv = JPATH_ROOT.'/csvdata/hold_list.csv';
             $file_pointer = fopen($csv, 'w');
+            
+            
              fputcsv($file_pointer, $keyArr);
-           
-            foreach($data as $i){
-                
-                // echo '<pre>';
-                // var_dump($i);exit;
-                
-                $row = array(
-                    "BillFormNo" => $i["BillFormNo"],
-                    "ItemName" => $i["ItemName"],
-                    "TrackingId" => $i["TrackingId"],
-                    "SupplierId" => $i["SupplierId"],
-                    "ItemQuantity" => $i["ItemQuantity"],
-                    "shipment_type_desc" => $i["shipment_type_desc"],
-                    "source_hub" => $i["source_hub"],
-                    "destination_name" => $i["destination_name"],
-                    "dest_hub_name" => $i["dest_hub_name"],
-                    "mass_unit" => $i["mass_unit"],
-                    "distance_units" => $i["distance_units"],
-                    "ItemImage" => $i["ItemImage"]
-                    );
-                
-                if($i['Fnsku']=="0" || $i['Fnsku']==""){
-                    fputcsv($file_pointer, $row);
-                }
-                
-                
-            }
+             
+             foreach($data as $repack){
+                                if($repack->InhouseRepackLbl == ""){
+                                     
+                                    foreach($repack->WarehouseDetails as $res){
+                                        $row = array();
+                                        $row["BillFormNo"]=$res->BillFormNo;
+                                        
+                                        foreach($res->ItemDetails as $rg){
+                                            $row["ItemName"]=$rg->ItemName;
+                                            $row["ItemQuantity"]=$rg->ItemQuantity;
+                                        }
+                                        
+                                        $row["TrackingId"]=$res->TrackingId;
+                                        $row["MerchantName"]=$res->MerchantName; 
+                                        $row["ShipmentType"]=$res->ShipmentType;
+                                        $row["SourceHub"]=$res->SourceHub;
+                                        $row["DestinationHubName"]=$res->DestinationHubName;
+                                        $row["DestinationCountryName"]=$res->DestinationCountryName;
+                                        $row["WeightUnit"]=$res->WeightUnit;
+                                        $row["DimUnits"]=$res->DimUnits;
+                                        fputcsv($file_pointer, $row);
+                                        
+                                    }
+                                        // var_dump($row);exit;
+                                        
+                                   
+                                }
+                 
+             }
+             
+             
                
             // Close the file pointer.
             fclose($file_pointer);
     }
     
-    public static function getOrdersHistoryListCsv($user)
+    
+   public static function getOrdersHistoryListCsv($user)
     {
-        $data= json_decode(json_encode(Controlbox::getOrdersHistoryList($user,"All","History")),true);
-        $keyArr = array("Shipping#","Warehouse Receipt","Creation Date","Item Name","Quantity","Carrier","Tracking Number","Status");
+        $data= Controlbox::getOrdersHistoryList($user,"All","History");
+        $keyArr = array("Warehouse Receipt","Item Name","Quantity","Status","Carrier","Tracking Number","Creation Date");
             
             $csv = JPATH_ROOT.'/csvdata/history_list.csv';
             $file_pointer = fopen($csv, 'w');
              fputcsv($file_pointer, $keyArr);
+             
+             foreach($data as $repack){
+                               
+                                    foreach($repack->WarehouseDetails as $res){
+                                        $row = array();
+                                        $row["BillFormNo"]=$res->BillFormNo; 
+                                        
+                                        foreach($res->ItemDetails as $rg){
+                                            $row["ItemName"]=$rg->ItemName;
+                                            $row["ItemQuantity"]=$rg->ItemQuantity;
+                                            $row["ItemStatus"]=$rg->ItemStatus;
+                                        }
+                                        
+                                        $row["CarrierName"]=$res->CarrierName;
+                                        $row["TrackingId"]=$res->TrackingId;
+                                        $row["CreatedDate"]=$res->CreatedDate;
+                                        fputcsv($file_pointer, $row);
+                                    }
+                                    
+                                    
+                 
+             }
            
-            foreach($data as $i){
+            // foreach($data as $i){
                 
-                // echo '<pre>';
-                // var_dump($i);exit;
+            //     // echo '<pre>';
+            //     // var_dump($i);exit;
                 
-                $row = array(
-                    "Id" => $i["Id"],
-                    "BillFormNo" => $i["BillFormNo"],
-                    "dti_created" => $i["dti_created"],
-                    "ItemName" => $i["ItemName"],
-                    "Quantity" => $i["Quantity"],
-                    "carrier_name" => $i["carrier_name"],
-                    "TrackingId" => $i["TrackingId"],
-                    "Status" => $i["Status"]
-                    );
+            //     $row = array(
+            //         "Id" => $i["Id"],
+            //         "BillFormNo" => $i["BillFormNo"],
+            //         "dti_created" => $i["dti_created"],
+            //         "ItemName" => $i["ItemName"],
+            //         "Quantity" => $i["Quantity"],
+            //         "carrier_name" => $i["carrier_name"],
+            //         "TrackingId" => $i["TrackingId"],
+            //         "Status" => $i["Status"]
+            //         );
                 
-                    fputcsv($file_pointer, $row);
+            //         fputcsv($file_pointer, $row);
                 
                 
-            }
+            // }
+            
+            
                
             // Close the file pointer.
             fclose($file_pointer);
@@ -3426,7 +3489,7 @@ if($priceStr != ""){
 		/** Debug **/
 // 		echo $url;
 // 		echo '{"CompanyID":"'.$CompanyId.'","CustomerId":"'.$user.'","ActivationKey":"123456789","PurchaseType":"'.$purchasetype.'","Status":"'.$status.'"}';
-//      var_dump($result);exit;
+//         var_dump($result);exit;
         
         $msg=json_decode($result);
         return $msg->Data;
@@ -3553,8 +3616,8 @@ if($priceStr != ""){
 		
 // 		echo $url;
 // 		echo '{"CompanyID":"'.$CompanyId.'","CustomerId":"'.$user.'","CmdType":"getinvoicedetails","ActivationKey":"123456789"}';
-//         var_dump($result);
-//         exit;
+//      var_dump($result);
+//      exit;
         
         $msg=json_decode($result);
         return $msg->InvoiceDetails;
@@ -5358,7 +5421,7 @@ if($priceStr != ""){
         $CompanyId = Controlbox::getCompanyId();
         mb_internal_encoding('UTF-8');  
         $content_params =JComponentHelper::getParams( 'com_userprofile' );
-        $url=$content_params->get( 'webservice' ).'api/SupportTicketAPI/InsertTicket';
+        $url=$content_params->get( 'webservice' ).'/api/SupportTicketAPI/InsertTicket';
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -5602,123 +5665,123 @@ if($priceStr != ""){
                 
                 
             }else{ // percentage
-            
-                    if($promocode->Units){
-                        foreach($promocode->units_rates as $units){
-                                if($promocode->Charge_apply_by == "finalcost"){
-                                    if($amount >= (float)$units->start_units && $amount <= (float)$units->end_units){
-                                         if($amount >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
-                                            $discountAmt = (((float)$units->Discount_units)*$amount)/100;
-                                         }
-                                         if(!floatval($promocode->MinThreshold)){
-                                             $discountAmt = (((float)$units->Discount_units)*$amount)/100;
-                                         }
-                                     }
-                                 }
-                                 if($promocode->Charge_apply_by == "volumetricweight"){
-                                    if($amount >= (float)$units->start_units && $amount <= (float)$units->end_units){
-                                        if($volmetrtot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
-                                            $discountAmt = (((float)$units->Discount_units)*$volmetrtot)/100;
-                                        }
-                                        if(!floatval($promocode->MinThreshold)){
-                                            $discountAmt = (((float)$units->Discount_units)*$volmetrtot)/100;
-                                        }
-                                     }
-                                 }
-                                 if($promocode->Charge_apply_by == "Volume"){
-                                    if($amount >= (float)$units->start_units && $amount <= (float)$units->end_units){
-                                        if($voltot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
-                                            $discountAmt = (((float)$units->Discount_units)*$voltot)/100;
-                                        }
-                                        if(!floatval($promocode->MinThreshold)){
-                                            $discountAmt = (((float)$units->Discount_units)*$voltot)/100;
-                                        }
-                                     }
-                                 }
-                                 if($promocode->Charge_apply_by == "grossweight"){
-                                    if($amount > (float)$units->start_units && $amount < (float)$units->end_units){
-                                        if($wttot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
-                                            $discountAmt = (((float)$units->Discount_units)*$wttot)/100;
-                                        }
-                                        if(!floatval($promocode->MinThreshold)){
-                                            $discountAmt = (((float)$units->Discount_units)*$wttot)/100;
-                                        }
-                                     }
-                                 }
-                                 if($promocode->Charge_apply_by == "Quanity"){
-                                    if($amount > (float)$units->start_units && $qtytot < (float)$units->end_units){
-                                        if($qtytot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
-                                            $discountAmt = ((float)$units->Discount_units)*$qtytot/100;
-                                        }
-                                        if(!floatval($promocode->MinThreshold)){
-                                            $discountAmt = ((float)$units->Discount_units)*$qtytot/100;
-                                        }
-                                     }
-                                }
-                                if($promocode->Charge_apply_by == "shippingcost"){
-                                    if($shippingCost > (float)$units->start_units && $shippingCost < (float)$units->end_units){
-                                        if($shippingCost > $promocode->MinThreshold && floatval($promocode->MinThreshold)){
-                                            $discountAmt = ((float)$units->Discount_units)*$shippingCost/100;
-                                        }
-                                        if(!floatval($promocode->MinThreshold)){
-                                            $discountAmt = ((float)$units->Discount_units)*$shippingCost/100;
-                                        }
-                                     }
-                                } 
-                            }
-                    }else{
+                
+                        if($promocode->Units){
+                            foreach($promocode->units_rates as $units){
                                     if($promocode->Charge_apply_by == "finalcost"){
-                                        if($amount >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
-                                            $discountAmt = (((float)$promocode->Promo_DiscountValue)*$amount)/100;
-                                        }
-                                        if(!floatval($promocode->MinThreshold)){
-                                            $discountAmt = (((float)$promocode->Promo_DiscountValue)*$amount)/100;
-                                        }
-                                        
+                                        if($amount >= (float)$units->start_units && $amount <= (float)$units->end_units){
+                                             if($amount >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
+                                                $discountAmt = (((float)$units->Discount_units)*$amount)/100;
+                                             }
+                                             if(!floatval($promocode->MinThreshold)){
+                                                 $discountAmt = (((float)$units->Discount_units)*$amount)/100;
+                                             }
+                                         }
                                      }
                                      if($promocode->Charge_apply_by == "volumetricweight"){
-                                         if($volmetrtot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
-                                            $discountAmt = (((float)$promocode->Promo_DiscountValue)*$volmetrtot)/100;
+                                        if($amount >= (float)$units->start_units && $amount <= (float)$units->end_units){
+                                            if($volmetrtot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
+                                                $discountAmt = (((float)$units->Discount_units)*$amount)/100;
+                                            }
+                                            if(!floatval($promocode->MinThreshold)){
+                                                $discountAmt = (((float)$units->Discount_units)*$amount)/100;
+                                            }
                                          }
-                                         if(!floatval($promocode->MinThreshold)){
-                                            $discountAmt = (((float)$promocode->Promo_DiscountValue)*$volmetrtot)/100;
-                                        }
                                      }
                                      if($promocode->Charge_apply_by == "Volume"){
-                                         if($voltot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
-                                            $discountAmt = (((float)$promocode->Promo_DiscountValue)*$voltot)/100;
-                                         }
-                                         if(!floatval($promocode->MinThreshold)){
-                                            $discountAmt = (((float)$promocode->Promo_DiscountValue)*$voltot)/100;
+                                        if($amount >= (float)$units->start_units && $amount <= (float)$units->end_units){
+                                            if($voltot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
+                                                $discountAmt = (((float)$units->Discount_units)*$amount)/100;
+                                            }
+                                            if(!floatval($promocode->MinThreshold)){
+                                                $discountAmt = (((float)$units->Discount_units)*$amount)/100;
+                                            }
                                          }
                                      }
                                      if($promocode->Charge_apply_by == "grossweight"){
-                                         if($wttot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
-                                            $discountAmt = (((float)$promocode->Promo_DiscountValue)*$wttot)/100;
-                                         }
-                                         if(!floatval($promocode->MinThreshold)){
-                                            $discountAmt = (((float)$promocode->Promo_DiscountValue)*$wttot)/100;
+                                        if($amount > (float)$units->start_units && $amount < (float)$units->end_units){
+                                            if($wttot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
+                                                $discountAmt = (((float)$units->Discount_units)*$amount)/100;
+                                            }
+                                            if(!floatval($promocode->MinThreshold)){
+                                                $discountAmt = (((float)$units->Discount_units)*$amount)/100;
+                                            }
                                          }
                                      }
                                      if($promocode->Charge_apply_by == "Quanity"){
-                                         if($qtytot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
-                                            $discountAmt = (((float)$promocode->Promo_DiscountValue)*$qtytot)/100;
+                                        if($amount > (float)$units->start_units && $qtytot < (float)$units->end_units){
+                                            if($qtytot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
+                                                $discountAmt = ((float)$units->Discount_units)*$amount/100;
+                                            }
+                                            if(!floatval($promocode->MinThreshold)){
+                                                $discountAmt = ((float)$units->Discount_units)*$amount/100;
+                                            }
                                          }
-                                         if(!floatval($promocode->MinThreshold)){
-                                            $discountAmt = (((float)$promocode->Promo_DiscountValue)*$qtytot)/100;
+                                    }
+                                    if($promocode->Charge_apply_by == "shippingcost"){
+                                        if($shippingCost > (float)$units->start_units && $shippingCost < (float)$units->end_units){
+                                            if($shippingCost > $promocode->MinThreshold && floatval($promocode->MinThreshold)){
+                                                $discountAmt = ((float)$units->Discount_units)*$shippingCost/100;
+                                            }
+                                            if(!floatval($promocode->MinThreshold)){
+                                                $discountAmt = ((float)$units->Discount_units)*$shippingCost/100;
+                                            }
                                          }
-                                     }
-                                     if($promocode->Charge_apply_by == "shippingcost"){
-                                         if($shippingCost >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
-                                            $discountAmt = (((float)$promocode->Promo_DiscountValue)*$shippingCost)/100;
+                                    } 
+                                }
+                        }else{
+                                        if($promocode->Charge_apply_by == "finalcost"){
+                                            if($amount >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
+                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$amount)/100;
+                                            }
+                                            if(!floatval($promocode->MinThreshold)){
+                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$amount)/100;
+                                            }
+                                            
                                          }
-                                         if(!floatval($promocode->MinThreshold)){
-                                            $discountAmt = (((float)$promocode->Promo_DiscountValue)*$shippingCost)/100;
+                                         if($promocode->Charge_apply_by == "volumetricweight"){
+                                             if($volmetrtot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
+                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$amount)/100;
+                                             }
+                                             if(!floatval($promocode->MinThreshold)){
+                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$amount)/100;
+                                            }
                                          }
-                                     }
+                                         if($promocode->Charge_apply_by == "Volume"){
+                                             if($voltot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
+                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$amount)/100;
+                                             }
+                                             if(!floatval($promocode->MinThreshold)){
+                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$amount)/100;
+                                             }
+                                         }
+                                         if($promocode->Charge_apply_by == "grossweight"){
+                                             if($wttot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
+                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$amount)/100;
+                                             }
+                                             if(!floatval($promocode->MinThreshold)){
+                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$amount)/100;
+                                             }
+                                         }
+                                         if($promocode->Charge_apply_by == "Quanity"){
+                                             if($qtytot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
+                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$amount)/100;
+                                             }
+                                             if(!floatval($promocode->MinThreshold)){
+                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$amount)/100;
+                                             }
+                                         }
+                                         if($promocode->Charge_apply_by == "shippingcost"){
+                                             if($shippingCost >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
+                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$shippingCost)/100;
+                                             }
+                                             if(!floatval($promocode->MinThreshold)){
+                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$shippingCost)/100;
+                                             }
+                                         }
+                        }
+                    
                     }
-                
-                }
                  
             if($promocode->Transactions > 0){
                 if(floatval($promocode->MaxDiscount) && $discountAmt > $promocode->MaxDiscount){
@@ -6077,40 +6140,40 @@ if($priceStr != ""){
                                      if($promocode->Charge_apply_by == "volumetricweight"){
                                         if($amount >= (float)$units->start_units && $amount <= (float)$units->end_units){
                                             if($volmetrtot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
-                                                $discountAmt = (((float)$units->Discount_units)*$volmetrtot)/100;
+                                                $discountAmt = (((float)$units->Discount_units)*$amount)/100;
                                             }
                                             if(!floatval($promocode->MinThreshold)){
-                                                $discountAmt = (((float)$units->Discount_units)*$volmetrtot)/100;
+                                                $discountAmt = (((float)$units->Discount_units)*$amount)/100;
                                             }
                                          }
                                      }
                                      if($promocode->Charge_apply_by == "Volume"){
                                         if($amount >= (float)$units->start_units && $amount <= (float)$units->end_units){
                                             if($voltot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
-                                                $discountAmt = (((float)$units->Discount_units)*$voltot)/100;
+                                                $discountAmt = (((float)$units->Discount_units)*$amount)/100;
                                             }
                                             if(!floatval($promocode->MinThreshold)){
-                                                $discountAmt = (((float)$units->Discount_units)*$voltot)/100;
+                                                $discountAmt = (((float)$units->Discount_units)*$amount)/100;
                                             }
                                          }
                                      }
                                      if($promocode->Charge_apply_by == "grossweight"){
                                         if($amount > (float)$units->start_units && $amount < (float)$units->end_units){
                                             if($wttot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
-                                                $discountAmt = (((float)$units->Discount_units)*$wttot)/100;
+                                                $discountAmt = (((float)$units->Discount_units)*$amount)/100;
                                             }
                                             if(!floatval($promocode->MinThreshold)){
-                                                $discountAmt = (((float)$units->Discount_units)*$wttot)/100;
+                                                $discountAmt = (((float)$units->Discount_units)*$amount)/100;
                                             }
                                          }
                                      }
                                      if($promocode->Charge_apply_by == "Quanity"){
                                         if($amount > (float)$units->start_units && $qtytot < (float)$units->end_units){
                                             if($qtytot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
-                                                $discountAmt = ((float)$units->Discount_units)*$qtytot/100;
+                                                $discountAmt = ((float)$units->Discount_units)*$amount/100;
                                             }
                                             if(!floatval($promocode->MinThreshold)){
-                                                $discountAmt = ((float)$units->Discount_units)*$qtytot/100;
+                                                $discountAmt = ((float)$units->Discount_units)*$amount/100;
                                             }
                                          }
                                     }
@@ -6137,34 +6200,34 @@ if($priceStr != ""){
                                          }
                                          if($promocode->Charge_apply_by == "volumetricweight"){
                                              if($volmetrtot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
-                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$volmetrtot)/100;
+                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$amount)/100;
                                              }
                                              if(!floatval($promocode->MinThreshold)){
-                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$volmetrtot)/100;
+                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$amount)/100;
                                             }
                                          }
                                          if($promocode->Charge_apply_by == "Volume"){
                                              if($voltot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
-                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$voltot)/100;
+                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$amount)/100;
                                              }
                                              if(!floatval($promocode->MinThreshold)){
-                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$voltot)/100;
+                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$amount)/100;
                                              }
                                          }
                                          if($promocode->Charge_apply_by == "grossweight"){
                                              if($wttot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
-                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$wttot)/100;
+                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$amount)/100;
                                              }
                                              if(!floatval($promocode->MinThreshold)){
-                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$wttot)/100;
+                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$amount)/100;
                                              }
                                          }
                                          if($promocode->Charge_apply_by == "Quanity"){
                                              if($qtytot >= $promocode->MinThreshold && floatval($promocode->MinThreshold)){
-                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$qtytot)/100;
+                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$amount)/100;
                                              }
                                              if(!floatval($promocode->MinThreshold)){
-                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$qtytot)/100;
+                                                $discountAmt = (((float)$promocode->Promo_DiscountValue)*$amount)/100;
                                              }
                                          }
                                          if($promocode->Charge_apply_by == "shippingcost"){
