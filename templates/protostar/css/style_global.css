@@ -840,10 +840,12 @@ color: #4c4e56;
 }
 /* 2.7 ui start */
 .convertToPickup a {
+  background: #23bbed;
+  color: #fff;
   border-radius: 50px;
-   padding: 4px 10px; 
-   font-weight: bold;
-   cursor: pointer;
+  padding: 4px 10px; 
+  font-weight: bold;
+  cursor: pointer;
 }
 /* 2.7 ui end */
 @media (max-width:1024px) {

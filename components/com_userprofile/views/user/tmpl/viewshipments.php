@@ -236,7 +236,7 @@ $resWp=UserprofileHelpersUserprofile::getPickupFieldviewsList($user);
               <div class="form-group">
                 <label><?php echo $assArr['shipper_Name'];?><span class="error">*</span></label>
                 
-                <select class="form-control" name="txtShipperName">
+                <select class="form-control" name="txtShipperName" required>
 			        <option value="">Select</option>
 			        <?php
                     foreach($resWp->Shipper_List as $key=>$row){
@@ -250,7 +250,7 @@ $resWp=UserprofileHelpersUserprofile::getPickupFieldviewsList($user);
             <div class="col-md-6">
               <div class="form-group">
                 <label><?php echo $assArr['shipper_Address'];?><span class="error">*</span></label>
-                <input type="text" class="form-control" name="txtShipperAddress">
+                <input type="text" class="form-control" name="txtShipperAddress" required>
               </div>
             </div>
           </div>
@@ -259,7 +259,7 @@ $resWp=UserprofileHelpersUserprofile::getPickupFieldviewsList($user);
               <div class="form-group">
                 <label><?php echo $assArr['consignee_Name'];?> <span class="error">*</span></label>
                 
-               <select class="form-control" name="txtConsigneeName">
+               <select class="form-control" name="txtConsigneeName" required>
                 <option value="">Select</option>
                 <?php
                     foreach($resWp->Consignee_List as $key=>$row){
@@ -273,7 +273,7 @@ $resWp=UserprofileHelpersUserprofile::getPickupFieldviewsList($user);
             <div class="col-md-6">
               <div class="form-group">
                 <label><?php echo $assArr['consignee_Address'];?><span class="error">*</span></label>
-                <input type="text" class="form-control"  name="txtConsigneeAddress">
+                <input type="text" class="form-control"  name="txtConsigneeAddress" required>
               </div>
             </div>
           </div>
@@ -282,7 +282,7 @@ $resWp=UserprofileHelpersUserprofile::getPickupFieldviewsList($user);
               <div class="form-group">
                 <label><?php echo $assArr['third_Party_Name'];?> <span class="error">*</span></label>
                 
-                <select class="form-control" name="txtThirdPartyName">
+                <select class="form-control" name="txtThirdPartyName" required>
                 <option value="">Select</option>
                 <?php
                     foreach($resWp->ThirdParty_List as $key=>$row){
@@ -296,7 +296,7 @@ $resWp=UserprofileHelpersUserprofile::getPickupFieldviewsList($user);
             <div class="col-md-6">
               <div class="form-group">
                 <label><?php echo $assArr['third_Party_Address'];?> <span class="error">*</span></label>
-                <input type="text" class="form-control" name="txtThirdPartyAddress">
+                <input type="text" class="form-control" name="txtThirdPartyAddress" required>
               </div>
             </div>
           </div>
@@ -318,13 +318,13 @@ $resWp=UserprofileHelpersUserprofile::getPickupFieldviewsList($user);
             <div class="col-md-6">
               <div class="form-group">
                 <label><?php echo $assArr['name'];?> <span class="error">*</span></label>
-                <input class="form-control" type="text" name="txtName">
+                <input class="form-control" type="text" name="txtName" required>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label> <?php echo $assArr['pickup_Date'];?>  <span class="error">*</span></label>
-               <input class="form-control" type="text" name="txtPickupDate">
+               <input class="form-control" type="text" name="txtPickupDate" required>
               </div>
             </div>
           </div>
@@ -332,7 +332,7 @@ $resWp=UserprofileHelpersUserprofile::getPickupFieldviewsList($user);
             <div class="col-md-6">
               <div class="form-group">
                 <label><?php echo $assArr['pickup_Address'];?><span class="error">*</span></label>
-               <textarea class="form-control" name="txtPickupAddress"></textarea>
+               <textarea class="form-control" name="txtPickupAddress" required></textarea>
                 <input type="hidden" class="form-control" name="QuoteNumberTxt" id="QuoteNumberTxt">
               </div>
             </div>
