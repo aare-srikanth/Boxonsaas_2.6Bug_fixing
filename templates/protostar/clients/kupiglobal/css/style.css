@@ -48,7 +48,7 @@ header .theme_nav .navbar-header a:focus{outline: 0;outline-offset: -2px;text-de
 /* Page Content */
 .page_content {background-color: #FFFFFF; background-image: url(../images/img-page-bg.jpg); background-position: center left; background-repeat: no-repeat; background-size: cover; }
 .page_content .main_panel {background-color: rgba(255, 255, 255, 0.78); }
-.page_content {margin: 109px 0 0 0;min-height: 84vh;}
+.page_content {margin: 135px 0 0 0;min-height: 84vh;}
 /* Page Content */
 
 /* Login Page */
@@ -115,7 +115,12 @@ span.num_count:after {border-top: 6px solid transparent; border-bottom: 10px sol
 .row.rows.row-mob label {min-height: 40px;}
     .btn-grp1 {margin-top: 45px;}
 /*Order process alert css end*/
-
+.ntifiction-info::before{
+    display:none;
+}
+.ntifiction-info {
+    border-bottom: 0;
+}
 /* Footer */
 .footer {background:#525252;}
 /*.footer .footer_top { padding: 30px 0; }*/

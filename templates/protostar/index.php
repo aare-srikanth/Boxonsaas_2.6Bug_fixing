@@ -223,6 +223,18 @@ else
 	$logo = '<span class="site-title" title="' . $sitename . '">' . $sitename . '</span>';
 }
 
+// dynamic style sheets for default and created domains
+     
+     $dir=getcwd()."/templates/protostar/clients/".$domain;
+     if(is_dir($dir)){
+         $faviconpath = JUri::base()."/templates/protostar/clients/".$domain."/cropped-fav.png";
+         $stylesheetpath = JUri::base()."/templates/protostar/clients/".$domain."/css/style.css";
+         
+     }else{
+         $faviconpath = JUri::base()."/templates/protostar/clients/defaulttheme/cropped-fav.png";
+         $stylesheetpath = JUri::base()."/templates/protostar/clients/defaulttheme/css/style.css";
+     }
+
 // Add Stylesheets
 //JHtml::_('stylesheet', 'bootstrap.min.css', array('version' => 'auto', 'relative' => true));
 // Add Stylesheets
@@ -234,7 +246,7 @@ else
    
 <head>
     <title/><?php echo $CompanyName; ?></title>
-<link rel="icon" href="<?php echo JURI::base() ?>/templates/protostar/clients/<?php echo $domain; ?>/cropped-fav.png" sizes="192x192" />
+<link rel="icon" href="<?php echo $faviconpath; ?>" sizes="192x192" />
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="Pragma" content="no-cache">
@@ -247,7 +259,7 @@ else
 	<?php //$stylesheet="style-".$CompanyName.".css";  ?>
 	<!-- Theme CSS -->
 	<link rel="stylesheet" href="<?php echo JURI::base() ?>/templates/protostar/css/style_global.css">
-	<link rel="stylesheet" href="<?php echo JURI::base() ?>/templates/protostar//clients/<?php echo $domain; ?>/css/style.css">
+	<link rel="stylesheet" href="<?php echo $stylesheetpath; ?>">
     
     <!-- <script src="templates/protostar/js/bootstrap.min.js"></script>-->
 

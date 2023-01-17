@@ -1134,12 +1134,23 @@
                   <!--   </div>-->
                      
                   <!--   <div class="clearfix"></div>-->
+                  
+                  <?php
+                  
+                    $dir=getcwd()."/templates/protostar/clients/".$domainName;
+                     if(is_dir($dir)){
+                         $termspath = JURI::base().'templates/protostar/clients/'.strtolower($domainName).'/terms_conditions_';
+                     }else{
+                         $termspath = JURI::base().'templates/protostar/clients/defaulttheme/terms_conditions_';
+                     }
+                  
+                  ?>
                      
                      <div class="col-sm-12">
                         <div class="form-group acpt_trms_err">
                            <label>
                            <input type="checkbox" name="termsTxt" id="termsTxt" value=1 class="required">
-                           <?php echo 'I ACCEPT <a target="_blank" href="'.JURI::base().'templates/protostar/clients/'.strtolower($domainName).'/terms_conditions_'.$language.'.php">TERMS AND CONDITIONS</a>'; ?><span class="error">*</span></label>
+                           <?php echo 'I ACCEPT <a target="_blank" href="'.$termspath.$language.'.php">TERMS AND CONDITIONS</a>'; ?><span class="error">*</span></label>
                         </div>
                      </div>
                      

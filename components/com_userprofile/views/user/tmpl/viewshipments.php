@@ -47,6 +47,10 @@ $pickup = $maccarr['PickUpOrder'];
 <script type="text/javascript">
 var $joomla = jQuery.noConflict(); 
 $joomla(document).ready(function() {
+    $joomla('.convertToPickup').on('click',function(e){
+        $joomla("#inv_view").modal("show");
+    });
+   
         history.pushState(null, null, location.href);
     window.onpopstate = function () {
         history.go(1);

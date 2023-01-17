@@ -138,7 +138,7 @@ $joomla(document).ready(function(){
         var ths=$joomla(this).closest('tr').parent().index();
         var resVal=$joomla(this).val();
         resVal=resVal.split(":");
-        if(resVal)
+        if(resVal!=0)
         $joomla.ajax({
 			url: "<?php echo JURI::base(); ?>index.php?option=com_userprofile&task=user.get_ajax_data&getpackagetype="+resVal[0] +"&getpackageflag=1&jpath=<?php echo urlencode  (JPATH_SITE); ?>&pseudoParam="+new Date().getTime(),
 			data: { "getpackagetype": $joomla(this).data('id') },
@@ -915,7 +915,7 @@ $joomla(document).ready(function(){
             $joomla('textarea[name="txtPickupAddress"]').val('');
             if($joomla('input[name=txtChargableWeight]').val()==1){
               $joomla('input[name="txtName"]').val('<?php echo $UserView->UserName;?>');
-              $joomla('textarea[name="txtPickupAddress"]').val('<?php echo $UserView->Address.'  '.$UserView->Address2.','.$UserView->City.','.$UserView->State.','. $UserView->Country.','.$UserView->PostalCode;?>');
+              $joomla('textarea[name="txtPickupAddress"]').val("<?php echo $UserView->Address."  ".$UserView->Address2.",".$UserView->City.",".$UserView->State.",". $UserView->Country.",".$UserView->PostalCode;?>");
             }else if($joomla('input[name=txtChargableWeight]').val()==2){
               $joomla('input[name="txtName"]').val($joomla('select[name="txtShipperName"]').find(":selected").text());
               $joomla('textarea[name="txtPickupAddress"]').val($joomla('input[name="txtShipperAddress"]').val());

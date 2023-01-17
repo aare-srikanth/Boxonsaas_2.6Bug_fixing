@@ -562,7 +562,12 @@ class Controlbox{
         curl_setopt($ch, CURLOPT_POSTFIELDS,'{"CompanyID":"'.$CompanyId.'","QuoteNumber":"'.$QuoteNumberTxts[0].'","IdCust":"'.$QuoteNumberTxts[1].'","IdServ":"'.$QuoteNumberTxts[1].'","Shipment_Id":"","ShipperId":"'.$QuoteNumberTxts[1].'","ShipperName":"'.$txtShipperNames[0].'","ShipperAddress":"'.$txtShipperAddress.'","ConsigneeId":"'.$txtConsigneeNames[0].'","ConsigneeName":"'.$txtConsigneeNames[1].'","ConsigneeAddress":"'.$txtConsigneeAddress.'","BitThirdPartySameAsCust":"","ThirdPartyId":"'.$QuoteNumberTxts[1].'","ThirdPartyName":"'.$txtThirdPartyNames[0].'","ThirdPartyAddress":"'.$txtThirdPartyAddress.'","BitConSameAsCust":"false","BitShipperSameAsCust":"true","PickUpInfo":{"Name":"'.$txtName.'","PickupDate":"'.$txtPickupDate.'","PickupAddr":"'.$txtPickupAddress.'"}}');
         curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
 		$result=curl_exec($ch);
-		//var_dump($result);exit;
+
+        // echo $url;
+        // echo '{"CompanyID":"'.$CompanyId.'","QuoteNumber":"'.$QuoteNumberTxts[0].'","IdCust":"'.$QuoteNumberTxts[1].'","IdServ":"'.$QuoteNumberTxts[1].'","Shipment_Id":"","ShipperId":"'.$QuoteNumberTxts[1].'","ShipperName":"'.$txtShipperNames[0].'","ShipperAddress":"'.$txtShipperAddress.'","ConsigneeId":"'.$txtConsigneeNames[0].'","ConsigneeName":"'.$txtConsigneeNames[1].'","ConsigneeAddress":"'.$txtConsigneeAddress.'","BitThirdPartySameAsCust":"","ThirdPartyId":"'.$QuoteNumberTxts[1].'","ThirdPartyName":"'.$txtThirdPartyNames[0].'","ThirdPartyAddress":"'.$txtThirdPartyAddress.'","BitConSameAsCust":"false","BitShipperSameAsCust":"true","PickUpInfo":{"Name":"'.$txtName.'","PickupDate":"'.$txtPickupDate.'","PickupAddr":"'.$txtPickupAddress.'"}}';
+		// var_dump($result);
+        // exit;
+
         $msg=json_decode($result);
         return $msg->Msg;
     }
@@ -1494,15 +1499,16 @@ if($priceStr != ""){
 		$result=curl_exec($ch);
 		$msg=json_decode($result);
 
-	//  $req='{"CompanyID":"'.$CompanyId.'","paymentOption":{"_amt":"'.$amtStr.'","_cardno":"'.$cardnumberStr.'","_ccno":"'.$txtccnumberStr.'","_index":"1","_month":"'.$MonthDropDownListStr.'","_nameoncard":"'.$txtNameonCardStr.'","_year":"'.$YearDropDownListStr.'"},"billFormIdsList":['.$wrhsloop.'],"idks":"'.$invidkStr.'","qtys":"'.$qtyStr.'","billFormIds":"'.$wherhourecStr.',","ShippingCost":"'.$amtStr.'","ConsigneeId":"'.$consignidStr.'","Comments":"'.$specialinstructionStr.'","PaymentType":"'.$cc.'","CustId":"'.$CustId.'","id_serv":"'.$shipservtStr.'","paymentgateway":"'.$pg.'","TransactionID":"'.$tid.'","UploadedFile":"'.$invf.'","fileName":"'.$nameStr.'","fileExtension":"'.$extStr.'","InHouseNo":"'.$inhouse.'","InhouseId":"'.$inhouseid.'","EachItemName":"'.$articleStr.'","EachItemQty":"'.$qtyStr.'","TotalitemsPrice":"'.$priceStr.'","id_rate_type":"'.$ratetype.'","Conveniencefees":"'.$Conveniencefees.'","InsuranceCost":"'.$insuranceCost.'","domainname":"'.$domainname.'","domainurl":"'.$domainurl.'","PromoCouponDiscountAmt":"'.$couponDiscAmt .'","PromoCouponCode":"'.$couponCodeStr.'","Addoninvoiceno":"'.$invoice.'"}';
-    //  echo $req."##".$msg->InvoiceId;
-    //  var_dump($result);
-    //  exit;
+// 	 $req='{"CompanyID":"'.$CompanyId.'","paymentOption":{"_amt":"'.$amtStr.'","_cardno":"'.$cardnumberStr.'","_ccno":"'.$txtccnumberStr.'","_index":"1","_month":"'.$MonthDropDownListStr.'","_nameoncard":"'.$txtNameonCardStr.'","_year":"'.$YearDropDownListStr.'"},"billFormIdsList":['.$wrhsloop.'],"idks":"'.$invidkStr.'","qtys":"'.$qtyStr.'","billFormIds":"'.$wherhourecStr.',","ShippingCost":"'.$amtStr.'","ConsigneeId":"'.$consignidStr.'","Comments":"'.$specialinstructionStr.'","PaymentType":"'.$cc.'","CustId":"'.$CustId.'","id_serv":"'.$shipservtStr.'","paymentgateway":"'.$pg.'","TransactionID":"'.$tid.'","UploadedFile":"'.$invf.'","fileName":"'.$nameStr.'","fileExtension":"'.$extStr.'","InHouseNo":"'.$inhouse.'","InhouseId":"'.$inhouseid.'","EachItemName":"'.$articleStr.'","EachItemQty":"'.$qtyStr.'","TotalitemsPrice":"'.$priceStr.'","id_rate_type":"'.$ratetype.'","Conveniencefees":"'.$Conveniencefees.'","InsuranceCost":"'.$insuranceCost.'","domainname":"'.$domainname.'","domainurl":"'.$domainurl.'","PromoCouponDiscountAmt":"'.$couponDiscAmt .'","PromoCouponCode":"'.$couponCodeStr.'","Addoninvoiceno":"'.$invoice.'"}';
+//      echo $req."##".$msg->InvoiceId;
+//      var_dump($result);
+//      exit;
 	 
         
         
         if($msg->InvoiceId!=""){
             
+                  
                     // isert billform
                     
         $lengthStrSum = array_sum(explode(",",$lengthStr));
@@ -2249,7 +2255,7 @@ if($priceStr != ""){
                         // var_dump($result);exit;
                         
                         $res.='<div class="clearfix"></div><br>';
-                             $res.='<div class="row shipping_info_ed">
+                             $res.='<div class="row">
                                     <div class="col-md-12">
                                     <div class="form-group servc-chk">
                                     <div id="getservices">
@@ -3701,20 +3707,21 @@ if($priceStr != ""){
         $i=1;
         foreach($msg as $rg){
             $cv='';
-            if($rg->status=="Approved"){
-               $cv='<a data-toggle="modal" data-target="#inv_view"  data-id="'.$rg->number_quotation.':'.$rg->id_cust.'" >'.Jtext::_('PICKUP ORDER').'</a>'; 
+            if(!$rg->number_pickup_order){
+              $cv='<td class="convertToPickup" style="text-align:center;"><a data-id="'.$rg->number_quotation.':'.$rg->id_cust.'">Click Here</a></td>'; 
+            }else{
+              $cv='<td style="text-align:center;">-</td>';
             }
-            
-           if($pickup == "True" && $quotation == "True"){
-             $rs.= '<tr><td>'.$i.'</td><td>'.$rg->number_quotation.'</td><td>'.$rg->number_pickup_order.'</td><td>'.$rg->bill_form_no.'</td><td>'.$rg->status.'</td><td>'.$rg->totalQty.'</td><td>'.$rg->dti_created.'</td></tr>';
-           }else if($pickup == "True"){
-               if($rg->number_pickup_order != '')
-               $rs.= '<tr><td>'.$i.'</td><td>'.$rg->number_pickup_order.'</td><td>'.$rg->bill_form_no.'</td><td>'.$rg->status.'</td><td>'.$rg->totalQty.'</td><td>'.$rg->dti_created.'</td></tr>';
-               
-           }elseif($quotation == "True"){
-               if($rg->number_quotation != '')
-                $rs.= '<tr><td>'.$i.'</td><td>'.$rg->number_quotation.'</td><td>'.$rg->bill_form_no.'</td><td>'.$rg->status.'</td><td>'.$rg->totalQty.'</td><td>'.$rg->dti_created.'</td></tr>';
-           }
+              if($pickup == "True" && $quotation == "True"){
+                $rs.= '<tr><td>'.$i.'</td><td>'.$rg->number_quotation.'</td>'.$cv.'<td>'.$rg->number_pickup_order.'</td><td>'.$rg->bill_form_no.'</td><td>'.$rg->status.'</td><td>'.$rg->totalQty.'</td><td>'.$rg->dti_created.'</td></tr>';
+              }else if($pickup == "True"){
+                  if($rg->number_pickup_order != '')
+                  $rs.= '<tr><td>'.$i.'</td><td>'.$rg->number_pickup_order.'</td><td>'.$rg->bill_form_no.'</td><td>'.$rg->status.'</td><td>'.$rg->totalQty.'</td><td>'.$rg->dti_created.'</td></tr>';
+                  
+              }elseif($quotation == "True"){    
+                  if($rg->number_quotation != '')
+                   $rs.= '<tr><td>'.$i.'</td><td>'.$rg->number_quotation.'</td>'.$cv.'<td class="convertToPickup"><a data-id="'.$rg->number_quotation.':'.$rg->id_cust.'">Click</a></td><td>'.$rg->bill_form_no.'</td><td>'.$rg->status.'</td><td>'.$rg->totalQty.'</td><td>'.$rg->dti_created.'</td></tr>';
+              }
           
           $i++;
         }        

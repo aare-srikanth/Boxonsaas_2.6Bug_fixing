@@ -258,4 +258,3 @@ if($session->get('user_casillero_id')){
   });  
   
 </script>
-
