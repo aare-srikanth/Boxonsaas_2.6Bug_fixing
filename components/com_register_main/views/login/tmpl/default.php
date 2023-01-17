@@ -140,9 +140,10 @@ if (!$canEdit && JFactory::getUser()->authorise('core.edit.own', 'com_register')
                   
                 $nb_elem_per_page = 5;
                 $page = isset($_GET['page'])?intval($_GET['page']):1;
-                $number_of_pages = ceil(count($mainPageDetails)/$nb_elem_per_page);
+                $number_of_pages = intval(count($mainPageDetails)/$nb_elem_per_page)+1;
                 
                         foreach(array_slice($mainPageDetails, ($page-1)*$nb_elem_per_page, $nb_elem_per_page) as $data){
+                      
                             $str = '$id';
                             if(strlen($data->Content) > 100){
                                 $content = substr(strip_tags($data->Content),0,100);
@@ -151,9 +152,8 @@ if (!$canEdit && JFactory::getUser()->authorise('core.edit.own', 'com_register')
                                 $content = strip_tags($data->Content);
                             }
                            echo '<div class="row ntifiction-info"><a href="index.php/en/component/register/notifications?Itemid=131#'.$data->$str.'" >'.$data->Heading.'</a><p>'.$content.'</p></div>';
-                        
-                       }
-                       
+                             
+                       } 
                     ?>
                     
                

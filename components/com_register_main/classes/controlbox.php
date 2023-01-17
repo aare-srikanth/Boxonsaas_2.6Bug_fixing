@@ -534,7 +534,7 @@ class Controlbox{
         
         /** Debug **/
         // echo $url;
-        // var_dump($msg);
+        // var_dump($msg->Data);
         // exit;
         
         return $msg->Data;
