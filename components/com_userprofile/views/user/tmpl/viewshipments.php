@@ -131,7 +131,7 @@ $joomla(document).ready(function() {
         </div>
         
         
-	        <div class="row">
+        <div class="row">
 	        	<div class="col-md-12">
 	        		<table class="table table-bordered theme_table" id="j_table">
 	        			<thead>
@@ -141,6 +141,7 @@ $joomla(document).ready(function() {
 								<?php  if($pickup == "True" && $quotation == "True"){ ?>
 								
 								<th><?php echo Jtext::_('COM_USERPROFILE_VIEW_SHIPMENTS_QUOTATION');?>#</th>
+                <th><?php echo "Convert To Pickup";?></th>
 								<th><?php echo Jtext::_('COM_USERPROFILE_VIEW_SHIPMENTS_PICKUP_ORDER');?>#</th>
 								
 								<?php }else if($pickup == "True"){ ?>
@@ -149,6 +150,7 @@ $joomla(document).ready(function() {
 								
 								<?php }elseif($quotation == "True"){ ?>
 									<th><?php echo $assArr['quotation#'];?></th>
+                  <th><?php echo "Convert To Pickup";?></th>
 								<?php } ?>
 								
 								<th><?php echo $assArr['warehouse_Receipt'];?>#</th>

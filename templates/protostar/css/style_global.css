@@ -838,6 +838,14 @@ color: #4c4e56;
     border-bottom: 1px solid #cccc;
     padding: 14px;
 }
+/* 2.7 ui start */
+.convertToPickup a {
+  border-radius: 50px;
+   padding: 4px 10px; 
+   font-weight: bold;
+   cursor: pointer;
+}
+/* 2.7 ui end */
 @media (max-width:1024px) {
 	.address_section {border-top: 2px solid #ccc;}
 	.navbar-collapse.navbar-right.custommenu {display: block !important;}	
