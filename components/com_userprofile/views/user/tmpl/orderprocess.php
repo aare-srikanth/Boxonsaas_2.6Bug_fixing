@@ -3791,7 +3791,7 @@
                                 //   var_dump($rg->ItemImage1);
                                 //   exit;
                                
-                                if(1){ // $rg->ItemQuantity>0
+                                if(1){ // $rg->ItemQuantity>0 
                                     $volres=$rg->Height*$rg->Width*$rg->Length*UserprofileHelpersUserprofile::getShippmentDetailsValues($res->MeasureUnits,$res->shipment_type,$res->ServiceType,$res->Source,$res->Dest_Cntry);
                                     if($res->shipment_type=="AIR"){
                                       $volres=$rg->ItemQuantity*$volres;
