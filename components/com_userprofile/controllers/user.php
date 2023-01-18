@@ -2741,7 +2741,14 @@ function PPHttpPost($methodName, $nvpStr) {
 
         }
         
-        
+        $updateinvoiceflag = JRequest::getVar('updateinvoiceflag', '', 'get');
+        if($updateinvoiceflag!=""){
+            $invData = JRequest::getVar('invData', '', 'get');
+            $itemIdk = JRequest::getVar('itemIdk', '', 'get');
+            $result=Controlbox::updateInvoiceDetails($invData,$itemIdk);
+            echo $result;
+            exit;
+        }
 
 
 	} // get ajax data end	
