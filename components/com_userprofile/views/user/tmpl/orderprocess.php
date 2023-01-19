@@ -98,9 +98,11 @@
       $elem[$element->ElementId]=array($element->ElementDescription,$element->ElementStatus,$element->is_mandatory,$element->is_default,$element->ElementValue);
    }
    
-   
-   
    // end
+
+   // enable / hide shipping info
+
+   $shippingInfoStat = $elem['ShippingInfo'][1];
    
 // echo '<pre>';   
 // var_dump($elem);exit;
@@ -155,7 +157,7 @@
 <script type="text/javascript">
    var $joomla = jQuery.noConflict(); 
    $joomla(document).ready(function() {
-       
+      $joomla(".other_payment_type").prop("checked", true);
        $joomla('#dvPaymentInformation input[type=text]').on('keyup',function(){
         cardFormValidate();
     });
@@ -464,6 +466,7 @@
                     $joomla(this).prop( "checked", false );
                 });
               $joomla(".check_all_items").prop("checked",false);
+              $joomla(".check_all_items_repack").prop("checked",false);
               $joomla('#step1').hide(); 
               $joomla('.shipAll').hide();
               $joomla('tr .ship:first-child').show();
@@ -511,13 +514,20 @@
             //$joomla(".ship:visible").trigger("click");
             $joomla("input[name=txtId]").prop("checked",false);
             $joomla("input[name=txtId]:visible").trigger("click");
+
             
-        $joomla(".check_all_items").prop( "checked", false );
-         
-         $joomla(".check_all_items:visible").each(function(){
-             $joomla(this).trigger("click");
-             $joomla(this).prop("checked",true);
-         });
+            
+            $joomla(".check_all_items").prop( "checked", false );
+            $joomla(".check_all_items_repack").prop( "checked", false );
+
+               $joomla(".check_all_items:visible").each(function(){
+                  $joomla(this).trigger("click");
+                  $joomla(this).prop("checked",true);
+               });
+               $joomla(".check_all_items_repack:visible").each(function(){
+                  $joomla(this).trigger("click");
+                  $joomla(this).prop("checked",true);
+               });
             
             $joomla('#step1').show();
             $joomla('#step1 #j_table').show();
@@ -1299,6 +1309,7 @@
             
             unselList = unselList.replace(/,+$/, '');
             $joomla("#extAddSer").val(unselList);
+            $joomla(".other_payment_type").prop("checked", "checked");
            
           
    });
@@ -1580,7 +1591,9 @@
        });
        
         $joomla(document).on('click','input[name=shipmentStr],#shipmentNewStr',function(){
-            
+            //hide / show shipping info
+            var shippingInfoStatus = "<?php echo  $shippingInfoStat; ?>";
+            //end
            shippingCost = 0;
             var rateType = $joomla("input[name=shipmentNewStr]:checked").val();
             if(rateType != undefined){
@@ -1652,6 +1665,14 @@
                   //$joomla('#divShipCOstTwo').html('');
                   $joomla('#divShipCOstOne').html(data+'<div class="clearfix"></div>');
                                  
+                  var hide_shoew_text = "";
+                  if(shippingInfoStatus=="ACT"){
+                     $joomla("#divShipCOstTwo,.coupons_section,.shipping-costtbl,.finalShippingCostInfo").show();
+
+                  }else{
+                     $joomla("#divShipCOstTwo,.coupons_section,.shipping-costtbl,.finalShippingCostInfo").hide();
+                  }
+
                   if(data==""){
                      $joomla('input[name=shipmentStr]').filter(':radio').prop('checked',false);
                      $joomla('#divShipCOstOne').removeClass("rdo_cust shp-addnew1");
@@ -1907,7 +1928,12 @@
    
            var ischecked= $joomla(this).is(':checked');
          if(ischecked){
-             
+            $joomla(".check_all_items").each(function(){
+               let wr_no = $joomla(this).attr("data-id");
+               if(wr_no == indVal[1]){
+                  $joomla(this).prop("checked",true);
+               }
+           });
              
                if($joomla('input[name="shipment"]:checked').val()=="1"){
                    
@@ -2290,6 +2316,7 @@
                  $joomla('.btn-danger').click();
              }
            $joomla("#srol").focus();  
+           $joomla(".selcetedCount").html(parseInt($joomla(".check_all_items:checked").length) + parseInt($joomla(".check_all_items_repack:checked").length ));
        });     
    
        
@@ -3560,8 +3587,8 @@
                                 //   exit;
                                
                                 if(1){ // $rg->ItemQuantity>0
-                                    $volres=$repack->Height*$repack->Width*$repack->Length*UserprofileHelpersUserprofile::getShippmentDetailsValues($res->DimUnits,$res->shipment_type,$res->ServiceType,$res->Source,$res->Dest_Cntry);
-                                    if($repack->shipment_type=="AIR"){
+                                 $volres=$rg->Height*$rg->Width*$rg->Length*UserprofileHelpersUserprofile::getShippmentDetailsValues($res->MeasureUnits,$res->shipment_type,$res->ServiceType,$res->Source,$res->Dest_Cntry);
+                                 if($res->shipment_type=="AIR"){
                                       $volres=$rg->ItemQuantity*$volres;
                                     }
                                     if($rg->ItemImage1==""){
@@ -3586,11 +3613,11 @@
                                  // class="check-invisable"
                                       echo '<tr style="display:none;">
                                                 <td></td>
-                                        		<td class="action_btns">
-                                        		<input type="checkbox"  name="txtId" class="txtId selinpt-chksub" data-sno="item_wr_'.$idf.'"  value="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$repack->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$res->DimUnits.':'.$repack->Length.':'.$repack->Width.':'.$repack->Height.':'.$repack->Weight.':'.$res->WeightUnit.':'.$sim.':'.$res->ShipmentType.':'.$res->SourceHub.':'.$res->DestinationCountryName.':'.$res->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'">
-                                        		 <input type="button" name="ship" class="ship" data-sno="item_wr_'.$idf.'" data-id="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$repack->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$res->DimUnits.':'.$repack->Length.':'.$repack->Width.':'.$repack->Height.':'.$repack->Weight.':'.$res->WeightUnit.':'.$sim.':'.$res->ShipmentType.':'.$res->SourceHub.':'.$res->DestinationCountryName.':'.$res->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'" data-target="#ord_ship" title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_SHIP').'">';
-                                                echo '</td>
-                                        		<td>'.$rg->ItemName.'</td>
+                                                <td class="action_btns">
+                                                <input type="checkbox"  name="txtId" class="txtId selinpt-chksub" data-sno="item_wr_'.$idf.'"  value="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$repack->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$rg->Length.':'.$rg->Width.':'.$rg->Height.':'.$rg->Weight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'">
+                                                 <input type="button" name="ship" class="ship" data-sno="item_wr_'.$idf.'" data-id="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$repack->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$rg->Length.':'.$rg->Width.':'.$rg->Height.':'.$rg->Weight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'" data-target="#ord_ship" title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_SHIP').'">';
+                                                 echo '</td>
+                                                 <td>'.$rg->ItemName.'</td>
                                         		<td>'.$rg->ItemQuantity.'</td>
                                         		<td><input type="hidden" name="ItemIdkTxt" value="'.$rg->ItemIdk.'"><input type="hidden" name="ItemQtyTxt" value="'.$rg->ItemQuantity.'"><input type="hidden" name="ItemQtyEdit" value="'.$rg->ItemQuantity.'">
                                                 <input type="text" class="form-control" name="txtQty" value="'.$rg->ItemQuantity.'" '.$readonltTxt.' ></td>
@@ -3754,8 +3781,8 @@
                                 //   exit;
                                
                                 if(1){ // $rg->ItemQuantity>0
-                                    $volres=$repack->Height*$repack->Width*$repack->Length*UserprofileHelpersUserprofile::getShippmentDetailsValues($res->DimUnits,$res->shipment_type,$res->ServiceType,$res->Source,$res->Dest_Cntry);
-                                    if($repack->shipment_type=="AIR"){
+                                 $volres=$rg->Height*$rg->Width*$rg->Length*UserprofileHelpersUserprofile::getShippmentDetailsValues($res->MeasureUnits,$res->shipment_type,$res->ServiceType,$res->Source,$res->Dest_Cntry);
+                                 if($res->shipment_type=="AIR"){
                                       $volres=$rg->ItemQuantity*$volres;
                                     }
                                     if($rg->ItemImage1==""){
@@ -3769,9 +3796,9 @@
                                             $mgtd='<td class="action_btns"><a class="ship_img" data-toggle="modal" data-backdrop="static" data-keyboard="false" href="#" data-id="'.$rg->ItemImage1.'##'.$rg->ItemImage2.'##'.$rg->ItemImage3.'##'.$rg->ItemImage4.'" data-target="#view_image" ><i class="fa fa-eye"></i></a></td>';
                                       }
                                     $grosswtTd = NULL;
-                                 if($Gross_weight_display){
-                                     $grosswtTd = "<td>".$repack->weight."</td>";
-                                 }  
+                                    if($Gross_weight_display){
+                                       $grosswtTd = "<td>".$repack->GrossWeight."</td>";
+                                   }  
                                  $readonltTxt = "";
                                  if($rg->InhouseRepacklbl !=''){
                                     $readonltTxt = "readonly";
@@ -3781,10 +3808,10 @@
                                       echo '<tr style="display:none;">
                                        
                                                 <td></td>
-                                        		<td class="action_btns">
-                                        		<input type="checkbox"  name="txtId" class="txtId selinpt-chksub" data-sno="item_wr_'.$idf.'"  value="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$res->DimUnits.':'.$repack->Length.':'.$repack->Width.':'.$repack->Height.':'.$repack->Weight.':'.$res->WeightUnit.':'.$sim.':'.$res->ShipmentType.':'.$res->SourceHub.':'.$res->DestinationCountryName.':'.$res->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'">
-                                        		 <input type="button" name="ship" class="ship" data-sno="item_wr_'.$idf.'" data-id="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$res->DimUnits.':'.$repack->Length.':'.$repack->Width.':'.$repack->Height.':'.$repack->Weight.':'.$res->WeightUnit.':'.$sim.':'.$res->ShipmentType.':'.$res->SourceHub.':'.$res->DestinationCountryName.':'.$res->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'" data-target="#ord_ship" title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_SHIP').'">';
-                                        			if($elem['Hold'][1] == "ACT")
+                                                <td class="action_btns">
+                                                <input type="checkbox"  name="txtId" class="txtId selinpt-chksub" data-sno="item_wr_'.$idf.'"  value="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$rg->Length.':'.$rg->Width.':'.$rg->Height.':'.$rg->GrossWeight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'">
+                                                 <input type="button" name="ship" class="ship" data-sno="item_wr_'.$idf.'" data-id="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$rg->Length.':'.$rg->Width.':'.$rg->Height.':'.$rg->Weight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'" data-target="#ord_ship" title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_SHIP').'">';
+                                                 if($elem['Hold'][1] == "ACT")
                                         			echo '<input type="button" name="Return" class="return" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-id="'.$res->BillFormNo.':'.$rg->ItemIdk.':'.$rg->ItemQuantity.'" data-target="#ord_return"" title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_RETURN').'">';
                                         			if($elem['Return'][1] == "ACT")
                                         			echo '<input type="button" name="Keep" class="keep" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-id="'.$res->BillFormNo.':'.$rg->ItemIdk.':'.$rg->ItemQuantity.'" data-target="#ord_keep" " title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_HOLD').'">';
@@ -3941,9 +3968,8 @@
                                                  // class="check-invisable"
                                                        echo '<tr style="display:none">
                                                                 <td></td>
-                                                        		<td class="action_btns">
-                                                        		<input type="checkbox" style="display:none"  name="txtId" class="txtId selinpt-chksub" data-sno="item_wr_'.$idf.'"  value="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$repack->Length.':'.$repack->Width.':'.$repack->Height.':'.$repack->Weight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$repack->InhouseRepackLbl.':'.$repack->ServiceId.':'.$repack->Status_Request.'">';
-                                                                echo '</td>
+                                                                <td class="action_btns">
+                                                                <input type="checkbox" style="display:none"  name="txtId" class="txtId selinpt-chksub" data-sno="item_wr_'.$idf.'"  value="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$repack->Length.':'.$repack->Width.':'.$repack->Height.':'.$repack->GrossWeight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$repack->InhouseRepackLbl.':'.$repack->ServiceId.':'.$repack->Status_Request.'">';                                                                echo '</td>
                                                         		<td>'.$rg->ItemName.'</td>
                                                         		<td>'.$rg->ItemQuantity.'</td>
                                                         		<td><input type="hidden" name="ItemIdkTxt" value="'.$rg->ItemIdk.'"><input type="hidden" name="ItemQtyTxt" value="'.$rg->ItemQuantity.'"><input type="hidden" name="ItemQtyEdit" value="'.$rg->ItemQuantity.'">
@@ -3977,6 +4003,7 @@
                <div id="step1" style="display:none">
                   <div class="row">
                      <div class="col-md-12">
+                     <div class="selcetedCountSec">Selected Items : <span class="selcetedCount"></span></div>
                         <div class="table-responsive">
                            <table class="table table-bordered theme_table" id="j_table">
                               <thead>
@@ -4708,12 +4735,15 @@
                   <div class="row">
                      <div class="col-md-12">
                         <div class="finish-shipping">
+                        <div class="finalShippingCostInfo">
                            <label><?php echo Jtext::_('COM_USERPROFILE_SHIP_POPUP_FINISH_SHIPPING');?> : </label>
                            <div id="shipmethodStrValuetwo" style="float:right"></div>
                            <p> <?php echo Jtext::_('COM_USERPROFILE_SHIP_POPUP_MY_SUMMARY');?></p>
                            <p> <?php echo Jtext::_('COM_USERPROFILE_SHIP_POPUP_INCLUDES');?>:</p>
+                           </div>
                            <br/>
-                           <?php if($promocodes){  ?>  
+                           <?php if($promocodes){  ?> 
+                           <div class="coupons_section"> 
                            <div class="cupn-serch" style="display:block;">
                               <h4 class="modal-title"><strong>Apply Coupon</strong></h4>
                              
@@ -4734,7 +4764,7 @@
                            <div class="cupn-cdes">
                                        <!--DYNAMIC CONTENT-->
                            </div>
-                           
+                           </div>
                            <?php } ?>
                            
                            </div>
@@ -4809,6 +4839,9 @@
                             <div class="paymentmethodsDiv">
                                 
                                 <?php 
+                                 if($elem['PaymentType'][1] == "ACT"){	
+                                    echo '<input type="radio" style="display:none;" class="other_payment_type"  name="cc" value="'.$elem['PaymentType'][4].'" >';	
+                                 }else{
                                     $paymentmethodsStr = ''; 
                                     $paymentmethods = Controlbox::getpaymentmethods();
                                     foreach($paymentmethods as $method){
@@ -4822,6 +4855,7 @@
                                     
                                     $paymentmethodsStr.=Controlbox::getpaymentgateways('PPD');
                                     echo $paymentmethodsStr;
+                                 }
                                 ?>
                                
                             </div>    

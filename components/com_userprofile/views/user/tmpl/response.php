@@ -63,6 +63,14 @@ if($pay){
     
 }
 
+$res = Controlbox::dynamicElements('PendingShipments');
+$elem=array();
+foreach($res as $element){
+   $elem[$element->ElementId]=array($element->ElementDescription,$element->ElementStatus,$element->is_mandatory,$element->is_default,$element->ElementValue);
+}
+
+// var_dump($elem['GenerateInvoice'][1]);
+// exit;
 ?>
 <?php include 'dasboard_navigation.php' ?>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -145,10 +153,9 @@ foreach($clients as $client){
                     $domainName = explode("-",$serverName[0]);
                 ?>
 			
-				<div class="order-info">
-            <h3> <?php echo Jtext::_('ORDER_CONFORMATION');?><Label ID="lblord" class="ord"><?php echo $status[0];?></Label> </h3>
-            <h3> <?php echo strtoupper($domainName[0])." ".Jtext::_('ORDER_CONFORMATION_TANS'); ?> <Label ID="lblordno" class="ord"><?php echo $status[0];?></Label>  </h3>
-
+            <div class="order-info">
+            <h3> <?php echo Jtext::_('ORDER_CONFORMATION');?><Label ID="lblord" class="ord"><?php if($elem['GenerateInvoice'][1] == "ACT"){ echo "#".$status[0]; } ?></Label> </h3>
+            <h3> <?php echo strtoupper($domainName[0])." ".Jtext::_('ORDER_CONFORMATION_TANS'); ?> <Label ID="lblordno" class="ord"><?php if($elem['GenerateInvoice'][1] == "ACT"){  echo "#".$status[0]; } ?></Label>  </h3>
             <h6> <?php echo Jtext::_('ORDER_CONFORMATION_HI');?> <Label ID="lblname"></Label> </h6>
             <p>
                <?php echo Jtext::_('ORDER_CONFORMATION_DESC');?>

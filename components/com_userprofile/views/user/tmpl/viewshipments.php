@@ -50,6 +50,8 @@ $joomla(document).ready(function() {
     $joomla('.convertToPickup').on('click',function(e){
         $joomla("#inv_view").modal("show");
     });
+
+
    
         history.pushState(null, null, location.href);
     window.onpopstate = function () {
@@ -141,6 +143,7 @@ $joomla(document).ready(function() {
 								<?php  if($pickup == "True" && $quotation == "True"){ ?>
 								
 								<th><?php echo Jtext::_('COM_USERPROFILE_VIEW_SHIPMENTS_QUOTATION');?>#</th>
+                <th><?php echo "Convert To Pickup";?></th>
 								<th><?php echo Jtext::_('COM_USERPROFILE_VIEW_SHIPMENTS_PICKUP_ORDER');?>#</th>
 								
 								<?php }else if($pickup == "True"){ ?>
@@ -149,6 +152,7 @@ $joomla(document).ready(function() {
 								
 								<?php }elseif($quotation == "True"){ ?>
 									<th><?php echo $assArr['quotation#'];?></th>
+                  <th><?php echo "Convert To Pickup";?></th>
 								<?php } ?>
 								
 								<th><?php echo $assArr['warehouse_Receipt'];?>#</th>
@@ -213,11 +217,29 @@ $resWp=UserprofileHelpersUserprofile::getPickupFieldviewsList($user);
         $joomla('textarea[name="txtPickupAddress"]').val('');
         if($joomla(this).val()==1){
           $joomla('input[name="txtName"]').val('<?php echo $UserView->UserName;?>');
-          $joomla('textarea[name="txtPickupAddress"]').val('<?php echo $UserView->Address.'  '.$UserView->Address2.','.$UserView->City.','.$UserView->State.','. $UserView->Country.','.$UserView->PostalCode;?>');
+          $joomla('textarea[name="txtPickupAddress"]').val('<?php echo $UserView->Address1.'  '.$UserView->Address2.','.$UserView->City.','.$UserView->State.','. $UserView->Country.','.$UserView->PostalCode;?>');
         }else if($joomla(this).val()==2){
           $joomla('input[name="txtName"]').val($joomla('select[name="txtShipperName"]').find(":selected").text());
           $joomla('textarea[name="txtPickupAddress"]').val($joomla('input[name="txtShipperAddress"]').val());
         }
+    });
+    $joomla('.submit_pickup').click(function() {
+      var i=1;
+      var k=1;  
+          $joomla('input:required').each(function() {
+            i++;
+            if ($joomla(this).val() !== '')
+            k++;
+          });
+          $joomla('select:required').each(function() {
+            i++;
+            if ($joomla(this).val() !== '')
+            k++;
+          });
+
+      if(i==k) {
+        $joomla('.page_loader').show();
+      } 
     });
     });
     </script>
@@ -234,7 +256,7 @@ $resWp=UserprofileHelpersUserprofile::getPickupFieldviewsList($user);
               <div class="form-group">
                 <label><?php echo $assArr['shipper_Name'];?><span class="error">*</span></label>
                 
-                <select class="form-control" name="txtShipperName">
+                <select class="form-control" name="txtShipperName" required>
 			        <option value="">Select</option>
 			        <?php
                     foreach($resWp->Shipper_List as $key=>$row){
@@ -257,7 +279,7 @@ $resWp=UserprofileHelpersUserprofile::getPickupFieldviewsList($user);
               <div class="form-group">
                 <label><?php echo $assArr['consignee_Name'];?> <span class="error">*</span></label>
                 
-               <select class="form-control" name="txtConsigneeName">
+               <select class="form-control" name="txtConsigneeName" required>
                 <option value="">Select</option>
                 <?php
                     foreach($resWp->Consignee_List as $key=>$row){
@@ -280,7 +302,7 @@ $resWp=UserprofileHelpersUserprofile::getPickupFieldviewsList($user);
               <div class="form-group">
                 <label><?php echo $assArr['third_Party_Name'];?> <span class="error">*</span></label>
                 
-                <select class="form-control" name="txtThirdPartyName">
+                <select class="form-control" name="txtThirdPartyName" required>
                 <option value="">Select</option>
                 <?php
                     foreach($resWp->ThirdParty_List as $key=>$row){
@@ -316,13 +338,13 @@ $resWp=UserprofileHelpersUserprofile::getPickupFieldviewsList($user);
             <div class="col-md-6">
               <div class="form-group">
                 <label><?php echo $assArr['name'];?> <span class="error">*</span></label>
-                <input class="form-control" type="text" name="txtName">
+                <input class="form-control" type="text" name="txtName" required>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
                 <label> <?php echo $assArr['pickup_Date'];?>  <span class="error">*</span></label>
-               <input class="form-control" type="text" name="txtPickupDate">
+               <input class="form-control" type="text" name="txtPickupDate" required>
               </div>
             </div>
           </div>
@@ -330,14 +352,14 @@ $resWp=UserprofileHelpersUserprofile::getPickupFieldviewsList($user);
             <div class="col-md-6">
               <div class="form-group">
                 <label><?php echo $assArr['pickup_Address'];?><span class="error">*</span></label>
-               <textarea class="form-control" name="txtPickupAddress"></textarea>
+               <textarea class="form-control" name="txtPickupAddress" required></textarea>
                 <input type="hidden" class="form-control" name="QuoteNumberTxt" id="QuoteNumberTxt">
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-md-12 text-center">
-              <input type="submit" value="Save" class="btn btn-primary">
+              <input type="submit" value="Save" class="btn btn-primary submit_pickup" >
               <input type="button" value="Cancel" data-dismiss="modal" class="btn btn-danger">
             </div>
           </div>
