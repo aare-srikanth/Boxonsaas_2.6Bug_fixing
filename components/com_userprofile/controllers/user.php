@@ -471,6 +471,9 @@ class UserprofileControllerUser extends JControllerLegacy
         $inventoryTxt = JRequest::getVar('InventoryTxt', '', 'post');
         $txtOrderId = JRequest::getVar('txtOrderId', '', 'post');
         $txtRmaValue = JRequest::getVar('txtRmaValue', '', 'post');
+        $txtLength = JRequest::getVar('txtLength', '', 'post');
+        $txtHeigth = JRequest::getVar('txtHeigth', '', 'post');
+        $txtWidth = JRequest::getVar('txtWidth', '', 'post');
         
         // mltiple upload start
         
@@ -577,7 +580,7 @@ class UserprofileControllerUser extends JControllerLegacy
         
         //Redirect to a page of your choice
         if($customerid!=""){
-           $status=Controlbox::updatePurchaseOrder($itemid,$customerid,$supplierid,$carrierid,$trackingid,$orderdate,$profilepicname,$imageByteStream,$itemname,$itemquantity,$price,$cost,'In Progress',$countryTxt,$stateTxt,$mulfilename[0],$mulfilename[1],$mulfilename[2],$mulfilename[3],$mulimageByteStream[0],$mulimageByteStream[1],$mulimageByteStream[2],$mulimageByteStream[3],$txtOrderId,$txtRmaValue,$inventoryTxt);
+           $status=Controlbox::updatePurchaseOrder($itemid,$customerid,$supplierid,$carrierid,$trackingid,$orderdate,$profilepicname,$imageByteStream,$itemname,$itemquantity,$price,$cost,'In Progress',$countryTxt,$stateTxt,$mulfilename[0],$mulfilename[1],$mulfilename[2],$mulfilename[3],$mulimageByteStream[0],$mulimageByteStream[1],$mulimageByteStream[2],$mulimageByteStream[3],$txtOrderId,$txtRmaValue,$txtLength,$txtHeigth,$txtWidth,$inventoryTxt);
         }
         
        
@@ -1501,7 +1504,9 @@ function PPHttpPost($methodName, $nvpStr) {
       }
        
     }
-    
+    $lengthTxt = JRequest::getVar('lengthTxt', '', 'post');
+    $heightTxt = JRequest::getVar('heightTxt', '', 'post');
+    $widthTxt = JRequest::getVar('widthTxt', '', 'post');
     //   echo '<pre>';
     //   //var_dump($mulfilename);
    
@@ -1636,7 +1641,7 @@ function PPHttpPost($methodName, $nvpStr) {
             // exit;
 
                    
-                    $status=Controlbox::getaddshippment($CustId,$mnameTxt,$carrierTxt,$carriertrackingTxt,$orderdateTxt,$anameTxt,$quantityTxt,$declaredvalueTxt,$totalpriceTxt,$itemstatusTxt,$countryTxt,'',$rmavalue,$orderidTxt,$business_type,$mulfilename,$mulimageByteStream);
+                    $status=Controlbox::getaddshippment($CustId,$mnameTxt,$carrierTxt,$carriertrackingTxt,$orderdateTxt,$anameTxt,$quantityTxt,$declaredvalueTxt,$totalpriceTxt,$itemstatusTxt,$countryTxt,'',$rmavalue,$orderidTxt,$business_type,$mulfilename,$mulimageByteStream,$lengthTxt,$heightTxt,$widthTxt);
                    
                     if($status==""){
                         $app->enqueueMessage(JText::_('WEBSERVICE_ISSUE'), 'error');
@@ -3005,6 +3010,63 @@ function PPHttpPost($methodName, $nvpStr) {
 
 
 	} 
+
+
+     //userprofile update
+
+     public function userprofileupdate(){
+
+        $app = JFactory::getApplication();
+        $image1 = file_get_contents($_FILES['file']["tmp_name"]);
+        $imageByteStream = base64_encode($image1);
+        $filename = JFile::makeSafe($_FILES['file']["name"]);
+        $profilepicname=JFile::makeSafe($_FILES['file']["name"]);
+        $nameExtAry=explode(".",$profilepicname);
+        $fileName = $nameExtAry[0];
+        $fileExt = ".".$nameExtAry[1];
+        $itemimage=JFile::makeSafe($_FILES['file']["name"]);
+        $CustId = JRequest::getVar('user', '', 'post');
+        $companyId =130;
+    
+         $statusStr=Controlbox::updateprofilepic($CustId,$fileName,$fileExt,$imageByteStream,$companyId,$itemimage);
+         $statusArr = explode(":",$statusStr);
+         $status = $statusArr[0];
+         $statusDesc = $statusArr[1];
+    
+        if($CustId!=""){
+            $status=Controlbox::updateprofilepic($CustId,$fileName,$fileExt,$imageByteStream,$companyId,$itemimage);
+         }
+         if($status==""){
+             $app->enqueueMessage($statusStr, 'notice');
+             $this->setRedirect(JRoute::_('index.php?option=com_userprofile&view=user&layout=personalinformation', false));
+         }else{
+    
+             if($status == "Successfully updated"){
+                 $app->enqueueMessage(Jtext::_('COM_USERPROFILE_PI_UPDATED_SUCCESSFULLY'), 'notice');
+             }else{
+                 $app->enqueueMessage($statusStr, 'notice');
+             }
+    
+             $this->setRedirect(JRoute::_('index.php?option=com_userprofile&view=user&layout=personalinformation', false));
+         }    
+    
+        // if($status==""){
+    
+        //     $app->enqueueMessage($statusDesc, 'notice');
+        //     $this->setRedirect(JRoute::_('index.php?option=com_userprofile&view=user&layout=personalinformation', false));
+        // }else{
+    
+        //     if($status == "Successfully updated"){
+        //         $app->enqueueMessage(Jtext::_('COM_USERPROFILE_PI_UPDATED_SUCCESSFULLY'), 'notice');
+        //     }else{
+        //         $app->enqueueMessage($statusDesc, 'notice');
+        //     }
+    
+        //     $this->setRedirect(JRoute::_('index.php?option=com_userprofile&view=user&layout=personalinformation', false));
+        // }   
+    
+    
+        }
 	
 		/**
 	 * Remove data

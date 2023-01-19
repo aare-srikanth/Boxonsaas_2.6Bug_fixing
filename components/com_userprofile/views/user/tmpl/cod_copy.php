@@ -15,6 +15,7 @@ $document->setTitle("Order Process in Boxon Pobox Software");
 defined('_JEXEC') or die;
 $session = JFactory::getSession();
 $user=$session->get('user_casillero_id');
+$pass=$session->get('user_casillero_password');
 if(!$user){
     $app =& JFactory::getApplication();
     $app->redirect('index.php?option=com_register&view=login');
@@ -35,46 +36,44 @@ if($_GET['r']==1){
             $PaypalEmail = $PaymentGateways->Email;
             $AccountType = strtolower($PaymentGateways->AccountType);
    }
+
+   // get labels
+
+   $lang=$session->get('lang_sel');
+
+   $res=Controlbox::getlabels($lang);
+   $assArr = [];
    
 ?>
 <?php
-$ch = curl_init();
-$url="http://boxonsaasdev.inviewpro.com//api/ImgUpldFTP/ConvertResxXmlToJson?companyId=130&language=es";
 
+   // get labels
 
-curl_setopt($ch, CURLOPT_URL,$url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+   $lang=$session->get('lang_sel');
 
-$resp = curl_exec($ch);
+   $res=Controlbox::getlabels($lang);
+   $assArr = [];
 
-if($e= curl_error($ch)){
-    echo $e;
-}
-else{
-    $decoded = json_decode($resp,true);
-    
-    $res = json_decode($decoded['Data']);
-    
-    //echo '<pre>';
-    //var_dump($res->data);
-$assArr = [];
-
-//$assArr[$res->data[0]->id] = $res->data[0]->text;
-
-foreach($res->data as $response){
-
+   foreach($res->data as $response){
    $assArr[$response->id]  = $response->text;
-   //echo $response->id;
-  
-}
+   }
+   // menu access
 
-//echo '<pre>';
-//var_dump($assArr);
-   
-}  
+  $menuAccessStr=Controlbox::getMenuAccess($user,$pass);
+  $menuCustData = explode(":",$menuAccessStr);
 
-curl_close($ch);
+   $maccarr=array();
+   foreach($menuCustData as $menuaccess){
 
+       $macess = explode(",",$menuaccess);
+       $maccarr[$macess[0]]=$macess[1];
+
+   }
+
+  $menuCustType=end($menuCustData);
+
+//   var_dump($menuCustType);
+//   exit;
 ?>
 <?php include 'dasboard_navigation.php' ?>
 
@@ -170,6 +169,17 @@ $joomla(document).ready(function() {
       $joomla('#InhouseIdkstr').val(loops[9]);
       $joomla('#amtStr').val(loops[7]);
       $joomla('input[name="amount"]').val(loops[7]);
+
+      var totamount = parseFloat(loops[7])-parseFloat(loops[3]);
+
+      // new code
+
+      $joomla('#amtStr').val(totamount);
+      $joomla('input[name="amount"]').val(totamount);
+      $joomla('#DueAmount').html(totamount.toFixed(2));
+
+       // new code end
+
       $joomla('#InvoiceNo').val(loops[10]);
       
       $joomla("input[name='return']").val('<?php echo JURI::base(); ?>index.php?option=com_userprofile&&view=user&layout=response&page=cod&invoice='+loops[10]+'&pay=<?php echo base64_encode(date("m/d/0Y"));?>');
@@ -248,10 +258,10 @@ $joomla(document).ready(function() {
                         ajaxurl = "<?php echo JURI::base(); ?>index.php?option=com_userprofile&task=user.get_ajax_data&amount="+$joomla('input[name="amount"]').val()+"&cardnumberStr="+$joomla('input[name="cardnumberStr"]').val()+"&txtccnumberStr="+$joomla('input[name="txtccnumberStr"]').val()+"&MonthDropDownListStr="+$joomla('select[name="MonthDropDownListStr"]').val()+"&YearDropDownListStr="+$joomla('select[name="YearDropDownListStr"]').val()+"&invidkStr="+''+"&qtyStr="+''+"&wherhourecStr="+$joomla('input[name="bill_form_nostr"]').val()+"&user="+user+"&txtspecialinsStr="+''+"&cc=PayForCOD&paymentgateway=Stripe&shipservtStr="+$joomla('input[name="Id_Servstr"]').val()+"&consignidStr="+''+"&invf="+''+"&filenameStr="+''+"&articleStr="+''+"&priceStr="+'';
                         $joomla.ajax({
                        			url: ajaxurl,
-                       			data: { "paymentgatewayflag":1,"ratetypeStr": "","Conveniencefees":$joomla('input[name="Conveniencefees"]').val(),"addSerStr":"","addSerCostStr":"","companyId":$joomla('input[name="companyId"]').val(),"insuranceCost":"","extAddSer":"","paypalinvoice":"","page":"cod","inhouseNo":$joomla('input[name="InHouseNostr"]').val(),"invoice":$joomla('input[name="InvoiceNo"]').val()},
+                            data: { "paymentgatewayflag":1,"ratetypeStr": "","Conveniencefees":$joomla('input[name="Conveniencefees"]').val(),"addSerStr":"","addSerCostStr":"","companyId":$joomla('input[name="companyId"]').val(),"insuranceCost":"","extAddSer":"","paypalinvoice":"","page":"cod","inhouseNo":$joomla('input[name="InHouseNostr"]').val(),"invoice":$joomla('input[name="InvoiceNo"]').val(),"InhouseIdkstr":$joomla('input[name="InhouseIdkstr"]').val()},
                        			dataType:"text",
-                       			type: "get",
-                                beforeSend: function() {
+                       			type: "get",                                
+                            beforeSend: function() {
                                    
                                 },
                                 success: function(data){
@@ -387,11 +397,17 @@ $joomla(document).ready(function() {
       <div class="row">
         <div class="col-sm-12 tab_view">
           <ul class="nav nav-tabs">
-            <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=orderprocessalerts"> <?php echo Jtext::_('COM_USERPROFILE_DASHBOARD_PREALERTS');?></a> </li>
-            <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=orderprocess"> <?php echo Jtext::_('COM_USERPROFILE_DASHBOARD_PENDING_SHIPMENT');?></a>  </li>
-            <li> <a class="active"  href="index.php?option=com_userprofile&view=user&layout=cod"> <?php echo Jtext::_('COM_USERPROFILE_DASHBOARD_COD');?> </a> </li>
-            <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=shiphistory"> <?php echo Jtext::_('COM_USERPROFILE_DASHBOARD_SHIPMENT_HISTORY');?></a> </li>
-          </ul>
+          <?php if(!isset($maccarr['FulFillment'])){
+                      $maccarr['FulFillment'] = "False";  
+                  }
+                  if($menuCustType == "CUST" || ($menuCustType == "COMP" && $maccarr['FulFillment'] == "False") ){  ?>
+                  <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=orderprocessalerts"><?php echo $assArr['my_Pre_Alerts'];?></a> </li>
+                  <?php }else if($menuCustType == "COMP" && $maccarr['FulFillment'] == "True"){  ?>
+                  <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=inventoryalerts"><?php echo $assArr['inventory_Pre-Alerts'];?></a> </li>
+                  <?php } ?>
+            <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=orderprocess"> <?php echo $assArr['ready_to_ship'];?></a>  </li>
+            <li> <a class="active"  href="index.php?option=com_userprofile&view=user&layout=cod"> <?php echo $assArr['cOD'];?> </a> </li>
+            <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=shiphistory"> <?php echo $assArr['shipment_History'];?></a> </li>          </ul>
         </div>
       </div>
       <div id="tabs2">
@@ -403,12 +419,13 @@ $joomla(document).ready(function() {
         <div class="row">
           <div class="col-md-12">
             <div class="table-responsive">
-              <table class="table table-bordered theme_table" id="j_table">
+              <table class="table table-bordered theme_table export_table" id="">
                 <thead>
                   <tr>
-                    <th class="action_btns"  width=100><?php echo $assArr['actions#']; ?></th>
-                    <th><?php echo $assArr['shipping#'];?></th>
-                    <th><?php echo $assArr['warehouse_Receipt#']; ?></th>
+                  <th class="action_btns"  width=100><?php echo $assArr['action']; ?></th>
+                    <th><?php echo $assArr['shipping'];?></th>
+                    <th><?php echo $assArr['warehouse_Receipt']; ?></th>
+                    <th><?php echo 'Payment Type' ;?></th>
                     <th><?php echo $assArr['total_cost'] ;?></th>
                   </tr>
                 </thead>
@@ -416,7 +433,8 @@ $joomla(document).ready(function() {
     <?php
     $ordersPendingView= UserprofileHelpersUserprofile::getCodorders($user);
     
-   
+    $totalCost = $rg->TotalFinalCost-$rg->TotalAmountPaid;
+    if($totalCost >0){
     foreach($ordersPendingView as $rg){
       			
       echo '<tr>
@@ -425,8 +443,10 @@ $joomla(document).ready(function() {
       		</td>
       		<td>'.$rg->InHouseNo.'</td>
       		<td>'.$rg->bill_form_no.'</td>
-      		<td>'.$rg->TotalFinalCost.'</td>
-      		</tr>';
+      		<td>'.$rg->paymentType.'</td>
+      		<td>'.number_format($totalCost, 2).'</td>
+     		</tr>';
+        }
     }
     ?>
                 </tbody>
@@ -542,6 +562,14 @@ $joomla(document).ready(function() {
                       <td><label><?php echo Jtext::_('COM_USERPROFILE_TOTAL_BUY_FOR_TODAY');?></label></td>
                       <td class="txt-right"><div id="TotalFinalCost"></div></td>
                     </tr>
+                    <tr class="">
+                      <td><label><?php echo Jtext::_('Total Amount Paid');?></label></td>
+                      <td class="txt-right"><div id="TotalAmountPaid"></div></td>
+                    </tr>
+                    <tr class="">
+                      <td><label><?php echo Jtext::_('Due Amount');?></label></td>
+                      <td class="txt-right"><div id="DueAmount"></div></td>
+                    </tr>
 
                   </table>
                   <div class="clearfix"></div>
@@ -571,7 +599,7 @@ $joomla(document).ready(function() {
                  
                 <div class="modal-body pagshipup" style="display:none"><img src='/components/com_userprofile/images/loader.gif' height="400"></div>
                   
-                <div class="dvPaymentInformation col-md-6 col-sm-12 col-xs-12" style="display:none">
+            <div class="dvPaymentInformation col-md-6 col-sm-12 col-xs-12" style="display:none">
             <div class="heading">
                 <h3 class="text-center">Confirm Purchase</h3>
             </div>
