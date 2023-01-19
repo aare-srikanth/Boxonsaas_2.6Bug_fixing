@@ -267,6 +267,18 @@ function initPayPalButton() {
              }, 10000);
         }  
     }
+
+    if(typeof localStorage.getItem("updateInv") != 'undefined'){
+        if(localStorage.getItem("updateInv") != null){
+            $joomla(".alertSection").show();
+            $joomla(".alertSection strong").html(localStorage.getItem("updateInv"));
+            setTimeout(function(){
+                $joomla("#success-alert").slideUp(500);
+                localStorage.removeItem("updateInv");
+                 $joomla(".alertSection").hide();
+            }, 10000);
+       }  
+    }
     
     function displayWarningAlert(alertMsg){
         $joomla(".alertfailSection strong").html(alertMsg);
@@ -364,6 +376,54 @@ $joomla(document).on('click','.panel-title',function() {
     }else{
        $joomla(this).parent().next().toggle();
     }
+});
+
+
+// Update Invoice 
+
+$joomla(document).on('click','#update_invoice_submit',function() {
+    feitem=[];
+    var file_data_len = $joomla("input[name='update_invoice[]'").prop('files').length;
+    for(i=0;i<file_data_len;i++){
+        var file_data = $joomla("input[name='update_invoice[]").prop('files')[i];   
+        var form_data = new FormData(); 
+        form_data.append('file', file_data);
+        $joomla.ajax({
+            url: "<?php echo JURI::base(); ?>index.php?option=com_userprofile&task=user.get_ajax_data&uploadflag=1&jpath=<?php echo urlencode  (JPATH_SITE); ?>&pseudoParam="+new Date().getTime(),
+            dataType: 'text',  // what to expect back from the PHP script, if anything
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data, 
+            async: false,                        
+            type: 'post',
+            beforeSend: function() {
+            },
+            success: function(data){
+               feitem.push(data);
+            }
+        });
+    }
+
+// update invoice
+
+    $joomla.ajax({
+        url: "<?php echo JURI::base(); ?>index.php?option=com_userprofile&task=user.get_ajax_data&updateinvoiceflag=1&jpath=<?php echo urlencode  (JPATH_SITE); ?>&pseudoParam="+new Date().getTime(),
+        dataType: 'html', 
+        data: {"invData":feitem,"itemIdk":$joomla(this).attr("data-idk")},                         
+        type: 'get',
+        beforeSend: function() {
+            $joomla(".page_loader").show();
+        },
+        success: function(data){
+            var resArr = data.split(":");
+            if(resArr[0] == 1){
+                localStorage.setItem("updateInv",resArr[1]);
+                window.location.reload();
+            }
+        }
+    });
+
 });
 
     

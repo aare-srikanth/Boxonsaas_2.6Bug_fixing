@@ -535,6 +535,58 @@ class Controlbox{
         return $result;
     }   
 
+
+/**
+     * Gets the edit permission for an user
+     *
+     * @param   mixed  $item  The item
+     *
+     * @return  bool
+     */
+    public static function getQuotationShipmentsListFilter($user,$pickup,$quotation)
+    {
+        
+        mb_internal_encoding('UTF-8'); 
+        $CompanyId = Controlbox::getCompanyId(); 
+        $content_params =JComponentHelper::getParams( 'com_userprofile' );
+        $url=$content_params->get( 'webservice' ).'/api/QuotationAPI/GetShipments?custId='.$user.'&CompanyID='.$CompanyId;
+        $ch = curl_init();
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+        $result=curl_exec($ch);
+        
+        // echo $url;
+        // var_dump($result);
+        // exit;
+        
+        $msg=json_decode($result);
+        $rs='';
+        $i=1;
+        foreach($msg as $rg){
+            $cv='';
+            if(!$rg->number_pickup_order){
+              $cv='<td class="convertToPickup" style="text-align:center;"><a data-id="'.$rg->number_quotation.':'.$rg->id_cust.'">Click Here</a></td>'; 
+            }else{
+              $cv='<td style="text-align:center;">-</td>';
+            }
+              if($pickup == "True" && $quotation == "True"){
+                $rs.= '<tr><td>'.$i.'</td><td>'.$rg->number_quotation.'</td>'.$cv.'<td>'.$rg->number_pickup_order.'</td><td>'.$rg->bill_form_no.'</td><td>'.$rg->status.'</td><td>'.$rg->totalQty.'</td><td>'.$rg->dti_created.'</td></tr>';
+              }else if($pickup == "True"){
+                  if($rg->number_pickup_order != '')
+                  $rs.= '<tr><td>'.$i.'</td><td>'.$rg->number_pickup_order.'</td><td>'.$rg->bill_form_no.'</td><td>'.$rg->status.'</td><td>'.$rg->totalQty.'</td><td>'.$rg->dti_created.'</td></tr>';
+                  
+              }elseif($quotation == "True"){    
+                  if($rg->number_quotation != '')
+                   $rs.= '<tr><td>'.$i.'</td><td>'.$rg->number_quotation.'</td>'.$cv.'<td>'.$rg->bill_form_no.'</td><td>'.$rg->status.'</td><td>'.$rg->totalQty.'</td><td>'.$rg->dti_created.'</td></tr>';
+              }
+          
+          $i++;
+        }        
+        return $rs;
+   }
+
     /**
      * Gets the edit permission for an user
      *
@@ -562,17 +614,78 @@ class Controlbox{
         curl_setopt($ch, CURLOPT_POSTFIELDS,'{"CompanyID":"'.$CompanyId.'","QuoteNumber":"'.$QuoteNumberTxts[0].'","IdCust":"'.$QuoteNumberTxts[1].'","IdServ":"'.$QuoteNumberTxts[1].'","Shipment_Id":"","ShipperId":"'.$QuoteNumberTxts[1].'","ShipperName":"'.$txtShipperNames[0].'","ShipperAddress":"'.$txtShipperAddress.'","ConsigneeId":"'.$txtConsigneeNames[0].'","ConsigneeName":"'.$txtConsigneeNames[1].'","ConsigneeAddress":"'.$txtConsigneeAddress.'","BitThirdPartySameAsCust":"","ThirdPartyId":"'.$QuoteNumberTxts[1].'","ThirdPartyName":"'.$txtThirdPartyNames[0].'","ThirdPartyAddress":"'.$txtThirdPartyAddress.'","BitConSameAsCust":"false","BitShipperSameAsCust":"true","PickUpInfo":{"Name":"'.$txtName.'","PickupDate":"'.$txtPickupDate.'","PickupAddr":"'.$txtPickupAddress.'"}}');
         curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
 		$result=curl_exec($ch);
-		
-		    // echo $url;
-        // echo '{"CompanyID":"'.$CompanyId.'","QuoteNumber":"'.$QuoteNumberTxts[0].'","IdCust":"'.$QuoteNumberTxts[1].'","IdServ":"'.$QuoteNumberTxts[1].'","Shipment_Id":"","ShipperId":"'.$QuoteNumberTxts[1].'","ShipperName":"'.$txtShipperNames[0].'","ShipperAddress":"'.$txtShipperAddress.'","ConsigneeId":"'.$txtConsigneeNames[0].'","ConsigneeName":"'.$txtConsigneeNames[1].'","ConsigneeAddress":"'.$txtConsigneeAddress.'","BitThirdPartySameAsCust":"","ThirdPartyId":"'.$QuoteNumberTxts[1].'","ThirdPartyName":"'.$txtThirdPartyNames[0].'","ThirdPartyAddress":"'.$txtThirdPartyAddress.'","BitConSameAsCust":"false","BitShipperSameAsCust":"true","PickUpInfo":{"Name":"'.$txtName.'","PickupDate":"'.$txtPickupDate.'","PickupAddr":"'.$txtPickupAddress.'"}}';
-		// var_dump($result);
-        // exit;
-		
+
         $msg=json_decode($result);
         return $msg->Msg;
     }
+   
+    public function updateInvoiceDetails($invData,$itemIdk) {
+
+        $imageByteStream = array();
+        $fileName = array();
+        $fileExt = array();
+        $i=0;
+        foreach($invData as $data){
+                    $photodest = JPATH_SITE. "/media/com_userprofile/".$invData[$i];
+                    $image = file_get_contents($photodest);
+                    $imageByteStream[$i] = base64_encode($image);
+                    $fileData=explode("/",$invData[$i]);
+                    $itemImage[$i]=$invData[$i];
+                    $fileName[$i]=pathinfo($fileData[1], PATHINFO_FILENAME );
+                    $fileExt[$i] ='.'.pathinfo($fileData[1], PATHINFO_EXTENSION );
+            $i++;
+        }
+
+        mb_internal_encoding('UTF-8');
+        $content_params =JComponentHelper::getParams( 'com_userprofile' );
+        $CompanyId = Controlbox::getCompanyId();
+
+        $url=$content_params->get( 'webservice' ).'/api/ShipmentsAPI/UploadFile';
+        $req = '{
+            "idk": "'.$itemIdk.'",    
+            "listVM":[
+             {
+            "ItemImage": "'.$itemImage[0].'",
+            "ItemImage1": "'.$itemImage[1].'",
+            "ItemImage2": "'.$itemImage[2].'",
+            "ItemImage3": "'.$itemImage[3].'",
+            "ItemImage4": "",
+            "ImageByteStream": "'.$imageByteStream[0].'" ,
+            "ImageByteStream1": "'.$imageByteStream[1].'" ,
+            "ImageByteStream2": "'.$imageByteStream[2].'" ,
+            "ImageByteStream3": "'.$imageByteStream[3].'" ,
+            "ImageByteStream4": "",
+            "fileName": "'.$fileName[0].'",
+            "fileName1": "'.$fileName[1].'",
+            "fileName2": "'.$fileName[2].'",
+            "fileName3": "'.$fileName[3].'",
+            "fileName4": "",
+            "fileExtension": "'.$fileExt[0].'",
+            "fileExtension1": "'.$fileExt[1].'",
+            "fileExtension2": "'.$fileExt[2].'",
+            "fileExtension3": "'.$fileExt[3].'",
+            "fileExtension4": ""
+                  }
+              ]       
+          }';
 
 
+        /** Debug **/
+
+		$ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLINFO_HEADER_OUT, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS,$req);
+        curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+		$result=curl_exec($ch);
+		$msg=json_decode($result);
+
+        // var_dump($msg->Response.":".$msg->Description);
+        // exit;
+
+        return $msg->Response.":".$msg->Description;
+    }
 
      /**
      * Gets the edit permission for an user
@@ -3745,56 +3858,6 @@ if($priceStr != ""){
         return $rs;
    }
    
-   
-   /**
-     * Gets the edit permission for an user
-     *
-     * @param   mixed  $item  The item
-     *
-     * @return  bool
-     */
-    public static function getQuotationShipmentsListFilter($user,$pickup,$quotation)
-    {
-        
-        mb_internal_encoding('UTF-8'); 
-        $CompanyId = Controlbox::getCompanyId(); 
-        $content_params =JComponentHelper::getParams( 'com_userprofile' );
-        $url=$content_params->get( 'webservice' ).'/api/QuotationAPI/GetShipments?custId='.$user.'&CompanyID='.$CompanyId;
-        $ch = curl_init();
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLINFO_HEADER_OUT, true);
-        $result=curl_exec($ch);
-        
-        // echo $url;
-        // var_dump($result);
-        // exit;
-        
-        $msg=json_decode($result);
-        $rs='';
-        $i=1;
-        foreach($msg as $rg){
-            $cv='';
-            if($rg->status=="Approved"){
-               $cv='<a data-toggle="modal" data-target="#inv_view"  data-id="'.$rg->number_quotation.':'.$rg->id_cust.'" >'.Jtext::_('PICKUP ORDER').'</a>'; 
-            }
-            
-           if($pickup == "True" && $quotation == "True"){
-             $rs.= '<tr><td>'.$i.'</td><td>'.$rg->number_quotation.'</td><td>'.$rg->number_pickup_order.'</td><td>'.$rg->bill_form_no.'</td><td>'.$rg->status.'</td><td>'.$rg->totalQty.'</td><td>'.$rg->dti_created.'</td></tr>';
-           }else if($pickup == "True"){
-               if($rg->number_pickup_order != '')
-               $rs.= '<tr><td>'.$i.'</td><td>'.$rg->number_pickup_order.'</td><td>'.$rg->bill_form_no.'</td><td>'.$rg->status.'</td><td>'.$rg->totalQty.'</td><td>'.$rg->dti_created.'</td></tr>';
-               
-           }elseif($quotation == "True"){
-               if($rg->number_quotation != '')
-                $rs.= '<tr><td>'.$i.'</td><td>'.$rg->number_quotation.'</td><td>'.$rg->bill_form_no.'</td><td>'.$rg->status.'</td><td>'.$rg->totalQty.'</td><td>'.$rg->dti_created.'</td></tr>';
-           }
-          
-          $i++;
-        }        
-        return $rs;
-   }
    
    
     /**

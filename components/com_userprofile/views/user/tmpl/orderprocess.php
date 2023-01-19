@@ -2459,6 +2459,7 @@
        
        
         $joomla('#tabs2').on('click','.ship_img',function(){
+         $joomla('#update_invoice_submit').attr('data-idk',$joomla(this).attr("data-idk"));
         $joomla('#viewImage #multimages').html('');
         var expandImg = document.getElementById("expandedImg");
         expandImg.parentElement.style.display = "none";
@@ -3793,8 +3794,7 @@
                                             $sim1=str_replace(":","#",$rg->ItemImage2);
                                             $sim2=str_replace(":","#",$rg->ItemImage3);
                                             $sim3=str_replace(":","#",$rg->ItemImage4);
-                                            $mgtd='<td class="action_btns"><a class="ship_img" data-toggle="modal" data-backdrop="static" data-keyboard="false" href="#" data-id="'.$rg->ItemImage1.'##'.$rg->ItemImage2.'##'.$rg->ItemImage3.'##'.$rg->ItemImage4.'" data-target="#view_image" ><i class="fa fa-eye"></i></a></td>';
-                                      }
+                                            $mgtd='<td class="action_btns"><a class="ship_img" data-idk="'.$rg->ItemIdk.'" data-toggle="modal" data-backdrop="static" data-keyboard="false" href="#" data-id="'.$rg->ItemImage1.'##'.$rg->ItemImage2.'##'.$rg->ItemImage3.'##'.$rg->ItemImage4.'" data-target="#view_image" ><i class="fa fa-eye"></i></a></td>';                                      }
                                     $grosswtTd = NULL;
                                     if($Gross_weight_display){
                                        $grosswtTd = "<td>".$repack->GrossWeight."</td>";
@@ -4519,10 +4519,21 @@
       </div>
       <div class="modal-body">
         <div class="row">
-            
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 file-upload">
+            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 image-upload-wrap">
+            <input class="file-upload-input" type='file' name="update_invoice[]" multiple id="update_invoice">
+            <div class="drag-text">
+            <h3>+ Drag and drop a files Here</h3>
+            </div>
+            </div> 
+            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 upld-btn">
+               <button id="update_invoice_submit" class="btn btn-primary">Submit</button>
+                           </div> 
+            </div>
+               <!--<input type="file" name="update_invoice[]" multiple id="update_invoice">-->
           <div class="col-md-12">
             <div id="viewImage">
-                <div class="row" id="multimages">
+                <div class="" id="multimages">
                     
                 </div>
                 <div class="mult-img-container">

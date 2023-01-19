@@ -133,7 +133,7 @@ $joomla(document).ready(function() {
         </div>
         
         
-	        <div class="row">
+        <div class="row">
 	        	<div class="col-md-12">
 	        		<table class="table table-bordered theme_table" id="j_table">
 	        			<thead>
@@ -270,7 +270,7 @@ $resWp=UserprofileHelpersUserprofile::getPickupFieldviewsList($user);
             <div class="col-md-6">
               <div class="form-group">
                 <label><?php echo $assArr['shipper_Address'];?><span class="error">*</span></label>
-                <input type="text" class="form-control" name="txtShipperAddress">
+                <input type="text" class="form-control" name="txtShipperAddress" required>
               </div>
             </div>
           </div>
@@ -293,7 +293,7 @@ $resWp=UserprofileHelpersUserprofile::getPickupFieldviewsList($user);
             <div class="col-md-6">
               <div class="form-group">
                 <label><?php echo $assArr['consignee_Address'];?><span class="error">*</span></label>
-                <input type="text" class="form-control"  name="txtConsigneeAddress">
+                <input type="text" class="form-control"  name="txtConsigneeAddress" required>
               </div>
             </div>
           </div>
@@ -316,7 +316,7 @@ $resWp=UserprofileHelpersUserprofile::getPickupFieldviewsList($user);
             <div class="col-md-6">
               <div class="form-group">
                 <label><?php echo $assArr['third_Party_Address'];?> <span class="error">*</span></label>
-                <input type="text" class="form-control" name="txtThirdPartyAddress">
+                <input type="text" class="form-control" name="txtThirdPartyAddress" required>
               </div>
             </div>
           </div>
