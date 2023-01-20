@@ -678,30 +678,55 @@ $joomla(function() {
 
    <!-- Modal -->
 
-   <form name="userprofilepic" id="userprofilepic" method="post" action="" enctype="multipart/form-data">
-   <!-- Modal -->
-   <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title text-center" id="myModalLabel">Update Invoice</h4>
-        </div>
-        <div class="modal-body">
-        <div class="statusMsg"></div>
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 file-upload form-group">
 
-            <div class="">
-            <!-- <label for="file" class="row col-lg-12 col-md-12 col-sm-12 col-xs-12">Upload Image:</label> -->
-  <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 image-upload-wrap">
-    <input type="file" class="form-control file-upload-input" id="file" name="file" required />
-    <div class="drag-text">
-      <h3>+ Drag and drop a files Here</h3>
-    </div>    
-  </div> 
-  <input type="submit" name="submit" class="btn btn-primary submitBtn" value="submit">
 
-          <!-- <div class="submit-btn"> -->
+  <form name="userprofilepic" id="userprofilepic" method="post" action="" enctype="multipart/form-data">
+
+<!-- Modal -->
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
+ <div class="modal-dialog" role="document">
+
+   <div class="modal-content">
+
+     <div class="modal-header">
+
+       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+       <h4 class="modal-title text-center" id="myModalLabel">Update Profile Picture</h4>
+
+     </div>
+
+     <div class="modal-body">
+
+     <div class="statusMsg"></div>
+
+     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 file-upload form-group">
+
+        
+
+         <div class="">
+
+         <!-- <label for="file" class="row col-lg-12 col-md-12 col-sm-12 col-xs-12">Upload Image:</label> -->
+
+<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 image-upload-wrap">
+
+ <input type="file" class="form-control file-upload-input" id="file" name="file" required />
+
+ <div class="drag-text">
+
+   <h3>+ Drag and drop a files Here</h3>
+
+ </div>    
+
+</div>
+
+<input type="submit" name="submit" class="btn btn-primary submitBtn" value="submit">
+
+    
+
+       <!-- <div class="submit-btn"> -->
 
 
     <!-- </div> -->

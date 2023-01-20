@@ -4525,10 +4525,12 @@
             <div class="drag-text">
             <h3>+ Drag and drop a files Here</h3>
             </div>
+           
             </div> 
-            <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 upld-btn">
-               <button id="update_invoice_submit" class="btn btn-primary">Submit</button>
-                           </div> 
+            <button id="update_invoice_submit" class="btn btn-primary submitBtn">Submit</button>
+            <!-- <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 upld-btn">
+               
+                           </div>  -->
             </div>
                <!--<input type="file" name="update_invoice[]" multiple id="update_invoice">-->
           <div class="col-md-12">
