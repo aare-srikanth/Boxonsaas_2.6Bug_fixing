@@ -3336,6 +3336,56 @@
          
      });
 
+
+     //   $joomla(document).on('click','#defaultBranch',function(){	
+        	
+   //      var defaultCheck = $joomla("#defaultBranch").is(":checked");	
+        	
+   //      if(defaultCheck){	
+   //          $joomla('#branchConfirm').modal('show');	
+   //      }	
+       	
+   //  });	
+   // check box	
+$joomla(".keep_global").click(function() {	
+var count_checked = $joomla(".check_all_items:checked").length; 	
+if(count_checked == 0) 	
+{	
+alert("Please select any record.");          	
+}	
+if(count_checked == 1) {	
+   // alert($joomla(".check_all_items:checked").attr("data-id"));	
+ 	
+$joomla('#idk2').val($joomla(".check_all_items:checked").attr("data-id")+":");	
+$joomla("#ord_keep").modal('show'); 	
+// $joomla('#idk2').val($joomla(this).data('id'));	
+// $joomla('input[name="qty"]').val($joomla(this).closest('tr').find('input[name="txtQty"]').attr('value'));	
+// $joomla(":checkbox").prop("checked", false);	
+  	
+   } 	
+});	
+//return	
+$joomla(".return_global").click(function() {	
+var count_checked = $joomla(".check_all_items:checked").length; 	
+if(count_checked == 0) 	
+{	
+alert("Please select any record.");          	
+}	
+if(count_checked == 1) {	
+   // alert($joomla(".check_all_items:checked").attr("data-id"));	
+ 	
+$joomla('#idk').val($joomla(".check_all_items:checked").attr("data-id")+":");	
+$joomla("#ord_return").modal('show'); 	
+// $joomla('#idk2').val($joomla(this).data('id'));	
+// $joomla('input[name="qty"]').val($joomla(this).closest('tr').find('input[name="txtQty"]').attr('value'));	
+// $joomla(":checkbox").prop("checked", false);	
+  	
+   } 	
+});	
+    	
+    	
+   ///table expand	
+
      // expand all
 
      $joomla(document).ready(function(){	
@@ -3345,7 +3395,8 @@
 var btnCount=$joomla(".exp_item:visible").length;	
 if($joomla(this).html() == "-"){	
       $joomla("#expandAll").prop("checked",false);	
-      $joomla(".expand_all_btn").html("Expand All");	
+      $joomla(".expand_all_btn").addClass("expand_icon");
+      $joomla(".expand_all_btn").removeClass("collapse_icon");		
       }	
  $joomla(this).parent().parent().next().toggle();	
   wrhsno = $joomla(this).attr("data-id");	
@@ -3387,9 +3438,11 @@ if($joomla(this).html() == '+'){
     $joomla('.expand_all_btn').on('click',function(e){
         $joomla('#expandAll').trigger("click");
         if($joomla('#expandAll').prop("checked") == true){
-            $joomla(this).html("Collapse All");
+            $joomla(this).addClass("collapse_icon");
+            $joomla(".expand_all_btn").removeClass("expand_icon");	
         }else{
-            $joomla(this).html("Expand All");
+            $joomla(this).addClass("expand_icon");
+            $joomla(".expand_all_btn").removeClass("collapse_icon");	
         }
     });
 
@@ -3787,32 +3840,60 @@ if($joomla(this).html() == '+'){
             ?>
             
             <div class="row ishpments2">
-            <div class="">
-               <div class="col-sm-12 inventry-item">
-                   <div class="col-sm-6">
-                        <h3 class=""><strong><?php echo Jtext::_('COM_USERPROFILE_SHIP_SUB_TITLE');?></strong></h3>
-                     </div>
-                     <div class="col-sm-9 form-group text-right">
-                    <?php 
-                     echo'<div class="action_btns">
-                     
-                     <input type="checkbox"  name="txtId" class="txtId selinpt-chksub" data-sno="item_wr_'.$idf.'"  value="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$repack->Length.':'.$repack->Width.':'.$repack->Height.':'.$repack->Weight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'" style="margin:10px;">';
-                     // if($elem['Return'][1] == "ACT")
-                     echo '<input type="button" name="Return" class="btn btn-primary return_global" value="Return" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-id="'.$res->BillFormNo.':'.$rg->ItemIdk.':'.$rg->ItemQuantity.'"  title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_RETURN').'">';
-                     // if($elem['Hold'][1] == "ACT") 
-                     echo '<input type="button" name="Keep" class="btn btn-primary keep_global"  value="Keep" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-id="'.$res->BillFormNo.':'.$rg->ItemIdk.':'.$rg->ItemQuantity.'"  title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_HOLD').'">';
-                     echo '</div>';
-                     ?>
-                     </div>
-                    <input type="checkbox" name="expandAll" id="expandAll"><button class="btn btn-primary expand_all_btn">Expand All</button> 
-                    <a style="color:white;" target="_blank" href="<?php echo $backend_url; ?>/ASPX/Tx_inventoryReceipt.aspx?bid=<?php echo $user; ?>&companyid=<?php echo $CompanyId; ?>"  class="btn btn-primary csvDownload">Inventory Reports</a>
-                        <?php if($elem['EXPORTCSV'][1] == "ACT"){ ?>
-                        <a style="color:white;" href="<?php echo JURI::base(); ?>/csvdata/pending_list.csv" class="btn btn-primary csvDownload export-csv"><?php echo $assArr['eXPORT_CSV'];?></a>
-                        <?php }  ?>
-                    </div>
-                </div>
-            </div>
-                
+
+<div class="">
+
+   <div class="col-sm-12 inventry-item">
+
+       <div class="col-sm-3">
+
+            <h3 class=""><strong><?php echo Jtext::_('COM_USERPROFILE_SHIP_SUB_TITLE');?></strong></h3>
+
+         </div>
+
+        <div class="col-sm-9 form-group text-right inventry-item-right">
+
+         <div class=" col-lg-4 col-md-4 col-sm-6 action-icons pull-right">
+
+        <?php
+
+         echo'
+
+         
+
+         <input type="checkbox"  name="txtId" class="txtId selinpt-chksub" data-sno="item_wr_'.$idf.'"  value="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$repack->Length.':'.$repack->Width.':'.$repack->Height.':'.$repack->Weight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'" style="margin:10px;">';
+
+         // if($elem['Return'][1] == "ACT")
+
+         echo '<input type="button" name="Return" class=" return_global" value="" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-id="'.$res->BillFormNo.':'.$rg->ItemIdk.':'.$rg->ItemQuantity.'"  title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_RETURN').'">';
+
+         // if($elem['Hold'][1] == "ACT")
+
+         echo '<input type="button" name="Keep" class="keep_global"  value="" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-id="'.$res->BillFormNo.':'.$rg->ItemIdk.':'.$rg->ItemQuantity.'"  title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_HOLD').'">';
+
+         echo '';
+
+         ?>
+
+       
+
+        <input type="checkbox" name="expandAll" id="expandAll"><button class="expand_all_btn expand_icon" data-toggle="tooltip" title="Expand All"></button>
+
+        <a style="color:white;" target="_blank" href="<?php echo $backend_url; ?>/ASPX/Tx_inventoryReceipt.aspx?bid=<?php echo $user; ?>&companyid=<?php echo $CompanyId; ?>"  class="csvDownload inventory_icon"></a>
+
+            <?php if($elem['EXPORTCSV'][1] == "ACT"){ ?>
+
+            <a style="color:white;" href="<?php echo JURI::base(); ?>/csvdata/pending_list.csv" class="btn btn-primary csvDownload export-csv" data-toggle="tooltip" title="Inventory Report"><?php echo $assArr['eXPORT_CSV'];?></a>
+
+            <?php }  ?>
+
+        </div>
+
+      </div>
+
+    </div>
+
+</div>
                 
             <div class="col-md-12">
                <div class="table-responsive">

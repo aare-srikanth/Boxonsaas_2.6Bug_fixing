@@ -1058,7 +1058,8 @@ color: #4c4e56;
 
 /*ui enhancement 2.7 css start*/
 
-
+/*Expand button style */
+.text-right input[type=checkbox]{position: absolute;z-index: -1;}
 
 /* Responsive Start  */
 @media (max-width:1180px) {
