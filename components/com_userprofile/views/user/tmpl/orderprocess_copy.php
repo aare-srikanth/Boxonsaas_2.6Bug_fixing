@@ -1005,7 +1005,7 @@
        });
        
       $joomla('.btn-close1,#step1 .btn-danger,#step2 .btn-danger,#step3 .btn-danger,.not_same_error,.modal .btn-danger,.btn-grp1 .btn-danger').on("click",function(){
-            $joomla("#custCouponCode").val("");
+         $joomla("#custCouponCode").val("");
             $joomla(".couponErrorMsg").html("");
             $joomla(".cupn-cde").show();
             $joomla(".cupn-cde a").show();

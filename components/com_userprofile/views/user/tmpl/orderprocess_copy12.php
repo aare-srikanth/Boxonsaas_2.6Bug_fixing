@@ -35,10 +35,12 @@
    
     
    // get domain details start
-
-   $clientConfigObj = file_get_contents(JURI::base().'/client_config.json');
+   
+   $clientConfigObj = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/client_config.json');
+   
    $clientConf = json_decode($clientConfigObj, true);
    $clients = $clientConf['ClientList'];
+  
    
    $domainDetails = ModProjectrequestformHelper::getDomainDetails();
    $CompanyId = $domainDetails[0]->CompanyId;
@@ -98,11 +100,9 @@
       $elem[$element->ElementId]=array($element->ElementDescription,$element->ElementStatus,$element->is_mandatory,$element->is_default,$element->ElementValue);
    }
    
+   
+   
    // end
-
-   // enable / hide shipping info
-
-   $shippingInfoStat = $elem['ShippingInfo'][1];
    
 // echo '<pre>';   
 // var_dump($elem);exit;
@@ -157,7 +157,7 @@
 <script type="text/javascript">
    var $joomla = jQuery.noConflict(); 
    $joomla(document).ready(function() {
-      $joomla(".other_payment_type").prop("checked", true);
+       
        $joomla('#dvPaymentInformation input[type=text]').on('keyup',function(){
         cardFormValidate();
     });
@@ -385,29 +385,29 @@
        var nodataText = "<?php echo Jtext::_('COM_USERPROFILE_NO_DATA');?>";
        
        
-   //     $joomla('#u_table').DataTable({
-   //         "pagingType": "simple", // "simple" option for 'Previous' and 'Next' buttons only
-   //         "ordering": false,
-   //        "language": {
-   //          "lengthMenu": showEntText,
-   //          "search": searchText,
-   //          "info": showingEntriesText,
-   //          "infoEmpty": showingEmptyEntriesText,
-   //          "emptyTable":nodataText,
-   //          "paginate": {
-   //            "previous": previousPageText,
-   //            "next": nextPageText
-   //          }
-   //       },
-   //          "order": [],
-   //          "columnDefs": [
-   //          { 
-   //              "targets": [0], //first column / numbering column
-   //              "orderable": false, //set not orderable
-   //          }
-   //          ]
+       $joomla('#u_table').DataTable({
+           "pagingType": "simple", // "simple" option for 'Previous' and 'Next' buttons only
+           "ordering": false,
+          "language": {
+            "lengthMenu": showEntText,
+            "search": searchText,
+            "info": showingEntriesText,
+            "infoEmpty": showingEmptyEntriesText,
+            "emptyTable":nodataText,
+            "paginate": {
+              "previous": previousPageText,
+              "next": nextPageText
+            }
+         },
+            "order": [],
+            "columnDefs": [
+            { 
+                "targets": [0], //first column / numbering column
+                "orderable": false, //set not orderable
+            }
+            ]
             
-   //  });  
+    });  
     
      $joomla(document).on('change','input[name="invFile[]"]', function() {
         
@@ -466,7 +466,6 @@
                     $joomla(this).prop( "checked", false );
                 });
               $joomla(".check_all_items").prop("checked",false);
-              $joomla(".check_all_items_repack").prop("checked",false);
               $joomla('#step1').hide(); 
               $joomla('.shipAll').hide();
               $joomla('tr .ship:first-child').show();
@@ -514,20 +513,13 @@
             //$joomla(".ship:visible").trigger("click");
             $joomla("input[name=txtId]").prop("checked",false);
             $joomla("input[name=txtId]:visible").trigger("click");
-
             
-            
-            $joomla(".check_all_items").prop( "checked", false );
-            $joomla(".check_all_items_repack").prop( "checked", false );
-
-               $joomla(".check_all_items:visible").each(function(){
-                  $joomla(this).trigger("click");
-                  $joomla(this).prop("checked",true);
-               });
-               $joomla(".check_all_items_repack:visible").each(function(){
-                  $joomla(this).trigger("click");
-                  $joomla(this).prop("checked",true);
-               });
+        $joomla(".check_all_items").prop( "checked", false );
+         
+         $joomla(".check_all_items:visible").each(function(){
+             $joomla(this).trigger("click");
+             $joomla(this).prop("checked",true);
+         });
             
             $joomla('#step1').show();
             $joomla('#step1 #j_table').show();
@@ -1230,7 +1222,7 @@
    
        });
        
-    // new pull req   
+       
    
    
    $joomla(document).on('click','#goto_payment_scr',function(){
@@ -1309,7 +1301,6 @@
             
             unselList = unselList.replace(/,+$/, '');
             $joomla("#extAddSer").val(unselList);
-            $joomla(".other_payment_type").prop("checked", "checked");
            
           
    });
@@ -1591,9 +1582,7 @@
        });
        
         $joomla(document).on('click','input[name=shipmentStr],#shipmentNewStr',function(){
-            //hide / show shipping info
-            var shippingInfoStatus = "<?php echo  $shippingInfoStat; ?>";
-            //end
+            
            shippingCost = 0;
             var rateType = $joomla("input[name=shipmentNewStr]:checked").val();
             if(rateType != undefined){
@@ -1665,14 +1654,6 @@
                   //$joomla('#divShipCOstTwo').html('');
                   $joomla('#divShipCOstOne').html(data+'<div class="clearfix"></div>');
                                  
-                  var hide_shoew_text = "";
-                  if(shippingInfoStatus=="ACT"){
-                     $joomla("#divShipCOstTwo,.coupons_section,.shipping-costtbl,.finalShippingCostInfo").show();
-
-                  }else{
-                     $joomla("#divShipCOstTwo,.coupons_section,.shipping-costtbl,.finalShippingCostInfo").hide();
-                  }
-
                   if(data==""){
                      $joomla('input[name=shipmentStr]').filter(':radio').prop('checked',false);
                      $joomla('#divShipCOstOne').removeClass("rdo_cust shp-addnew1");
@@ -1928,12 +1909,7 @@
    
            var ischecked= $joomla(this).is(':checked');
          if(ischecked){
-            $joomla(".check_all_items").each(function(){
-               let wr_no = $joomla(this).attr("data-id");
-               if(wr_no == indVal[1]){
-                  $joomla(this).prop("checked",true);
-               }
-           });
+             
              
                if($joomla('input[name="shipment"]:checked').val()=="1"){
                    
@@ -2316,7 +2292,6 @@
                  $joomla('.btn-danger').click();
              }
            $joomla("#srol").focus();  
-           $joomla(".selcetedCount").html(parseInt($joomla(".check_all_items:checked").length) + parseInt($joomla(".check_all_items_repack:checked").length ));
        });     
    
        
@@ -2459,7 +2434,6 @@
        
        
         $joomla('#tabs2').on('click','.ship_img',function(){
-         $joomla('#update_invoice_submit').attr('data-idk',$joomla(this).attr("data-idk"));
         $joomla('#viewImage #multimages').html('');
         var expandImg = document.getElementById("expandedImg");
         expandImg.parentElement.style.display = "none";
@@ -3273,8 +3247,7 @@
            });    
        });
        
-       
-       // select all
+ // select all
        
        
        
@@ -3305,14 +3278,13 @@
                      });
              }
         });
-
-
     
      $joomla(document).on('click','.check_all_items',function(e){
-         wrhsno = $joomla(this).attr("data-id");
+        wrhsno = $joomla(this).attr("data-id");
          
          if($joomla(this).is(':checked') == true ){
-         
+            
+            
              $joomla('.txtId').each(function(){
                         var valueStr = $joomla(this).val();
                         var valueArr = valueStr.split(":");
@@ -3336,54 +3308,128 @@
          
      });
 
-     // expand all
+     //
 
-     $joomla(document).ready(function(){	
- $joomla(".child_row").hide();	
-});	
- $joomla(".exp_item").on('click',function(){	
-var btnCount=$joomla(".exp_item:visible").length;	
-if($joomla(this).html() == "-"){	
-      $joomla("#expandAll").prop("checked",false);	
-      $joomla(".expand_all_btn").html("Expand All");	
-      }	
- $joomla(this).parent().parent().next().toggle();	
-  wrhsno = $joomla(this).attr("data-id");	
-  repackno = $joomla(this).attr("data-repack");	
-  $joomla('.txtId').each(function(){	
-                    var valueStr = $joomla(this).val();	
-                    var valueArr = valueStr.split(":");	
-                    if(wrhsno == valueArr[1] && (repackno =="" || repackno == undefined )){	
-                        $joomla(this).closest(".exp_item").toggle();	
-                    }	
-                    	
-                    if(repackno == valueArr[31] && repackno !=""){	
-                        $joomla(this).closest(".exp_item").toggle();	
-                    }	
-         });	
-if($joomla(this).html() == '+'){	
-             $joomla(this).html('-');	
-             $joomla(this).parent().parent().next().show();	
-         }else{	
-             $joomla(this).html('+');	
-             $joomla(this).parent().parent().next().hide();	
-         }	
-        	
-          	
-      var count=0;	
-      $joomla(".exp_item:visible").each(function(){	
-         if($joomla(this).html() == "-"){	
-         count++;	
-         }	
-      });	
-     	
-         if(count == btnCount){	
-         $joomla('.expand_all_btn').trigger("click");	
-         }	
-     	
-});	
+   //   $joomla(document).on('click','#defaultBranch',function(){
+        
+   //      var defaultCheck = $joomla("#defaultBranch").is(":checked");
+        
+   //      if(defaultCheck){
+   //          $joomla('#branchConfirm').modal('show');
+   //      }
+       
+   //  });
+
+   // check box
+
+$joomla(".keep_global").click(function() {
+
+var count_checked = $joomla(".check_all_items:checked").length; 
+
+if(count_checked == 0) 
+{
+alert("Please select any record.");          
+}
+if(count_checked == 1) {
+
+   // alert($joomla(".check_all_items:checked").attr("data-id"));
+ 
+$joomla('#idk2').val($joomla(".check_all_items:checked").attr("data-id")+":");
+
+$joomla("#ord_keep").modal('show'); 
+
+// $joomla('#idk2').val($joomla(this).data('id'));
+// $joomla('input[name="qty"]').val($joomla(this).closest('tr').find('input[name="txtQty"]').attr('value'));
+// $joomla(":checkbox").prop("checked", false);
+
+  
+   } 
+});
+
+
+//return
+
+$joomla(".return_global").click(function() {
+
+var count_checked = $joomla(".check_all_items:checked").length; 
+
+if(count_checked == 0) 
+{
+alert("Please select any record.");          
+}
+if(count_checked == 1) {
+
+   // alert($joomla(".check_all_items:checked").attr("data-id"));
+ 
+$joomla('#idk').val($joomla(".check_all_items:checked").attr("data-id")+":");
+
+$joomla("#ord_return").modal('show'); 
+
+// $joomla('#idk2').val($joomla(this).data('id'));
+// $joomla('input[name="qty"]').val($joomla(this).closest('tr').find('input[name="txtQty"]').attr('value'));
+// $joomla(":checkbox").prop("checked", false);
+
+  
+   } 
+});
+    
+    
+
+   ///table expand
+
       
+$joomla(document).ready(function(){
+ $joomla(".child_row").hide();
+});
 
+ $joomla(".exp_item").on('click',function(){
+var btnCount=$joomla(".exp_item:visible").length;
+if($joomla(this).html() == "-"){
+      $joomla("#expandAll").prop("checked",false);
+      $joomla(".expand_all_btn").html("Expand All");
+      }
+ $joomla(this).parent().parent().next().toggle();
+  wrhsno = $joomla(this).attr("data-id");
+  repackno = $joomla(this).attr("data-repack");
+
+  $joomla('.txtId').each(function(){
+                    var valueStr = $joomla(this).val();
+                    var valueArr = valueStr.split(":");
+                    if(wrhsno == valueArr[1] && (repackno =="" || repackno == undefined )){
+                        $joomla(this).closest(".exp_item").toggle();
+                    }
+                    
+                    if(repackno == valueArr[31] && repackno !=""){
+                        $joomla(this).closest(".exp_item").toggle();
+                    }
+         });
+
+if($joomla(this).html() == '+'){
+             $joomla(this).html('-');
+             $joomla(this).parent().parent().next().show();
+         }else{
+             $joomla(this).html('+');
+             $joomla(this).parent().parent().next().hide();
+         }
+
+        
+          
+      var count=0;
+      $joomla(".exp_item:visible").each(function(){
+         if($joomla(this).html() == "-"){
+         count++;
+         }
+      });
+
+     
+         if(count == btnCount){
+         $joomla('.expand_all_btn').trigger("click");
+         }
+     
+
+});
+       // expand all
+    
     $joomla('.expand_all_btn').on('click',function(e){
         $joomla('#expandAll').trigger("click");
         if($joomla('#expandAll').prop("checked") == true){
@@ -3392,7 +3438,7 @@ if($joomla(this).html() == '+'){
             $joomla(this).html("Expand All");
         }
     });
-
+    
     $joomla('#expandAll').on('click',function(e){
         if($joomla(this).prop("checked") == true){
             $joomla(".exp_item").each(function(){
@@ -3406,48 +3452,41 @@ if($joomla(this).html() == '+'){
                 var expCont = $joomla(this).html();
                 if(expCont == "-"){
                 $joomla(this).trigger("click");
-
+                    
                 }
             });
         } 
     });
        
-       
        // expand
    
-//    $joomla(document).on('click','.expand_items',function(e){
-      
-// var btnCount=$joomla(".expand_items").length;
-// if($joomla(this).html() == "-"){
-// $joomla("#expandAll").prop("checked",false);
-// $joomla(".expand_all_btn").html("Expand All");
-// }
-//         wrhsno = $joomla(this).attr("data-id");
-//         repackno = $joomla(this).attr("data-repack");
+   $joomla(document).on('click','.expand_items',function(e){
+      //   wrhsno = $joomla(this).attr("data-id");
+      //   repackno = $joomla(this).attr("data-repack");
         
-//          $joomla('.txtId').each(function(){
-//                     var valueStr = $joomla(this).val();
-//                     var valueArr = valueStr.split(":");
-//                     if(wrhsno == valueArr[1] && (repackno =="" || repackno == undefined )){
-//                         $joomla(this).closest("tr").toggle();
-//                     }
+         // $joomla('.txtId').each(function(){
+         //            var valueStr = $joomla(this).val();
+         //            var valueArr = valueStr.split(":");
+         //            if(wrhsno == valueArr[1] && (repackno =="" || repackno == undefined )){
+         //                $joomla(this).closest("tr").toggle();
+         //            }
                     
-//                     if(repackno == valueArr[31] && repackno !=""){
-//                         $joomla(this).closest("tr").toggle();
-//                     }
-//          });
+         //            if(repackno == valueArr[31] && repackno !=""){
+         //                $joomla(this).closest("tr").toggle();
+         //            }
+         // });
          
-//          if($joomla(this).html() == '+'){
-//              $joomla(this).html('-');
-//              $joomla(this).parent().parent().next().show();
-//          }else{
-//              $joomla(this).html('+');
-//              $joomla(this).parent().parent().next().hide();
-//          }
-//     });
+         // if($joomla(this).html() == '+'){
+         //     $joomla(this).html('-');
+         //     $joomla(this).parent().parent().next().show();
+         // }else{
+         //     $joomla(this).html('+');
+         //     $joomla(this).parent().parent().next().hide();
+         // }
+    });
    
        
-    });
+   });
    
    function loadadditionalusersData(){
        $joomla(document).ready(function() {    
@@ -3528,18 +3567,17 @@ if($joomla(this).html() == '+'){
                   }
                   
                     
-                  if(($menuCustType == "CUST" && $dynpage["PreAlerts"][1]=="ACT") || ($menuCustType == "COMP" && $maccarr['FulFillment'] == "False" && $dynpage["PreAlerts"][1]=="ACT") ){  ?>
+                  if($menuCustType == "CUST" || ($menuCustType == "COMP" && $maccarr['FulFillment'] == "False") ){  ?>
                   <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=orderprocessalerts"><?php echo $assArr['my_Pre_Alerts'];?></a> </li>
                   <?php }else if($menuCustType == "COMP" && $maccarr['FulFillment'] == "True"){  ?>
                   <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=inventoryalerts"><?php echo $assArr['inventory_Pre-Alerts'];?></a> </li>
-                  <?php } if($dynpage["PendingShipments"][1]=="ACT"){ ?>
+                  <?php } ?>
                   <li> <a class="active" href="index.php?option=com_userprofile&view=user&layout=orderprocess"><?php echo $assArr['ready_to_ship'];?></a> </li>
-                   <?php } if($dynpage["COD"][1]=="ACT"){ ?>
+                   <?php if($dynpage["COD"][1]=="ACT"){ ?>
                   <li> <a class=""  href="index.php?option=com_userprofile&view=user&layout=cod"> <?php echo $assArr['cOD'];?> </a> </li>
-                  <?php } if($dynpage["ShipmentHistory"][1]=="ACT"){ ?>
+                  <?php } ?>
                   <!--<li> <a class="" href="index.php?option=com_userprofile&view=user&layout=cod">COD</a> </li>-->
                   <li> <a class="" href="index.php?option=com_userprofile&view=user&layout=shiphistory"><?php echo $assArr['shipment_History'];;?></a> </li>
-                  <?php } ?>
                </ul>
             </div>
          </div>
@@ -3557,7 +3595,7 @@ if($joomla(this).html() == '+'){
             <div class="row">
                <div class="col-sm-12">
                   <div class="rdo_cust">
-                     <div class="rdo_rd1">
+                  <div class="rdo_rd1">
                         <?php if($elem['Readytosend'][1] == "ACT"){  ?>
                         <input type="radio" name="shipment"  class="ishipment" value="1" checked>
                         <label><?php echo $assArr['ready_to_send'];?></label>
@@ -3586,7 +3624,7 @@ if($joomla(this).html() == '+'){
                         <h3 class=""><strong><?php echo Jtext::_('COM_USERPROFILE_SHIP_SUB_TITLE');?></strong></h3>
                      </div>
                     <div class="col-sm-6 form-group text-right">
-                  <!-- <input type="checkbox" name="expandAll" id="expandAll"><button class="btn btn-primary expand_all_btn">Expand All</button> -->	
+                    <!-- <input type="checkbox" name="expandAll" id="expandAll"><button class="btn btn-primary expand_all_btn">Expand All</button> -->
                     <a style="color:white;text-align:center;" target="_blank" href="<?php echo $backend_url; ?>/ASPX/Tx_inventoryReceipt.aspx?bid=<?php echo $user; ?>&companyid=<?php echo $CompanyId; ?>"  class="btn btn-primary csvDownload">Inventory Reports</a>  
                         <?php if($elem['EXPORTCSV'][1] == "ACT"){ ?>
                         <a style="color:white;" href="<?php echo JURI::base(); ?>/csvdata/hold_list.csv" class="btn btn-primary csvDownload export-csv"><?php echo $assArr['eXPORT_CSV'];?></a>
@@ -3599,186 +3637,185 @@ if($joomla(this).html() == '+'){
                 <div class="row">
                    
                 </div>
-                <div class="table-responsive">	
-                     <table class="table table-bordered theme_table" id="u_table" data-page-length='10'>	
-                         <thead>	
-                           <tr> 	
-                           <th class="action_btns text-center"><input type="checkbox" name="selectAll" id="selectAll"> <?php echo $assArr['select_All'];?></th>	
-                             <th><?php echo $assArr['warehouse_Receipt'];?>#</th>	
-                             <th><?php echo $assArr['item_Description'];?></th>	
-                             <th><?php echo $assArr['tracking_ID'];?></th>	
-                             <th><?php echo $assArr['merchants_Name'];?></th>	
-                             <th><?php echo $assArr['type_of_shipment'];?></th>	
-                             <th><?php echo $assArr['source_Hub'];?></th>	
-                             <th><?php echo $assArr['destination'];?></th>	
-                             <th><?php echo $assArr['destination_Hub'];?></th>	
-                             <th><?php echo $assArr['wt_Units'];?></th>	
-                             <th><?php echo $assArr['measurement_Units'];?></th>	
-                             <th><?php echo 'Business Type'; ?></th>	
-                             <?php if($Gross_weight_display){ ?>	
-                             <th><?php echo $assArr['gROSS_WT'];?></th>	
-                               <?php } ?>	
-                           </tr>	
-                        </thead>	
-                        <tbody>	
-                            	
-                            <?php	
-                           	
-                              $ordersHoldView= UserprofileHelpersUserprofile::getOrdersHoldList($user);	
-                              	
-                            //   echo '<pre>';	
-                            //   var_dump($ordersHoldView);exit;	
-                            	
-                             $i=0;	
-                            foreach($ordersHoldView as $repack){	
-                                if($repack->InhouseRepackLbl == ""){	
-                                    foreach($repack->WarehouseDetails as $res){	
-                                	
-                                       echo'<tr> 	
-                                       <td ><button class="exp_item btn btn-success" data-sno="item_wr_'.$i.'"  data-id="'.$res->BillFormNo.'">+</button><input type="checkbox" class="selinpt-chk check_all_items" data-id="'.$res->BillFormNo.'"></td>	
-                                       <td><span class="whrse-link label-success"><input type="hidden" name="txtbiladdress" value="'.UserprofileHelpersUserprofile::getBindShipingAddress($user,$res->BillFormNo).'">'.$res->BillFormNo.'</span></td>	
-                                       <td>'.$itemsListtArr[$i].'</td>	
-                                       <td>'.$res->TrackingId.'</td>	
-                                       <td>'.$res->MerchantName.'</td>	
-                                       <td>'.$repack->ShipmentType.'</td>	
-                                       <td>'.$repack->SourceHub.'</td>	
-                                       <td>'.$repack->DestinationCountryName.'</td>	
-                                       <td>'.$repack->DestinationHubName.'</td>	
-                                       <td>'.$res->WeightUnit.'</td>	
-                                       <td>'.$repack->MeasureUnits.'</td>	
-                                       <td>'.$repack->BusinessType.'</td>';	
-                                        if($Gross_weight_display){	
-                                       echo '<th>'.$repack->Weight.'</th>';	
-                                       }	
-                                       echo'</tr>';	
-                                	
-                                       echo'<tr class="child_row"><td colspan="12">	
-                                       <table class="table table-bordered"> 	
-                                       <tr>	
-                                       <th colspan="2">'.$assArr['action'].'</th>	
-                                        <th>'.$assArr['item_Description'].'</th>	
-                                        <th>'.$assArr['quantity'].'</th>	
-                                        <th>'.$assArr['ship_quantity'].'</th>	
-                                        <th>'.$assArr['tracking_ID'].'</th>	
-                                        <th>'.$assArr['merchants_Name'].'</th>';	
-                                        if($OrderId){	
-                                           echo '<th>Order Id</th>';	
-                                           }	
-                                        if(!$OrderId){	
-                                        echo '<th></th>';	
-                                        }	
-                                        if($RmaVal){	
-                                        echo '<th>RMA Value</th>';	
-                                           }	
-                                        if(!$RmaVal){	
-                                        echo '<th></th>';	
-                                        } 	
-                                        echo '<th>View image</th>	
-                                        <th></th>	
-                                        <th></th>';	
-                                        if($Gross_weight_display){	
-                                        echo '<th>Gross Weight</th>';	
-                                        }	
-                                        echo '</tr>';	
-          	
-                                        			
-                              	
-                                        $idf=1;	
-                              	
-                             	
-                              	
-                                        foreach($res->ItemDetails as $rg){	
-                                 
-                            //   var_dump($rg->ItemImage1);	
-                            //   exit;	
+                  <div class="table-responsive">
+                     <table class="table table-bordered theme_table" id="u_table" data-page-length='10'>
+                         <thead>
+                           <tr> 
+                           <th class="action_btns text-center"><input type="checkbox" name="selectAll" id="selectAll"> <?php echo $assArr['select_All'];?></th>
+                             <th><?php echo $assArr['warehouse_Receipt'];?>#</th>
+                             <th><?php echo $assArr['item_Description'];?></th>
+                             <th><?php echo $assArr['tracking_ID'];?></th>
+                             <th><?php echo $assArr['merchants_Name'];?></th>
+                             <th><?php echo $assArr['type_of_shipment'];?></th>
+                             <th><?php echo $assArr['source_Hub'];?></th>
+                             <th><?php echo $assArr['destination'];?></th>
+                             <th><?php echo $assArr['destination_Hub'];?></th>
+                             <th><?php echo $assArr['wt_Units'];?></th>
+                             <th><?php echo $assArr['measurement_Units'];?></th>
+                             <th><?php echo 'Business Type'; ?></th>
+                             <?php if($Gross_weight_display){ ?>
+                             <th><?php echo $assArr['gROSS_WT'];?></th>
+                               <?php } ?>
+                           </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <?php
+                           
+                              $ordersHoldView= UserprofileHelpersUserprofile::getOrdersHoldList($user);
                               
-                            if(1){ // $rg->ItemQuantity>0	
-                                $volres=$repack->Height*$repack->Width*$repack->Length*UserprofileHelpersUserprofile::getShippmentDetailsValues($repack->MeasureUnits,$repack->shipment_type,$repack->ServiceType,$repack->Source,$repack->Dest_Cntry);	
-                                if($repack->shipment_type=="AIR"){	
-                                  $volres=$rg->ItemQuantity*$volres;	
-                                }	
-                                if($rg->ItemImage1==""){	
-                                    $sim=1; 	
-                                    $mgtd='<td>No Image</td>';	
-                                }else{	
-                                        $sim=str_replace(":","#",$rg->ItemImage1);	
-                                        $sim1=str_replace(":","#",$rg->ItemImage2);	
-                                        $sim2=str_replace(":","#",$rg->ItemImage3);	
-                                        $sim3=str_replace(":","#",$rg->ItemImage4);	
-                                        $mgtd='<td class="action_btns"><a class="ship_img" data-toggle="modal" data-backdrop="static" data-keyboard="false" href="#" data-id="'.$rg->ItemImage1.'##'.$rg->ItemImage2.'##'.$rg->ItemImage3.'##'.$rg->ItemImage4.'" data-target="#view_image" ><i class="fa fa-eye"></i></a></td>';	
-                                  }	
-                                $grosswtTd = NULL;	
-                             if(0){	
-                                 $grosswtTd = "<td>".$repack->weight."</td>";	
-                             }  	
-                             $readonltTxt = "";	
-                             if($rg->InhouseRepacklbl !=''){	
-                                $readonltTxt = "readonly";	
-                             }	
+                            //   echo '<pre>';
+                            //   var_dump($ordersHoldView);exit;
+                            
+                             $i=0;
+                            foreach($ordersHoldView as $repack){
+                                if($repack->InhouseRepackLbl == ""){
+                                    foreach($repack->WarehouseDetails as $res){
                                 
-                             // class="check-invisable"	
-                             echo'<tr>	
-                             
-                             <td colspan="2" class="action_btns">	
-                             <input type="checkbox"  name="txtId" class="txtId selinpt-chksub" data-sno="item_wr_'.$idf.'"  value="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$repack->Length.':'.$repack->Width.':'.$repack->Height.':'.$repack->Weight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'">	
-                              <input type="button" name="ship" class="ship" data-sno="item_wr_'.$idf.'" data-id="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$repack->Length.':'.$repack->Width.':'.$repack->Height.':'.$repack->Weight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'" data-target="#ord_ship" title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_SHIP').'">';	
-                            echo '</td>	
-                             <td width="100px">'.$rg->ItemName.'</td>	
-                             <td width="100px">'.$rg->ItemQuantity.'</td>	
-                             <td width="100px"><input type="hidden" name="ItemIdkTxt" value="'.$rg->ItemIdk.'"><input type="hidden" name="ItemQtyTxt" value="'.$rg->ItemQuantity.'"><input type="hidden" name="ItemQtyEdit" value="'.$rg->ItemQuantity.'">	
-                             <input type="text" class="form-control" name="txtQty" value="'.$rg->ItemQuantity.'" readonly ></td>	
-                             <td width="100px">'.$res->TrackingId.'</td>	
-                             <td width="100px">'.$res->MerchantName.'</td>';	
-                             if($OrderId){	
-                                echo '<td width="100px">'.$rg->OrderID.'</td>';	
-                                }	
-                             if(!$OrderId)	
-                             echo '<td width="100px"></td>';	
-                             if($RmaVal){	
-                                echo '<td width="100px">'.$rg->RmaValue.'</td>';	
-                             }	
-                             if(!$RmaVal){	
-                                echo '<td width="100px"></td>';	
-                             }	
-                               
-                             echo''.$mgtd.'	
-                             <td width="100px"></td>	
-                             <td width="100px"></td>'.$grosswtTd.'';	
-                               
-                             echo '</tr>';	
-  
-                                          $p=$res->BillFormNo;	
-                                       
-                                }	
-                              $idf++;	
-                                 
-                          }	
-                          echo' </table></td><td style="display:none"></td><td style="display:none"></td>	
-                          <td style="display:none"></td>	
-                          <td style="display:none"></td>	
-                          <td style="display:none"></td>	
-                          <td style="display:none"></td>	
-                          <td style="display:none"></td>	
-                          <td style="display:none"></td>	
-                          <td style="display:none"></td>	
-                          <td style="display:none"></td>	
-                          <td style="display:none"></td>	
-                          </tr>';	
-                             
-                                        $i++;	
-                                }	
-                            }	
+                                       echo'<tr> 
+                                       <td ><button class="exp_item btn btn-success" data-sno="item_wr_'.$i.'"  data-id="'.$res->BillFormNo.'">+</button><input type="checkbox" class="selinpt-chk check_all_items" data-id="'.$res->BillFormNo.'"></td>
+                                       <td><span class="whrse-link label-success"><input type="hidden" name="txtbiladdress" value="'.UserprofileHelpersUserprofile::getBindShipingAddress($user,$res->BillFormNo).'">'.$res->BillFormNo.'</span></td>
+                                       <td>'.$itemsListtArr[$i].'</td>
+                                       <td>'.$res->TrackingId.'</td>
+                                       <td>'.$res->MerchantName.'</td>
+                                       <td>'.$repack->ShipmentType.'</td>
+                                       <td>'.$repack->SourceHub.'</td>
+                                       <td>'.$repack->DestinationCountryName.'</td>
+                                       <td>'.$repack->DestinationHubName.'</td>
+                                       <td>'.$res->WeightUnit.'</td>
+                                       <td>'.$repack->MeasureUnits.'</td>
+                                       <td>'.$repack->BusinessType.'</td>';
+                                        if($Gross_weight_display){
+                                       echo '<th>'.$repack->Weight.'</th>';
+                                       }
+                                       echo'</tr>';
+                                
+                                       echo'<tr class="child_row"><td colspan="12">
+                                       <table class="table table-bordered"> 
+                                       <tr>
+                                       <th colspan="2">'.$assArr['action'].'</th>
+                                        <th>'.$assArr['item_Description'].'</th>
+                                        <th>'.$assArr['quantity'].'</th>
+                                        <th>'.$assArr['ship_quantity'].'</th>
+                                        <th>'.$assArr['tracking_ID'].'</th>
+                                        <th>'.$assArr['merchants_Name'].'</th>';
+                                        if($OrderId){
+                                           echo '<th>Order Id</th>';
+                                           }
+                                        if(!$OrderId){
+                                        echo '<th></th>';
+                                        }
+                                        if($RmaVal){
+                                        echo '<th>RMA Value</th>';
+                                           }
+                                        if(!$RmaVal){
+                                        echo '<th></th>';
+                                        } 
+                                        echo '<th>View image</th>
+                                        <th></th>
+                                        <th></th>';
+                                        if($Gross_weight_display){
+                                        echo '<th>Gross Weight</th>';
+                                        }
+                                        echo '</tr>';
+          
+                                        		
                               
-                        }	
+                                            $idf=1;
+                              
                              
-                          ?>	
-                             
-                    </tbody>	
-                 </table>
-                 </div>	
-               </div>	
-            </div>	
-            
+                              
+                                            foreach($res->ItemDetails as $rg){
+                                  
+                                //   var_dump($rg->ItemImage1);
+                                //   exit;
+                               
+                                if(1){ // $rg->ItemQuantity>0
+                                    $volres=$repack->Height*$repack->Width*$repack->Length*UserprofileHelpersUserprofile::getShippmentDetailsValues($repack->MeasureUnits,$repack->shipment_type,$repack->ServiceType,$repack->Source,$repack->Dest_Cntry);
+                                    if($repack->shipment_type=="AIR"){
+                                      $volres=$rg->ItemQuantity*$volres;
+                                    }
+                                    if($rg->ItemImage1==""){
+                                        $sim=1; 
+                                        $mgtd='<td>No Image</td>';
+                                    }else{
+                                            $sim=str_replace(":","#",$rg->ItemImage1);
+                                            $sim1=str_replace(":","#",$rg->ItemImage2);
+                                            $sim2=str_replace(":","#",$rg->ItemImage3);
+                                            $sim3=str_replace(":","#",$rg->ItemImage4);
+                                            $mgtd='<td class="action_btns"><a class="ship_img" data-toggle="modal" data-backdrop="static" data-keyboard="false" href="#" data-id="'.$rg->ItemImage1.'##'.$rg->ItemImage2.'##'.$rg->ItemImage3.'##'.$rg->ItemImage4.'" data-target="#view_image" ><i class="fa fa-eye"></i></a></td>';
+                                      }
+                                    $grosswtTd = NULL;
+                                 if(0){
+                                     $grosswtTd = "<td>".$repack->weight."</td>";
+                                 }  
+                                 $readonltTxt = "";
+                                 if($rg->InhouseRepacklbl !=''){
+                                    $readonltTxt = "readonly";
+                                 }
+                                 
+                                 // class="check-invisable"
+                                 echo'<tr>
+                              
+                                 <td colspan="2" class="action_btns">
+                                 <input type="checkbox"  name="txtId" class="txtId selinpt-chksub" data-sno="item_wr_'.$idf.'"  value="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$repack->Length.':'.$repack->Width.':'.$repack->Height.':'.$repack->Weight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'">
+                                  <input type="button" name="ship" class="ship" data-sno="item_wr_'.$idf.'" data-id="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$repack->Length.':'.$repack->Width.':'.$repack->Height.':'.$repack->Weight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'" data-target="#ord_ship" title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_SHIP').'">';
+                                echo '</td>
+                                 <td width="100px">'.$rg->ItemName.'</td>
+                                 <td width="100px">'.$rg->ItemQuantity.'</td>
+                                 <td width="100px"><input type="hidden" name="ItemIdkTxt" value="'.$rg->ItemIdk.'"><input type="hidden" name="ItemQtyTxt" value="'.$rg->ItemQuantity.'"><input type="hidden" name="ItemQtyEdit" value="'.$rg->ItemQuantity.'">
+                                 <input type="text" class="form-control" name="txtQty" value="'.$rg->ItemQuantity.'" readonly ></td>
+                                 <td width="100px">'.$res->TrackingId.'</td>
+                                 <td width="100px">'.$res->MerchantName.'</td>';
+                                 if($OrderId){
+                                    echo '<td width="100px">'.$rg->OrderID.'</td>';
+                                    }
+                                 if(!$OrderId)
+                                 echo '<td width="100px"></td>';
+                                 if($RmaVal){
+                                    echo '<td width="100px">'.$rg->RmaValue.'</td>';
+                                 }
+                                 if(!$RmaVal){
+                                    echo '<td width="100px"></td>';
+                                 }
+                                
+                                 echo''.$mgtd.'
+                                 <td width="100px"></td>
+                                 <td width="100px"></td>'.$grosswtTd.'';
+                                
+                                 echo '</tr>';
+   
+                                              $p=$res->BillFormNo;
+                                        
+                                    }
+                                  $idf++;
+                                  
+                              }
+                              echo' </table></td><td style="display:none"></td><td style="display:none"></td>
+                              <td style="display:none"></td>
+                              <td style="display:none"></td>
+                              <td style="display:none"></td>
+                              <td style="display:none"></td>
+                              <td style="display:none"></td>
+                              <td style="display:none"></td>
+                              <td style="display:none"></td>
+                              <td style="display:none"></td>
+                              <td style="display:none"></td>
+                              </tr>';
+                              
+                                            $i++;
+                                    }
+                                }
+                               
+                            }
+                              
+                              ?>
+                              
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
             <div class="clearfix"></div>
             <?php  
             
@@ -3789,10 +3826,11 @@ if($joomla(this).html() == '+'){
             <div class="row ishpments2">
             <div class="">
                <div class="col-sm-12 inventry-item">
-                   <div class="col-sm-6">
+                   <div class="col-sm-3">
                         <h3 class=""><strong><?php echo Jtext::_('COM_USERPROFILE_SHIP_SUB_TITLE');?></strong></h3>
                      </div>
-                     <div class="col-sm-9 form-group text-right">
+                    <div class="col-sm-9 form-group text-right">
+                     <div>
                     <?php 
                      echo'<div class="action_btns">
                      
@@ -3814,7 +3852,7 @@ if($joomla(this).html() == '+'){
             </div>
                 
                 
-            <div class="col-md-12">
+               <div class="col-md-12">
                <div class="table-responsive">
                      <table class="table table-bordered theme_table" id="j_table" data-page-length='10'>
                         <thead>
@@ -3943,9 +3981,9 @@ if($joomla(this).html() == '+'){
                               <td colspan="2" class="action_btns">
                               <input type="checkbox"  name="txtId" class="txtId selinpt-chksub" data-sno="item_wr_'.$idf.'"  value="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$repack->Length.':'.$repack->Width.':'.$repack->Height.':'.$repack->Weight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'">
                                <input type="button" name="ship" class="ship" data-sno="item_wr_'.$idf.'" data-id="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$repack->Length.':'.$repack->Width.':'.$repack->Height.':'.$repack->Weight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'" data-target="#ord_ship" title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_SHIP').'">';
-                                if($elem['Hold'][1] == "ACT")
-                                  echo '<input type="button" name="Return" class="return" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-id="'.$res->BillFormNo.':'.$rg->ItemIdk.':'.$rg->ItemQuantity.'" data-target="#ord_return"" title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_RETURN').'">';
                                 if($elem['Return'][1] == "ACT")
+                                  echo '<input type="button" name="Return" class="return" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-id="'.$res->BillFormNo.':'.$rg->ItemIdk.':'.$rg->ItemQuantity.'" data-target="#ord_return"" title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_RETURN').'">';
+                                  if($elem['Hold'][1] == "ACT")
                                   echo '<input type="button" name="Keep" class="keep" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-id="'.$res->BillFormNo.':'.$rg->ItemIdk.':'.$rg->ItemQuantity.'" data-target="#ord_keep" " title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_HOLD').'">';
                                   echo '</td>
                               <td width="100px">'.$rg->ItemName.'</td>
@@ -4179,7 +4217,6 @@ if($joomla(this).html() == '+'){
                <div id="step1" style="display:none">
                   <div class="row">
                      <div class="col-md-12">
-                     <div class="selcetedCountSec">Selected Items : <span class="selcetedCount"></span></div>
                         <div class="table-responsive">
                            <table class="table table-bordered theme_table" id="j_table">
                               <thead>
@@ -4199,11 +4236,11 @@ if($joomla(this).html() == '+'){
                <div class="row">
                      <div class="col-md-12 text-center btn-grp1">
                      <input type="button" value="<?php echo Jtext::_('Ship');?>" class="btn btn-primary shipsubmit"  data-backdrop="static" data-keyboard="false">
-                        <?php if(strtolower($access->RepackAccess) == "true") { if($elem['Repack'][1] == "ACT"){  ?>
+                        <?php if(strtolower($access->RepackAccess) == "true") { ?>
                         <input type="button" name="repack_btn" id="repack_btn"   value="repack"  class="btn btn-success">
-                        <?php } } if(strtolower($access->ConsolidationAccess) == "true") { if($elem['Consolidation'][1] == "ACT"){ ?>
+                        <?php } if(strtolower($access->ConsolidationAccess) == "true") { ?>
                         <input type="button" name="consolidation" id="consolid_btn"   value="consolidation" class="btn btn-success">
-                        <?php } } ?>
+                        <?php } ?>
                         <input type="button" value="<?php echo Jtext::_('COM_USERPROFILE_SHIP_JTABLE_CLOSE_BTN');?>" data-dismiss="modal" class="btn btn-danger">
                      </div>
                   </div>
@@ -4695,23 +4732,10 @@ if($joomla(this).html() == '+'){
       </div>
       <div class="modal-body">
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 file-upload">
-            <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12 image-upload-wrap">
-            <input class="file-upload-input" type='file' name="update_invoice[]" multiple id="update_invoice">
-            <div class="drag-text">
-            <h3>+ Drag and drop a files Here</h3>
-            </div>
-           
-            </div> 
-            <button id="update_invoice_submit" class="btn btn-primary submitBtn">Submit</button>
-            <!-- <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12 upld-btn">
-               
-                           </div>  -->
-            </div>
-               <!--<input type="file" name="update_invoice[]" multiple id="update_invoice">-->
+            
           <div class="col-md-12">
             <div id="viewImage">
-                <div class="" id="multimages">
+                <div class="row" id="multimages">
                     
                 </div>
                 <div class="mult-img-container">
@@ -4924,15 +4948,12 @@ if($joomla(this).html() == '+'){
                   <div class="row">
                      <div class="col-md-12">
                         <div class="finish-shipping">
-                        <div class="finalShippingCostInfo">
                            <label><?php echo Jtext::_('COM_USERPROFILE_SHIP_POPUP_FINISH_SHIPPING');?> : </label>
                            <div id="shipmethodStrValuetwo" style="float:right"></div>
                            <p> <?php echo Jtext::_('COM_USERPROFILE_SHIP_POPUP_MY_SUMMARY');?></p>
                            <p> <?php echo Jtext::_('COM_USERPROFILE_SHIP_POPUP_INCLUDES');?>:</p>
-                           </div>
                            <br/>
-                           <?php if($promocodes){  ?> 
-                           <div class="coupons_section"> 
+                           <?php if($promocodes){  ?>  
                            <div class="cupn-serch" style="display:block;">
                               <h4 class="modal-title"><strong>Apply Coupon</strong></h4>
                              
@@ -4953,7 +4974,7 @@ if($joomla(this).html() == '+'){
                            <div class="cupn-cdes">
                                        <!--DYNAMIC CONTENT-->
                            </div>
-                           </div>
+                           
                            <?php } ?>
                            
                            </div>
@@ -5028,9 +5049,6 @@ if($joomla(this).html() == '+'){
                             <div class="paymentmethodsDiv">
                                 
                                 <?php 
-                                 if($elem['PaymentType'][1] == "ACT"){	
-                                    echo '<input type="radio" style="display:none;" class="other_payment_type"  name="cc" value="'.$elem['PaymentType'][4].'" >';	
-                                 }else{
                                     $paymentmethodsStr = ''; 
                                     $paymentmethods = Controlbox::getpaymentmethods();
                                     foreach($paymentmethods as $method){
@@ -5044,7 +5062,6 @@ if($joomla(this).html() == '+'){
                                     
                                     $paymentmethodsStr.=Controlbox::getpaymentgateways('PPD');
                                     echo $paymentmethodsStr;
-                                 }
                                 ?>
                                
                             </div>    
