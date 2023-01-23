@@ -1249,7 +1249,7 @@ function isNumber(evt) {
         
         <div class="row">
           <div class="col-md-12">
-            <table class="table table-bordered theme_table" id="N_table">
+            <table class="table table-bordered theme_table table-responsive" id="N_table">
               <thead>
                 <tr>
                   <th><?php echo $assArr['sNo'];?></th>

@@ -241,7 +241,16 @@ $joomla(document).ready(function() {
       "totalpriceTxt[]": {
      },
       "itemstatusTxt[]": {
-     }
+     },
+      "lengthTxt[]":{
+
+      },
+      "heightTxt[]":{
+
+      },
+      "widthTxt[]":{
+
+      }
     },
     // Specify validation error messages
     messages: {
@@ -257,7 +266,11 @@ $joomla(document).ready(function() {
       "totalpriceTxt[]": "<?php echo $assArr['declared_Value_(USD)_error'];?>",
       "itemstatusTxt[]":{
     	required: "<?php echo $assArr['item_status_error'];?>",
-    	selectBox: "Please select status"
+    	selectBox: "Please select status",
+      selectBox: "Please select status",
+      "lengthTxt[]":"Please select length",
+      "heightTxt[]":"please select height",
+      "widthTxt[]":"please select width",
       }
     
     },
@@ -382,7 +395,9 @@ $joomla(document).ready(function() {
               $joomla('radia[name=txtStatus]').val(cospor[9]);
               $joomla('input[name=txtOrderId]').val(cospor[19]); 
               $joomla('input[name=txtRmaValue]').val(cospor[20]);
-             
+              $joomla('input[name=txtLength]').val(cospor[21]);
+              $joomla('input[name=txtHeigth]').val(cospor[22]);
+              $joomla('input[name=txtWidth]').val(cospor[23]);
               
                 if(cospor[3]){
                   
@@ -557,13 +572,13 @@ $joomla(document).ready(function() {
           },
           txtCarrierName: {
             required: function(element) {
-            
+
             if($joomla("#carrierVis").val() == 1){
             return true;
             }else{
             return false;
             }
-                     
+
                     },
             alphanumeric:true
           },
@@ -590,6 +605,15 @@ $joomla(document).ready(function() {
                       }
                   }    
               }
+          },
+          txtLength:{
+            required: true
+          },
+          txtHeight:{
+            required: true
+          },
+          txtWidth:{
+            required: true
           }
         },
         // Specify validation error messages
@@ -601,7 +625,10 @@ $joomla(document).ready(function() {
           txtCarrierName: "<?php echo $assArr['carrier_error'];?>",
           txtTracking: "<?php echo $assArr['tracking_ID_of_the_operator_error'];?>",
           txtQuantity: "<?php echo $assArr['quAntity_error'];?>",
-          txtFile: "<?php echo Jtext::_('COM_USERPROFILE_ALERTS_FILE_ERROR');?>"
+          txtFile: "<?php echo Jtext::_('COM_USERPROFILE_ALERTS_FILE_ERROR');?>",
+          txtLength:"please select length",
+          txtHeight:"please select height",
+          txtWidth:"please select width"
         },
         // Make sure the form is submitted to the destination defined
         // in the "action" attribute of the form when valid
@@ -649,12 +676,12 @@ $joomla(document).ready(function() {
     }
         
     });
-   $joomla("input[name='txtQuantity']").live('keyup',function(e){
+   $joomla("input[name='txtQuantity'],input[name='txtLength'],input[name='txtHeight'],input[name='txtwidth']").live('keyup',function(e){
     this.value = this.value.replace(/[^0-9]/g, '');
     //if (/\D/g.test(this.value))
     //this.value.replace(/[0-9]*\.?[0-9]+/g, '');  for name
     });
-   $joomla(document).on("keyup","input[name='quantityTxt[]']",function(e){
+   $joomla(document).on("keyup","input[name='quantityTxt[]'],input[name='lengthTxt[]'],input[name='heightTxt[]'],input[name='widthTxt[]']",function(e){
     this.value = this.value.replace(/[^0-9]/g, '');
    });
    
@@ -1096,7 +1123,7 @@ $joomla(document).ready(function() {
            <?php } ?>
            
               <?php if($elem['AddInvoice'][1] == "ACT"){ ?>
-             <div class="col-sm-12 col-md-5">
+             <div class="col-sm-12 col-md-7">
               <div class="form-group">
                 <label><?php echo $assArr['add_invoice'];?> <?php if($elem['AddInvoice'][2]){ ?><span class="error">*</span><?php } ?></label>
                 
@@ -1107,6 +1134,27 @@ $joomla(document).ready(function() {
             </div>
             
             <?php } ?>
+
+            <div class="">
+            <div class="col-sm-12 col-md-3">
+              <div class="form-group">
+                <label>Length<span class="error">*</span></label>
+                <input type="text" class="form-control" name="lengthTxt[]"  maxlength="25" required>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-3">
+              <div class="form-group">
+                <label>Width<span class="error">*</span></label>
+                <input type="text" class="form-control"  name="widthTxt[]"  maxlength="25"  required>
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-3">
+              <div class="form-group">
+                <label>Heigth<span class="error">*</span></label>
+                <input type="text" class="form-control"  name="heightTxt[]"  maxlength="25" required>
+              </div>
+            </div>
+          </div>
            
             <!-- End -->
             
@@ -1160,8 +1208,8 @@ $joomla(document).ready(function() {
        
         
         <div class="row">
-          <div class="col-md-12">
-            <table class="table table-bordered theme_table" id="N_table">
+          <div class="table-responsive col-md-12">
+            <table class="table table-bordered theme_table" id="n_table">
               <thead>
                 <tr>
                   <th><?php echo $assArr['sNo'];?></th>
@@ -1345,6 +1393,27 @@ $joomla(document).ready(function() {
               <div class="form-group">
                 <label><?php echo $assArr['rMA_Value']; ?></label>
                  <input type="text" class="form-control" name="txtRmaValue" maxlength="100">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-12 col-md-4">
+              <div class="form-group">
+                  <label>Length</label>
+                  <input type="text" class="form-control" name="txtLength" maxlength="100">
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="form-group">
+                <label>Heigth</label>
+                 <input type="text" class="form-control" name="txtHeigth" maxlength="100">
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="form-group">
+                <label>width</label>
+                 <input type="text" class="form-control" name="txtWidth" maxlength="100">
               </div>
             </div>
           </div>

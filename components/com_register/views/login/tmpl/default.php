@@ -160,7 +160,7 @@ if (!$canEdit && JFactory::getUser()->authorise('core.edit.own', 'com_register')
  <?php             }else{
                   foreach($mainPageDetails as $data){
                     $str = '$id';
-                   echo '<div id="'.$data->$str.'" class="ntifiction-info" id="notification"><h4>'.$data->Heading.'</h4>';
+                   echo '<div id="'.$data->$str.'" class="" id="notification"><h4>'.$data->Heading.'</h4>';
                    
                         $doc = new DOMDocument();
                         $doc->loadHTML($data->Content);

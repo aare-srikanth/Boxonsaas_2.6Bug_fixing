@@ -4414,8 +4414,8 @@ if($priceStr != ""){
 		$result=curl_exec($ch);
 		
 		/** Debug **/
-// 		echo $url;
-//         var_dump($result);exit;
+		// echo $url;
+        // var_dump($result);exit;
         
         $msg=json_decode($result);
         return $msg->Data;
