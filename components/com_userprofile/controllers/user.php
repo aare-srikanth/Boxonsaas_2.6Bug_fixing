@@ -3036,35 +3036,19 @@ function PPHttpPost($methodName, $nvpStr) {
         if($CustId!=""){
             $status=Controlbox::updateprofilepic($CustId,$fileName,$fileExt,$imageByteStream,$companyId,$itemimage);
          }
-         if($status==""){
-             $app->enqueueMessage($statusStr, 'notice');
-             $this->setRedirect(JRoute::_('index.php?option=com_userprofile&view=user&layout=personalinformation', false));
+         if($status==1){
+
+            if($status == "Successfully updated"){
+                $app->enqueueMessage(Jtext::_('COM_USERPROFILE_PI_UPDATED_SUCCESSFULLY'), 'notice');
+            }else{
+                $app->enqueueMessage($statusDesc, 'notice');
+            }
+            $this->setRedirect(JRoute::_('index.php?option=com_userprofile&view=user', false));
+
          }else{
-    
-             if($status == "Successfully updated"){
-                 $app->enqueueMessage(Jtext::_('COM_USERPROFILE_PI_UPDATED_SUCCESSFULLY'), 'notice');
-             }else{
-                 $app->enqueueMessage($statusStr, 'notice');
-             }
-    
-             $this->setRedirect(JRoute::_('index.php?option=com_userprofile&view=user&layout=personalinformation', false));
+            $app->enqueueMessage($statusDesc, 'notice');
+            $this->setRedirect(JRoute::_('index.php?option=com_userprofile&view=user', false));
          }    
-    
-        // if($status==""){
-    
-        //     $app->enqueueMessage($statusDesc, 'notice');
-        //     $this->setRedirect(JRoute::_('index.php?option=com_userprofile&view=user&layout=personalinformation', false));
-        // }else{
-    
-        //     if($status == "Successfully updated"){
-        //         $app->enqueueMessage(Jtext::_('COM_USERPROFILE_PI_UPDATED_SUCCESSFULLY'), 'notice');
-        //     }else{
-        //         $app->enqueueMessage($statusDesc, 'notice');
-        //     }
-    
-        //     $this->setRedirect(JRoute::_('index.php?option=com_userprofile&view=user&layout=personalinformation', false));
-        // }   
-    
     
         }
 	

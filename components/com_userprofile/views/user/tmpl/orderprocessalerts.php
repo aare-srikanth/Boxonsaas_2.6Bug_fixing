@@ -360,10 +360,10 @@ $joomla(document).ready(function() {
 			}
 		},
 		""
-	);
+	);  
     
     
-  $joomla('#tabs1 #N_table').on('click','a:nth-child(1)',function(e){
+  $joomla('#tabs1 #n_table').on('click','a:nth-child(1)',function(e){
         e.preventDefault();
         var resnew=$joomla(this).data('id');
         $joomla.ajax({
@@ -491,7 +491,7 @@ $joomla(document).ready(function() {
  
 
     //delete inventry purchases order
-    $joomla('#tabs1 #N_table').on('click','a:nth-child(2)',function(e){
+    $joomla('#tabs1 #n_table').on('click','a:nth-child(2)',function(e){
         e.preventDefault();
         var res=$joomla(this).data('id');
         var reshtml=$joomla(this);
@@ -753,8 +753,16 @@ $joomla(document).ready(function() {
       
       var rp8=$joomla(this).closest('.rows').find('input[name="anameTxt[]"]').attr('id');
       var er8=rp8+1;
-      
-      var sd=$joomla(this).closest('.rows').html().replace('id="'+rp+'"','id="'+er+'"').replace('id="'+rp2+'"','id="'+er2+'"').replace('id="'+rp3+'"','id="'+er3+'"').replace('id="'+rp4+'"','id="'+er4+'"').replace('name="'+rp5+'"','name="'+er5+'"').replace('id="'+idinv5+'"','id="'+addidinv5+'"').replace('id="'+rp6+'"','id="'+er6+'"').replace('id="'+rp7+'"','id="'+er7+'"').replace('id="'+rp8+'"','id="'+er8+'"');
+
+      var lenId=$joomla(this).closest('.rows').find('input[name="lengthTxt[]"]').attr('id');
+      var lenIdNew=lenId+1;
+      var widthId=$joomla(this).closest('.rows').find('input[name="widthTxt[]"]').attr('id');
+      var widthIdNew=widthId+1;
+      var heightId=$joomla(this).closest('.rows').find('input[name="heightTxt[]"]').attr('id');
+      var heightIdNew=heightId+1;
+
+
+      var sd=$joomla(this).closest('.rows').html().replace('id="'+rp+'"','id="'+er+'"').replace('id="'+rp2+'"','id="'+er2+'"').replace('id="'+rp3+'"','id="'+er3+'"').replace('id="'+rp4+'"','id="'+er4+'"').replace('name="'+rp5+'"','name="'+er5+'"').replace('id="'+idinv5+'"','id="'+addidinv5+'"').replace('id="'+rp6+'"','id="'+er6+'"').replace('id="'+rp7+'"','id="'+er7+'"').replace('id="'+rp8+'"','id="'+er8+'"').replace('id="'+lenId+'"','id="'+lenIdNew+'"').replace('id="'+widthId+'"','id="'+widthIdNew+'"').replace('id="'+heightId+'"','id="'+heightIdNew+'"');
       
       $joomla('<div class="row rows row-mob">'+sd+'</div>').insertAfter( $joomla(this).closest('.row') );
       $joomla('#tabs1 .rows:last').find('td:last').html('');
@@ -1139,19 +1147,19 @@ $joomla(document).ready(function() {
             <div class="col-sm-12 col-md-3">
               <div class="form-group">
                 <label>Length<span class="error">*</span></label>
-                <input type="text" class="form-control" name="lengthTxt[]"  maxlength="25" required>
+                <input type="text" class="form-control" name="lengthTxt[]" id="lengthTxt_1"  maxlength="25" required>
               </div>
             </div>
             <div class="col-sm-12 col-md-3">
               <div class="form-group">
                 <label>Width<span class="error">*</span></label>
-                <input type="text" class="form-control"  name="widthTxt[]"  maxlength="25"  required>
+                <input type="text" class="form-control"  name="widthTxt[]" id="widthTxt_1"  maxlength="25"  required>
               </div>
             </div>
             <div class="col-sm-12 col-md-3">
               <div class="form-group">
                 <label>Heigth<span class="error">*</span></label>
-                <input type="text" class="form-control"  name="heightTxt[]"  maxlength="25" required>
+                <input type="text" class="form-control"  name="heightTxt[]" id="heightTxt_1" maxlength="25" required>
               </div>
             </div>
           </div>
@@ -1404,16 +1412,17 @@ $joomla(document).ready(function() {
                   <input type="text" class="form-control" name="txtLength" maxlength="100">
               </div>
             </div>
-            <div class="col-sm-12 col-md-4">
-              <div class="form-group">
-                <label>Heigth</label>
-                 <input type="text" class="form-control" name="txtHeigth" maxlength="100">
-              </div>
-            </div>
+            
             <div class="col-sm-12 col-md-4">
               <div class="form-group">
                 <label>width</label>
                  <input type="text" class="form-control" name="txtWidth" maxlength="100">
+              </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+              <div class="form-group">
+                <label>Heigth</label>
+                 <input type="text" class="form-control" name="txtHeigth" maxlength="100">
               </div>
             </div>
           </div>
