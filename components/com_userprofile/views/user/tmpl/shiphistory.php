@@ -187,9 +187,11 @@ $joomla(document).ready(function() {
     $joomla('.expand_all_btn').on('click',function(e){
         $joomla('#expandAll').trigger("click");
         if($joomla('#expandAll').prop("checked") == true){
-            $joomla(this).html("Collapse All");
+          $joomla(this).addClass("collapse_icon");
+            $joomla(".expand_all_btn").removeClass("expand_icon");	
         }else{
-            $joomla(this).html("Expand All");
+          $joomla(this).addClass("expand_icon");
+            $joomla(".expand_all_btn").removeClass("collapse_icon");	
         }
     });
 
@@ -224,7 +226,8 @@ $joomla(document).ready(function() {
 
      if($joomla(this).val() == "-"){
        $joomla("#expandAll").prop("checked",false);
-       $joomla(".expand_all_btn").html("Expand All");
+       $joomla(this).addClass("expand_icon");
+       $joomla(".expand_all_btn").removeClass("collapse_icon");	
       }
        var htmse='';
        var rs=$joomla(this).attr("data-id");
@@ -370,9 +373,11 @@ $joomla(document).on('change','select[name=M_table_length]',function(){
                 </select>
              </div>
         </div>
-        <div class="col-sm-9 form-group text-right">
-        <input type="checkbox" name="expandAll" id="expandAll"><button class="btn btn-primary expand_all_btn">Expand All</button>
-                <a style="color:white;" href="<?php echo JURI::base(); ?>/csvdata/history_list.csv" class="btn btn-primary csvDownload export-csv"><?php echo $assArr['eXPORT_CSV'];?></a>
+        <div class="col-sm-9 form-group text-right inventry-item-right">
+         <div class=" col-lg-4 col-md-4 col-sm-6 action-icons pull-right">
+        <input type="checkbox" name="expandAll" id="expandAll"><button class="btn btn-primary expand_all_btn expand_icon"></button>
+                <!-- <a style="color:white;" href="<?php //echo JURI::base(); ?>/csvdata/history_list.csv" class="btn btn-primary csvDownload export-csv"><?php echo $assArr['eXPORT_CSV'];?></a> -->
+        </div> 
         </div>
     </div>
 </div>

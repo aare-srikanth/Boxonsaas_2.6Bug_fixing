@@ -3388,10 +3388,11 @@ $joomla("#ord_return").modal('show');
 
      // expand all
 
-     $joomla(document).ready(function(){	
+$joomla(document).ready(function(){	
  $joomla(".child_row").hide();	
 });	
- $joomla(".exp_item").on('click',function(){	
+
+$joomla(".exp_item").on('click',function(){	
 var btnCount=$joomla(".exp_item:visible").length;	
 if($joomla(this).html() == "-"){	
       $joomla("#expandAll").prop("checked",false);	

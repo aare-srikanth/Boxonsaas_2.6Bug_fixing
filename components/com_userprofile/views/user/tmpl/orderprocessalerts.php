@@ -1201,9 +1201,9 @@ $joomla(document).ready(function() {
               <div class="col-sm-6">
             <h3 class=""><strong><?php echo Jtext::_($pre_alert_subtitle2);?></strong></h3>
             </div>
-            <div class="col-sm-6 text-right">
+            <!-- <div class="col-sm-6 text-right">
                <a style="color:white;" href="<?php echo JURI::base(); ?>/csvdata/pre_alerts_ind.csv" class="csvDownload export-csv btn btn-primary text-right"><?php echo $assArr['eXPORT_CSV'];?></a>
-          </div>
+          </div> -->
           </div>
         </div>
         

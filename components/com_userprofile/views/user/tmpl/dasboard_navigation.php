@@ -90,8 +90,6 @@ $joomla(document).ready(function(){
      select: true,
      dom: 'Blfrtip',
      lengthMenu: [10,25,75, 100],
-     scrollX: "400px",
-   
       dom: 'Bfrtip',
       buttons: 
       [{ extend:'pdfHtml5',text:  '<i class="fa fa-file-pdf-o btn btn-default"></i>',titleAttr: 'PDF',orientation: 'landscape',
@@ -184,7 +182,7 @@ $joomla(document).ready(function(){
     }); 
      
     //$joomla('#M_table').DataTable();  
-    $joomla('#N_table').DataTable({
+    $joomla('#n_table,#N_table').DataTable({
      select: true,
      dom: 'Blfrtip',
      lengthMenu: [10,25,75, 100],
