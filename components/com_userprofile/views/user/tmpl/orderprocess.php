@@ -1050,7 +1050,7 @@
                    originalVal = $joomla(this).closest('tr').find('input[name="ItemQtyTxt"]').val();
                    $joomla(this).closest('tr').find('input[name="ItemQtyEdit"]').attr('value',originalVal);
                    $joomla(this).closest('tr').find('input[name="txtQty"]').val(originalVal);
-                   $joomla(this).closest('tr').find('td:eq(3)').html(originalVal);
+                   $joomla(this).closest('tr').find('td:eq(2)').html(originalVal);
                
                })
                
@@ -1100,7 +1100,7 @@
                    originalVal = $joomla(this).closest('tr').find('input[name="ItemQtyTxt"]').val();
                    $joomla(this).closest('tr').find('input[name="ItemQtyEdit"]').attr('value',originalVal);
                    $joomla(this).closest('tr').find('input[name="txtQty"]').val(originalVal);
-                   $joomla(this).closest('tr').find('td:eq(3)').html(originalVal);
+                   $joomla(this).closest('tr').find('td:eq(2)').html(originalVal);
                
                })
                
@@ -1153,7 +1153,7 @@
                      var dvalue=[];
                        // $joomla.each($joomla("#kk_table input[name='priceStr[]'].True"), function(){
                         $joomla.each($joomla("#kk_table input[name='priceStr[]']"), function(){
-                            if($joomla(this).attr("data-insurance") == "True")
+                            if($joomla(this).attr("data-insurance") == "1")
                                     dvalue.push($joomla(this).val());
                        }); 
                        
@@ -1622,7 +1622,7 @@
              var dvalueStr = "";
                // $joomla.each($joomla("#kk_table input[name='priceStr[]'].True"), function(){
                $joomla.each($joomla("#kk_table input[name='priceStr[]']"), function(){
-                  if($joomla(this).attr("data-insurance") == "True"){
+                  if($joomla(this).attr("data-insurance") == "1"){
                    dvalue.push($joomla(this).val());
                    dvalueStr +=$joomla(this).val()+",";
                   }
@@ -1906,7 +1906,7 @@
                  originalVal = $joomla(this).closest('tr').find('input[name="ItemQtyTxt"]').val();
                    $joomla(this).closest('tr').find('input[name="ItemQtyEdit"]').attr('value',originalVal);
                    $joomla(this).closest('tr').find('input[name="txtQty"]').val(originalVal);
-                   $joomla(this).closest('tr').find('td:eq(3)').html(originalVal);
+                   $joomla(this).closest('tr').find('td:eq(2)').html(originalVal);
                })
                $joomla("#ord_ship .ship").click(true); 
                $joomla.each($joomla(".wrchild"), function(){ 
@@ -2307,7 +2307,7 @@
                originalVal = $joomla(this).closest('tr').find('input[name="ItemQtyTxt"]').val();
                $joomla(this).closest('tr').find('input[name="ItemQtyEdit"]').attr('value',originalVal);
                $joomla(this).closest('tr').find('input[name="txtQty"]').val(originalVal);
-               $joomla(this).closest('tr').find('td:eq(3)').html(originalVal);
+               $joomla(this).closest('tr').find('td:eq(2)').html(originalVal);
                
                
              }
@@ -2426,7 +2426,7 @@
              originalVal = $joomla(this).closest('tr').find('input[name="ItemQtyTxt"]').val();
                    $joomla(this).closest('tr').find('input[name="ItemQtyEdit"]').attr('value',originalVal);
                    $joomla(this).closest('tr').find('input[name="txtQty"]').val(originalVal);
-                   $joomla(this).closest('tr').find('td:eq(3)').html(originalVal);
+                   $joomla(this).closest('tr').find('td:eq(2)').html(originalVal);
            })
            $joomla("#ord_ship .ship").click(true);  
            $joomla.each($joomla(".wrchild"), function(){ 
@@ -3102,7 +3102,7 @@
        })
    
       $joomla(".wrchild").click(function(){
-           $joomla(this).closest('tr').find('td:eq(3)').text($joomla(this).closest('tr').find('input[name="txtQty"]').val());
+           $joomla(this).closest('tr').find('td:eq(2)').text($joomla(this).closest('tr').find('input[name="txtQty"]').val());
            if($joomla('input[name="shipment"]:checked').val()=="1"){
                var rs=$joomla(this).closest('tr').find('td:eq(1)').text();
                var hj=$joomla(this).closest('tr').find('input[name="txtId"]').is(':checked');
@@ -3130,7 +3130,7 @@
                    if(rmv==1){
                        $joomla(this).val('+');
                    }
-                   $joomla(this).closest('tr').find('td:eq(3)').text($joomla(this).closest('tr').find('input[name="txtItemQty"]').val());
+                   $joomla(this).closest('tr').find('td:eq(2)').text($joomla(this).closest('tr').find('input[name="txtItemQty"]').val());
                }else{
                     //$joomla(this).closest('tr').after(htmse); 
                    $joomla(this).val('-');
@@ -3163,7 +3163,7 @@
                    if(rmv==1){
                        $joomla(this).val('+');
                    }
-                   $joomla(this).closest('tr').find('td:eq(3)').text($joomla(this).closest('tr').find('input[name="txtItemQty"]').val());
+                   $joomla(this).closest('tr').find('td:eq(2)').text($joomla(this).closest('tr').find('input[name="txtItemQty"]').val());
                }else{
                     //$joomla(this).closest('tr').after(htmse); 
                    $joomla(this).val('-');
@@ -3182,7 +3182,7 @@
                })
                r=parseInt($joomla(this).closest('tr').find('input[name="txtQty"]').val())+r;
            console.log(r);
-           $joomla(this).closest('tr').find('td:eq(3)').text(r);
+           $joomla(this).closest('tr').find('td:eq(2)').text(r);
            $joomla(this).closest('tr').find('input[name="txtItemQty"]').val(r);
            r=0;
            //r++;
@@ -3197,7 +3197,7 @@
                })
                rr=parseInt($joomla(this).closest('tr').find('input[name="txtQty"]').val())+rr;
            console.log(rr);
-           $joomla(this).closest('tr').find('td:eq(3)').text(rr);
+           $joomla(this).closest('tr').find('td:eq(2)').text(rr);
            $joomla(this).closest('tr').find('input[name="txtItemQty"]').val(rr);
            rr=0;
        });
@@ -3701,7 +3701,7 @@ if($joomla(this).html() == '+'){
                                        <td>'.$repack->MeasureUnits.'</td>	
                                        <td>'.$repack->BusinessType.'</td>';	
                                         if($Gross_weight_display){	
-                                       echo '<th>'.$repack->Weight.'</th>';	
+                                       echo '<th>'.$repack->GrossWeight.'</th>';	
                                        }	
                                        echo'</tr>';	
                                 	
@@ -3746,7 +3746,7 @@ if($joomla(this).html() == '+'){
                             //   exit;	
                               
                             if(1){ // $rg->ItemQuantity>0	
-                                $volres=$repack->Height*$repack->Width*$repack->Length*UserprofileHelpersUserprofile::getShippmentDetailsValues($repack->MeasureUnits,$repack->shipment_type,$repack->ServiceType,$repack->Source,$repack->Dest_Cntry);	
+                                $volres=$rg->Height*$rg->Width*$rg->Length*UserprofileHelpersUserprofile::getShippmentDetailsValues($repack->MeasureUnits,$repack->shipment_type,$repack->ServiceType,$repack->Source,$repack->Dest_Cntry);	
                                 if($repack->shipment_type=="AIR"){	
                                   $volres=$rg->ItemQuantity*$volres;	
                                 }	
@@ -3762,7 +3762,7 @@ if($joomla(this).html() == '+'){
                                   }	
                                 $grosswtTd = NULL;	
                              if(0){	
-                                 $grosswtTd = "<td>".$repack->weight."</td>";	
+                                 $grosswtTd = "<td>".$repack->GrossWeight."</td>";	
                              }  	
                              $readonltTxt = "";	
                              if($rg->InhouseRepacklbl !=''){	
@@ -3773,13 +3773,12 @@ if($joomla(this).html() == '+'){
                              echo'<tr>	
                              
                              <td colspan="2" class="action_btns">	
-                             <input type="checkbox"  name="txtId" class="txtId selinpt-chksub" data-sno="item_wr_'.$idf.'"  value="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$repack->Length.':'.$repack->Width.':'.$repack->Height.':'.$repack->Weight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'">	
-                              <input type="button" name="ship" class="ship" data-sno="item_wr_'.$idf.'" data-id="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$repack->Length.':'.$repack->Width.':'.$repack->Height.':'.$repack->Weight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'" data-target="#ord_ship" title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_SHIP').'">';	
+                             <input type="checkbox"  name="txtId" class="txtId selinpt-chksub" data-sno="item_wr_'.$idf.'"  value="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$rg->Length.':'.$rg->Width.':'.$rg->Height.':'.$rg->GrossWeight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'">	
+                              <input type="button" name="ship" class="ship" data-sno="item_wr_'.$idf.'" data-id="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$rg->Length.':'.$rg->Width.':'.$rg->Height.':'.$rg->GrossWeight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'" data-target="#ord_ship" title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_SHIP').'">';	
                             echo '</td>	
                              <td width="100px">'.$rg->ItemName.'</td>	
                              <td width="100px">'.$rg->ItemQuantity.'</td>	
-                             <td width="100px"><input type="hidden" name="ItemIdkTxt" value="'.$rg->ItemIdk.'"><input type="hidden" name="ItemQtyTxt" value="'.$rg->ItemQuantity.'"><input type="hidden" name="ItemQtyEdit" value="'.$rg->ItemQuantity.'">	
-                             <input type="text" class="form-control" name="txtQty" value="'.$rg->ItemQuantity.'" readonly ></td>	
+                             <td width="100px"><input type="hidden" name="ItemIdkTxt" value="'.$rg->ItemIdk.'"><input type="hidden" name="ItemQtyTxt" value="'.$rg->ItemQuantity.'"><input type="hidden" name="ItemQtyEdit" value="'.$rg->ItemQuantity.'"><input type="text" class="form-control" name="txtQty" value="'.$rg->ItemQuantity.'" ></td>
                              <td width="100px">'.$res->TrackingId.'</td>	
                              <td width="100px">'.$res->MerchantName.'</td>';	
                              if($OrderId){	
@@ -3955,7 +3954,7 @@ if($joomla(this).html() == '+'){
                               <td>'.$repack->MeasureUnits.'</td>
                               <td>'.$repack->BusinessType.'</td>';
                                if($Gross_weight_display){
-                              echo '<th>'.$repack->Weight.'</th>';
+                              echo '<th>'.$repack->GrossWeight.'</th>';
                               }
                               echo'</tr>';
 
@@ -3996,7 +3995,7 @@ if($joomla(this).html() == '+'){
                               //   exit;
                              
                               if(1){ // $rg->ItemQuantity>0
-                                  $volres=$repack->Height*$repack->Width*$repack->Length*UserprofileHelpersUserprofile::getShippmentDetailsValues($repack->MeasureUnits,$repack->shipment_type,$repack->ServiceType,$repack->Source,$repack->Dest_Cntry);
+                                  $volres=$rg->Height*$rg->Width*$rg->Length*UserprofileHelpersUserprofile::getShippmentDetailsValues($repack->MeasureUnits,$repack->shipment_type,$repack->ServiceType,$repack->Source,$repack->Dest_Cntry);
                                   if($repack->shipment_type=="AIR"){
                                     $volres=$rg->ItemQuantity*$volres;
                                   }
@@ -4012,7 +4011,7 @@ if($joomla(this).html() == '+'){
                                     }
                                   $grosswtTd = NULL;
                                if($Gross_weight_display){
-                                   $grosswtTd = "<td>".$repack->weight."</td>";
+                                   $grosswtTd = "<td>".$repack->GrossWeight."</td>";
                                }  
                                $readonltTxt = "";
                                if($rg->InhouseRepacklbl !=''){
@@ -4022,8 +4021,8 @@ if($joomla(this).html() == '+'){
                            echo'<tr>
                               
                               <td colspan="2" class="action_btns">
-                              <input type="checkbox"  name="txtId" class="txtId selinpt-chksub" data-sno="item_wr_'.$idf.'"  value="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$repack->Length.':'.$repack->Width.':'.$repack->Height.':'.$repack->Weight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'">
-                               <input type="button" name="ship" class="ship" data-sno="item_wr_'.$idf.'" data-id="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$repack->Length.':'.$repack->Width.':'.$repack->Height.':'.$repack->Weight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'" data-target="#ord_ship" title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_SHIP').'">';
+                              <input type="checkbox"  name="txtId" class="txtId selinpt-chksub" data-sno="item_wr_'.$idf.'"  value="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$rg->Length.':'.$rg->Width.':'.$rg->Height.':'.$rg->GrossWeight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'">
+                               <input type="button" name="ship" class="ship" data-sno="item_wr_'.$idf.'" data-id="'.$rg->ItemName.':'.$res->BillFormNo.':'.$rg->ItemQuantity.':'.$res->TrackingId.':'.$rg->ItemIdk.':'.$rg->cost.':'.$rg->cost.':item_wr_'.$idf.':'.$volres.':'.$repack->ServiceType.':'.$repack->Source.':'.$repack->Dest_Cntry.':'.$repack->MeasureUnits.':'.$rg->Length.':'.$rg->Width.':'.$rg->Height.':'.$rg->GrossWeight.':'.$repack->WeightUnit.':'.$sim.':'.$repack->ShipmentType.':'.$repack->SourceHub.':'.$repack->DestinationCountryName.':'.$repack->DestinationHubName.':'.$rg->Insurance.':'.$rg->ItemPrice.':'.$sim1.':'.$sim2.':'.$sim3.':'.$repack->BusinessType.':'.$rg->Volume.':'.$rg->VolumetricWeight.':'.$rg->InhouseRepacklbl.':'.$repack->ServiceId.'" data-target="#ord_ship" title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_SHIP').'">';
                                 if($elem['Hold'][1] == "ACT")
                                   echo '<input type="button" name="Return" class="return" data-toggle="modal" data-backdrop="static" data-keyboard="false" data-id="'.$res->BillFormNo.':'.$rg->ItemIdk.':'.$rg->ItemQuantity.'" data-target="#ord_return"" title="'.Jtext::_('COM_USERPROFILE_SHIP_HISTORY_STATUS_RETURN').'">';
                                 if($elem['Return'][1] == "ACT")
@@ -4031,8 +4030,7 @@ if($joomla(this).html() == '+'){
                                   echo '</td>
                               <td width="100px">'.$rg->ItemName.'</td>
                               <td width="100px">'.$rg->ItemQuantity.'</td>
-                              <td width="100px"><input type="hidden" name="ItemIdkTxt" value="'.$rg->ItemIdk.'"><input type="hidden" name="ItemQtyTxt" value="'.$rg->ItemQuantity.'"><input type="hidden" name="ItemQtyEdit" value="'.$rg->ItemQuantity.'">
-                              <input type="text" class="form-control" name="txtQty" value="'.$rg->ItemQuantity.'" readonly ></td>
+                              <td width="100px"><input type="hidden" name="ItemIdkTxt" value="'.$rg->ItemIdk.'"><input type="hidden" name="ItemQtyTxt" value="'.$rg->ItemQuantity.'"><input type="hidden" name="ItemQtyEdit" value="'.$rg->ItemQuantity.'"><input type="text" class="form-control" name="txtQty" value="'.$rg->ItemQuantity.'" ></td>
                               <td width="100px">'.$res->TrackingId.'</td>
                               <td width="100px">'.$res->MerchantName.'</td>';
                               if($OrderId){
@@ -4133,7 +4131,7 @@ if($joomla(this).html() == '+'){
                               <td>'.$repack->MeasureUnits.'</td>
                               <td>'.$repack->BusinessType.'</td>';
                               if($Gross_weight_display){ 
-                              echo '<td>'.$repack->Weight.'</td>';
+                              echo '<td>'.$repack->GrossWeight.'</td>';
                                   }
                              echo'</tr>';
 
@@ -4192,7 +4190,7 @@ if($joomla(this).html() == '+'){
                                         }
                                       $grosswtTd = NULL;
                                    if($Gross_weight_display){
-                                       $grosswtTd = "<td>".$repack->weight."</td>";
+                                       $grosswtTd = "<td>".$repack->GrossWeight."</td>";
                                    }  
                                  
                                echo'<tr>

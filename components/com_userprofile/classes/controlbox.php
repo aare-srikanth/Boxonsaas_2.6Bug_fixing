@@ -5319,9 +5319,9 @@ if($priceStr != ""){
         curl_setopt($ch, CURLINFO_HEADER_OUT, true);
         $result=curl_exec($ch);
         
-        // echo $url;
-        // var_dump($result);
-        // exit;
+        echo $url;
+        var_dump($result);
+        exit;
         
         $msg=json_decode($result);
         return $msg->Data;
