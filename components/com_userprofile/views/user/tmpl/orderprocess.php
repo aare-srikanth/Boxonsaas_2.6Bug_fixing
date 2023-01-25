@@ -45,6 +45,7 @@
    $companyName = $domainDetails[0]->CompanyName;
    $domainEmail = $domainDetails[0]->PrimaryEmail;
    $domainName =  $domainDetails[0]->Domain;
+
    
    
    
@@ -77,18 +78,19 @@
         
         $macess = explode(",",$menuaccess);
         $maccarr[$macess[0]]=$macess[1];
-     
+      
     }
    
    $menuCustType=end($menuCustData);
    
    // echo '<pre>';
-   // var_dump($menuCustData);
+   // var_dump($maccarr);
+   // exit;
+
    // dynamic elements
    
    $access=Controlbox::getLogin($user,$pass);
-   
-   
+     
 //   var_dump($access->RepackAccess);
 //   exit;
    
@@ -97,8 +99,10 @@
    foreach($res as $element){
       $elem[$element->ElementId]=array($element->ElementDescription,$element->ElementStatus,$element->is_mandatory,$element->is_default,$element->ElementValue);
    }
-   
-   // end
+
+   // var_dump($elem['Promocoupon'][1]);
+   // exit;
+   //end
 
    // enable / hide shipping info
 
@@ -1667,10 +1671,10 @@
                                  
                   var hide_shoew_text = "";
                   if(shippingInfoStatus=="ACT"){
-                     $joomla("#divShipCOstTwo,.coupons_section,.shipping-costtbl,.finalShippingCostInfo").show();
+                     $joomla("#divShipCOstTwo,.shipping-costtbl,.finalShippingCostInfo").show();
 
                   }else{
-                     $joomla("#divShipCOstTwo,.coupons_section,.shipping-costtbl,.finalShippingCostInfo").hide();
+                     $joomla("#divShipCOstTwo,.shipping-costtbl,.finalShippingCostInfo").hide();
                   }
 
                   if(data==""){
@@ -5011,7 +5015,8 @@ if($joomla(this).html() == '+'){
                            <p> <?php echo Jtext::_('COM_USERPROFILE_SHIP_POPUP_INCLUDES');?>:</p>
                            </div>
                            <br/>
-                           <?php if($promocodes){  ?> 
+
+                           <?php  if($elem['Promocoupon'][1] == "ACT" && $maccarr["PromoCoupon"] == "True"){  ?> 
                            <div class="coupons_section"> 
                            <div class="cupn-serch" style="display:block;">
                               <h4 class="modal-title"><strong>Apply Coupon</strong></h4>
