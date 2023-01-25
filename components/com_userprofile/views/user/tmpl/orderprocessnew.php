@@ -1318,9 +1318,11 @@ $joomla(document).ready(function() {
       $joomla('.expand_all_btn').on('click',function(e){
         $joomla('#expandAll').trigger("click");
         if($joomla('#expandAll').prop("checked") == true){
-            $joomla(this).html("Collapse All");
+          $joomla(".expand_all_btn").addClass("collapse_icon");
+          $joomla(".expand_all_btn").removeClass("expand_icon");	
         }else{
-            $joomla(this).html("Expand All");
+          $joomla(".expand_all_btn").addClass("expand_icon");
+          $joomla(".expand_all_btn").removeClass("collapse_icon");	
         }
     });
 
@@ -1352,7 +1354,8 @@ $joomla(document).ready(function() {
 var btnCount=$joomla(".exp_item:visible").length;	
 if($joomla(this).html() == "-"){	
       $joomla("#expandAll").prop("checked",false);	
-      $joomla(".expand_all_btn").html("Expand All");	
+      $joomla(".expand_all_btn").addClass("expand_icon");
+      $joomla(".expand_all_btn").removeClass("collapse_icon");	
       }	
  $joomla(this).parent().parent().next().toggle();	
   wrhsno = $joomla(this).attr("data-id");	
@@ -1441,12 +1444,12 @@ function isNumber(evt) {
         ?>
        <div class="row">
            <div class="col-sm-12 inventry-item">
-               <div class="col-sm-6">
+                 <div class="col-sm-6">
                     <h3 class=""><strong><?php echo Jtext::_('COM_USERPROFILE_INVENTORY_SUB_TITLE');?></strong></h3>
                  </div>
                 <div class="col-sm-6 form-group text-right">
-                <input type="checkbox" name="expandAll" id="expandAll"><button class="btn btn-primary expand_all_btn">Expand All</button>
-                    <a style="color:white;" href="<?php echo JURI::base(); ?>/csvdata/pending_list.csv" class="btn btn-primary csvDownload export-csv">Export CSV</a>
+                <input type="checkbox" name="expandAll" id="expandAll"><button class="btn btn-primary expand_all_btn expand_icon"></button>
+                    <!-- <a style="color:white;" href="<?php echo JURI::base(); ?>/csvdata/pending_list.csv" class="btn btn-primary csvDownload export-csv">Export CSV</a> -->
                 </div>
             </div>
         </div>

@@ -474,9 +474,9 @@ $joomla(".expand_all").on('click',function(){
                     <div class="col-sm-6">
                         <h3 class=""><strong><?php echo Jtext::_('COM_USERPROFILE_INV_SUB_TITLE');?></strong></h3>
                      </div>
-                    <div class="col-sm-6 form-group text-right">
+                    <!-- <div class="col-sm-6 form-group text-right">
                         <a style="color:white;" href="<?php echo JURI::base(); ?>/csvdata/invoice_list.csv" class="btn btn-primary csvDownload export-csv"><?php echo $assArr['eXPORT_CSV'];?></a>
-                    </div>
+                    </div> -->
                 </div>
           </div>
 	        

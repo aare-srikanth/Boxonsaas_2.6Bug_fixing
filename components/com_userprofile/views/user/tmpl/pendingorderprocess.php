@@ -1235,9 +1235,9 @@ function isNumber(evt) {
           <div class="col-sm-6">
             <h3 class=""><strong><?php echo Jtext::_('COM_USERPROFILE_INPROGRESS_SUB_TITLE');?></strong></h3>
           </div>
-          <div class="col-sm-6 text-right">
+          <!-- <div class="col-sm-6 text-right">
                 <a style="color:white;" href="<?php echo JURI::base(); ?>/csvdata/pre_alerts_ind.csv" class="csvDownload export-csv btn btn-primary"><?php echo $assArr['eXPORT_CSV'];?></a>
-            </div>
+            </div> -->
             </div>
         </div>
         <?php  
