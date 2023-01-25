@@ -123,7 +123,7 @@ class Controlbox{
      *
      * @return  bool
      */
-    public static function setRegister($fname,$lname,$addressone,$addresstwo,$pin,$phone,$acctype,$email,$dialcode,$country,$state,$city,$password,$gender,$ur,$imageByteStream,$nameStr,$extStr,$idtype,$idvalue,$agentId,$domainurl)
+    public static function setRegister($fname,$lname,$addressone,$addresstwo,$pin,$phone,$acctype,$email,$dialcode,$country,$state,$city,$password,$gender,$ur,$imageByteStream,$nameStr,$extStr,$idtype,$idvalue,$agentId,$recaptch,$customerIp,$domainurl)
     {
         mb_internal_encoding('UTF-8');
         
@@ -137,14 +137,14 @@ class Controlbox{
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         //curl_setopt($ch, CURLINFO_HEADER_OUT, true);
         curl_setopt( $ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
-	    curl_setopt($ch, CURLOPT_POSTFIELDS,'{"ImageByteStream":"'.$imageByteStream.'","CompanyID":"'.$CompanyId.'","FirstName":"'.$fname.'","LastName":"'.$lname.'","Address1":"'.$addressone.'","Address2":"'.$addresstwo.'","PostalCode":"'.$pin.'","DailCode":"'.$dialcode.'","PhoneNumber":"'.$phone.'","AccountType":"'.$acctype.'","email":"'.$email.'","Country":"'.$country.'","State":"'.$state.'","City":"'.$city.'","Password":"'.$password.'","ConfirmPassword":"'.$password.'","UpdatedOn":"","Gender":"'.$gender.'","identityType":"'.$idtype.'","identityValue":"'.$idvalue.'","custImage":"'.$ur.'","fileName":"'.$nameStr.'","fileExtension":"'.$extStr.'","custImageURL":"Joomla","ActivationKey":"123456789","AgencyId":"'.$agentId.'","domainurl":"'.$domainurl.'"}');
+	    curl_setopt($ch, CURLOPT_POSTFIELDS,'{"ImageByteStream":"'.$imageByteStream.'","CompanyID":"'.$CompanyId.'","FirstName":"'.$fname.'","LastName":"'.$lname.'","Address1":"'.$addressone.'","Address2":"'.$addresstwo.'","PostalCode":"'.$pin.'","DailCode":"'.$dialcode.'","PhoneNumber":"'.$phone.'","AccountType":"'.$acctype.'","email":"'.$email.'","Country":"'.$country.'","State":"'.$state.'","City":"'.$city.'","Password":"'.$password.'","ConfirmPassword":"'.$password.'","UpdatedOn":"","Gender":"'.$gender.'","identityType":"'.$idtype.'","identityValue":"'.$idvalue.'","custImage":"'.$ur.'","fileName":"'.$nameStr.'","fileExtension":"'.$extStr.'","custImageURL":"Joomla","ActivationKey":"123456789","AgencyId":"'.$agentId.'","captchaToken":"'.$recaptch.'","customerIpAddress":"'.$customerIp.'", "domainurl":"'.$domainurl.'"}');
 		$result=curl_exec($ch);
 		
 		/** Debug **/
 		
-// 	 echo $url;
-//      echo '{"ImageByteStream":"'.$imageByteStream.'","CompanyID":"'.$CompanyId.'","FirstName":"'.$fname.'","LastName":"'.$lname.'","Address1":"'.$addressone.'","Address2":"'.$addresstwo.'","PostalCode":"'.$pin.'","DailCode":"'.$dialcode.'","PhoneNumber":"'.$phone.'","AccountType":"'.$acctype.'","email":"'.$email.'","Country":"'.$country.'","State":"'.$state.'","City":"'.$city.'","Password":"'.$password.'","ConfirmPassword":"'.$password.'","UpdatedOn":"","Gender":"'.$gender.'","identityType":"'.$idtype.'","identityValue":"'.$idvalue.'","custImage":"'.$ur.'","fileName":"'.$nameStr.'","fileExtension":"'.$extStr.'","custImageURL":"Joomla","ActivationKey":"123456789","AgencyId":"'.$agentId.'","domainurl":"'.$domainurl.'"}';
-//      var_dump($result);exit;
+	//  echo $url;
+    //  echo '{"ImageByteStream":"'.$imageByteStream.'","CompanyID":"'.$CompanyId.'","FirstName":"'.$fname.'","LastName":"'.$lname.'","Address1":"'.$addressone.'","Address2":"'.$addresstwo.'","PostalCode":"'.$pin.'","DailCode":"'.$dialcode.'","PhoneNumber":"'.$phone.'","AccountType":"'.$acctype.'","email":"'.$email.'","Country":"'.$country.'","State":"'.$state.'","City":"'.$city.'","Password":"'.$password.'","ConfirmPassword":"'.$password.'","UpdatedOn":"","Gender":"'.$gender.'","identityType":"'.$idtype.'","identityValue":"'.$idvalue.'","custImage":"'.$ur.'","fileName":"'.$nameStr.'","fileExtension":"'.$extStr.'","custImageURL":"Joomla","ActivationKey":"123456789","AgencyId":"'.$agentId.'","captchaToken":"'.$recaptch.'","customerIpAddress":"'.$customerIp.'", "domainurl":"'.$domainurl.'"}';
+    //  var_dump($result);exit;
 
         $msg=json_decode($result);
         return $msg;

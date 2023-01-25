@@ -1628,8 +1628,9 @@
                $joomla.each($joomla("#kk_table input[name='priceStr[]']"), function(){
                   if($joomla(this).attr("data-insurance") == "1"){
                    dvalue.push($joomla(this).val());
-                   dvalueStr +=$joomla(this).val()+",";
+                   
                   }
+                 dvalueStr +=$joomla(this).val()+",";
                }); 
                
                var total = 0;

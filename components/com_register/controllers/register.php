@@ -185,6 +185,8 @@ class RegisterControllerRegister extends JControllerLegacy
         $gender=JRequest::getVar('genderTxt','','post');
         $idtype=JRequest::getVar('idtypeTxt','','post');
         $idvalue=JRequest::getVar('idvalueTxt','','post');
+		$recaptch=JRequest::getVar('g-recaptcha-response','','post');
+		$customerIp=$_SERVER['REMOTE_ADDR'];
         $file = JRequest::getVar('userphotoTxt', null, 'files', 'array');
         jimport('joomla.filesystem.file');
         $filename = JFile::makeSafe($file['name']);
@@ -218,7 +220,7 @@ class RegisterControllerRegister extends JControllerLegacy
         }
     	
         
-        $regView= Controlbox::setRegister($fname,$lname,$addressone,$addresstwo,$pin,$phone,$acctype,$email,$dialcode,$country[0],$state,$city,$password,$gender,$filename,$imageByteStream,$nameStr,$extStr,$idtype,$idvalue,$agentId,$domainurl);
+        $regView= Controlbox::setRegister($fname,$lname,$addressone,$addresstwo,$pin,$phone,$acctype,$email,$dialcode,$country[0],$state,$city,$password,$gender,$filename,$imageByteStream,$nameStr,$extStr,$idtype,$idvalue,$agentId,$recaptch,$customerIp,$domainurl);
         //echo $regView->Data->Id.'---'.$regView->Data->CustId;
         if($regView->Data->Id>1){
     		// Get the model.

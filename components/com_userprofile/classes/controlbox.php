@@ -2329,7 +2329,6 @@ if($priceStr != ""){
         // echo $result;exit;
        
         $msg=json_decode($result);
-        
         $res='';
         
         // var_dump($rateType);
@@ -4415,7 +4414,8 @@ if($priceStr != ""){
 		
 		/** Debug **/
 		// echo $url;
-        // var_dump($result);exit;
+        // var_dump($result);
+       // exit;
         
         $msg=json_decode($result);
         return $msg->Data;
@@ -5319,9 +5319,9 @@ if($priceStr != ""){
         curl_setopt($ch, CURLINFO_HEADER_OUT, true);
         $result=curl_exec($ch);
         
-        // echo $url;
-        // var_dump($result);
-        // exit;
+        echo $url;
+        var_dump($result);
+        exit;
         
         $msg=json_decode($result);
         return $msg->Data;
